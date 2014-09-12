@@ -5,12 +5,12 @@ namespace Corrigeaton\Bundle\ScheduleBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Classroom
+ * Teacher
  *
  * @ORM\Table()
  * @ORM\Entity
  */
-class Classroom
+class Teacher
 {
     /**
      * @var integer
@@ -31,9 +31,9 @@ class Classroom
     /**
      * @var string
      *
-     * @ORM\Column(name="url", type="string", length=255)
+     * @ORM\Column(name="surname", type="string", length=255)
      */
-    private $url;
+    private $surname;
 
     /**
      * @var string
@@ -43,10 +43,23 @@ class Classroom
     private $email;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Test", mappedBy="classrooms")
+     * @var string
+     *
+     * @ORM\Column(name="unregisterToken", type="string", length=255)
+     */
+    private $unregisterToken;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="isUnregistered", type="boolean")
+     */
+    private $isUnregistered;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Test", mappedBy="teacher")
      */
     protected $tests;
-
     /**
      * Get id
      *
@@ -61,7 +74,7 @@ class Classroom
      * Set name
      *
      * @param string $name
-     * @return Classroom
+     * @return Teacher
      */
     public function setName($name)
     {
@@ -81,33 +94,33 @@ class Classroom
     }
 
     /**
-     * Set url
+     * Set surname
      *
-     * @param string $url
-     * @return Classroom
+     * @param string $surname
+     * @return Teacher
      */
-    public function setUrl($url)
+    public function setSurname($surname)
     {
-        $this->url = $url;
+        $this->surname = $surname;
 
         return $this;
     }
 
     /**
-     * Get url
+     * Get surname
      *
      * @return string 
      */
-    public function getUrl()
+    public function getSurname()
     {
-        return $this->url;
+        return $this->surname;
     }
 
     /**
      * Set email
      *
      * @param string $email
-     * @return Classroom
+     * @return Teacher
      */
     public function setEmail($email)
     {
@@ -125,6 +138,52 @@ class Classroom
     {
         return $this->email;
     }
+
+    /**
+     * Set unregisterToken
+     *
+     * @param string $unregisterToken
+     * @return Teacher
+     */
+    public function setUnregisterToken($unregisterToken)
+    {
+        $this->unregisterToken = $unregisterToken;
+
+        return $this;
+    }
+
+    /**
+     * Get unregisterToken
+     *
+     * @return string 
+     */
+    public function getUnregisterToken()
+    {
+        return $this->unregisterToken;
+    }
+
+    /**
+     * Set isUnregistered
+     *
+     * @param boolean $isUnregistered
+     * @return Teacher
+     */
+    public function setIsUnregistered($isUnregistered)
+    {
+        $this->isUnregistered = $isUnregistered;
+
+        return $this;
+    }
+
+    /**
+     * Get isUnregistered
+     *
+     * @return boolean 
+     */
+    public function getIsUnregistered()
+    {
+        return $this->isUnregistered;
+    }
     /**
      * Constructor
      */
@@ -137,7 +196,7 @@ class Classroom
      * Add tests
      *
      * @param \Corrigeaton\Bundle\ScheduleBundle\Entity\Test $tests
-     * @return Classroom
+     * @return Teacher
      */
     public function addTest(\Corrigeaton\Bundle\ScheduleBundle\Entity\Test $tests)
     {
