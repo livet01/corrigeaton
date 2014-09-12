@@ -6,11 +6,11 @@
 
     <!--
     <parameters>
-        <parameter key="corrigeaton_agenda.example.class">Corrigeaton\Bundle\AgendaBundle\Example</parameter>
+        <parameter key="corrigeaton_schedule.example.class">Corrigeaton\Bundle\ScheduleBundle\Example</parameter>
     </parameters>
 
     <services>
-        <service id="corrigeaton_agenda.example" class="%corrigeaton_agenda.example.class%">
+        <service id="corrigeaton_schedule.example" class="%corrigeaton_schedule.example.class%">
             <argument type="service" id="service_id" />
             <argument>plain_value</argument>
             <argument>%parameter_name%</argument>

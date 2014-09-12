@@ -3,8 +3,8 @@ corrigeaton_mailer:
     type:     annotation
     prefix:   /
 
-corrigeaton_agenda:
-    resource: "@CorrigeatonAgendaBundle/Controller/"
+corrigeaton_schedule:
+    resource: "@CorrigeatonScheduleBundle/Controller/"
     type:     annotation
     prefix:   /
 
