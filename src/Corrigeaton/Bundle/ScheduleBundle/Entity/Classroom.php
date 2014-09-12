@@ -3,11 +3,12 @@
 namespace Corrigeaton\Bundle\ScheduleBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Classroom
  *
- * @ORM\Table()
+ * @ORM\Table(name="schedule_classroom")
  * @ORM\Entity
  */
 class Classroom
@@ -32,6 +33,7 @@ class Classroom
      * @var string
      *
      * @ORM\Column(name="url", type="string", length=255)
+     * @Assert\Url()
      */
     private $url;
 
@@ -39,6 +41,10 @@ class Classroom
      * @var string
      *
      * @ORM\Column(name="email", type="string", length=255)
+     * @Assert\Email(
+     *     message = "'{{ value }}' n'est pas un email valide.",
+     *     checkMX = true
+     * )
      */
     private $email;
 
