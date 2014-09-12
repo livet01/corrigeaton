@@ -1,0 +1,10 @@
+corrigeaton_mailer:
+    resource: "@CorrigeatonMailerBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+corrigeaton_agenda:
+    resource: "@CorrigeatonAgendaBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
