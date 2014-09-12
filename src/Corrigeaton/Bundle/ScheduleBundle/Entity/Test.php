@@ -65,11 +65,13 @@ class Test
 
     /**
      * @ORM\ManyToMany(targetEntity="Classroom", inversedBy="tests")
+     * @ORM\JoinColumn(name="classroom_id", referencedColumnName="id")
      */
     protected $classrooms;
 
     /**
      * @ORM\ManyToOne(targetEntity="Teacher", inversedBy="tests")
+     * @ORM\JoinColumn(name="teacher_id", referencedColumnName="id")
      */
     protected $teacher;
 
