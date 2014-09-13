@@ -6,7 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class ClassroomType extends AbstractType
+class TeacherType extends AbstractType
 {
         /**
      * @param FormBuilderInterface $builder
@@ -15,8 +15,11 @@ class ClassroomType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('name')
+            ->add('surname')
             ->add('email')
-            ->add('classNum')
+            ->add('unregisterToken')
+            ->add('isUnregistered')
         ;
     }
     
@@ -26,7 +29,7 @@ class ClassroomType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Corrigeaton\Bundle\ScheduleBundle\Entity\Classroom'
+            'data_class' => 'Corrigeaton\Bundle\ScheduleBundle\Entity\Teacher'
         ));
     }
 
@@ -35,6 +38,6 @@ class ClassroomType extends AbstractType
      */
     public function getName()
     {
-        return 'corrigeaton_bundle_schedulebundle_classroom';
+        return 'corrigeaton_bundle_schedulebundle_teacher';
     }
 }
