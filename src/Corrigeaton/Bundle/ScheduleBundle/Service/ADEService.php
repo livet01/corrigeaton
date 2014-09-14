@@ -4,32 +4,46 @@ namespace Corrigeaton\Bundle\ScheduleBundle\Service;
 class ADEService
 {
 
-    public function findClassroomName($classNum)
+    public function findClassroomName($classNum)                                                        // Give the class' name using the class' id
     {
-        $url = "https://www.etud.insa-toulouse.fr/planning/index.php?gid=".$classNum."&wid=0&ics=1";
-        $week =  file_get_contents($url);
-        $res = array();
-        preg_match("/CALNAME:([^ ]*)/", $week, $res);
+        $url = "https://www.etud.insa-toulouse.fr/planning/index.php?gid=".$classNum."&wid=0&ics=1";    // Url of planning express ics
+        $week =  file_get_contents($url);                                                               // Open the ics in 'week'
+        $res = array();                                                                                 // Array for the reg match result's
+        preg_match("/CALNAME:([^ ]*)/", $week, $res);                                                   // Reg Exp which find the name in brackets
+        return $res[1];                                                                                 //
+    }
+
+    public function findTestsTeacher(Test $test)                                                        // Give the teacher's name for a given test(=param)
+    {
+        $uid = $test->getFinishToken();                                                                 // The Finish Token is the uid of his Test
+        $classNum = $test->getClassrooms(0)->getClassNum();                                             // Give the id of a class related to the test
+        $res = array();                                                                                 //
+        $url = "https://srv-ade.insa-toulouse.fr/jsp/custom/modules/plannings/anonymous_cal.jsp?resources="
+            .$classNum."&projectId=4&calType=ical&firstDate=2014-08-04&lastDate=2015-07-31";            // Url to the calendar of the class chosed
+        $week = file_get_contents($url);                                                                // Put the calendar (ics version) in 'week'
+        $regexp = "/([^ n]*) P.\\\\n[(][^()]*[)]\nuid:".$uid;                                           // Reg Exp which find the teacher related to a test (found because of the uid)
+        preg_match($regexp, $week, $res);                                                               // Search for the teacher's name in brackets
         return $res[1];
     }
-    public function findTeachersAdress($name)
+
+    public function findTeachersAdress($name) // Give the mail adress of a teacher with his name(=param)
     {
-        $ch = curl_init();
+        $res = array();                                                                                 // Array for the reg match result's
         $data = array('namefield' => '', 'first_namefield' => '', 'telephonefield' => '', 'pageLength' => '',
             'startIndex' => '0', '_query' => 'Annuaire', 'texteNom' => $name, 'textePrenom' =>'', 'texteTelephone' => '',
-            'slctAffectation' => '-1', 'slctFonction' => '------+Inconnue+------', 'n-page' => '10' );
-        curl_setopt($ch, CURLOPT_URL, 'www.insa-toulouse.fr/fr/annuaire.html');
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-        curl_setopt($ch, CURLOPT_HEADER, FALSE);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        $output = curl_exec($ch);
-        $res = array();
-        $regexp = "/N100[^ ]{2}=\"([^\".]*[.]".$name.")/i";
-        preg_match($regexp, $output, $res);
-        $email = $res[1]."@";
-        preg_match("/N100[^ ]{2} \\+=\"([^&\"]+)/", $output, $res);
-        $email = $email.$res[1];
-        return $email;
+            'slctAffectation' => '-1', 'slctFonction' => '------+Inconnue+------', 'n-page' => '10' );  // Array of POST values
+        $regexp = "/N100[^ ]{2}=\"([^\".]*[.]".$name.")/i";                                             // Reg exp, surname.name in brackets, i option : non sensible to case
+        $ch = curl_init();                                                                              // Initiation of the curl request
+        curl_setopt($ch, CURLOPT_URL, 'www.insa-toulouse.fr/fr/annuaire.html');                         // Url of the form
+        curl_setopt($ch, CURLOPT_POST, 1);                                                              // Request-type : POST
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);                                                    // Give the array of values
+        curl_setopt($ch, CURLOPT_HEADER, FALSE);                                                        // Bullshit
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);                                                 // Bullshit
+        $output = curl_exec($ch);                                                                       // Launch the request, result in 'output'
+        preg_match($regexp, $output, $res);                                                             // Results in res
+        $email = $res[1]."@";                                                                           // Here and after : building the mail adress
+        preg_match("/N100[^ ]{2} \\+=\"([^&\"]+)/", $output, $res);                                     //
+        $email = $email.$res[1];                                                                        //
+        return $email;                                                                                  //
     }
 }
