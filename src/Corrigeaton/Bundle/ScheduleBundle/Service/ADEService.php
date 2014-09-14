@@ -25,9 +25,10 @@ class ADEService
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $output = curl_exec($ch);
         $res = array();
-        preg_match("/N10001=\"([^\"]*)/", $output, $res);
+        $regexp = "/N100[^ ]{2}=\"([^\".]*[.]".$name.")/i";
+        preg_match($regexp, $output, $res);
         $email = $res[1]."@";
-        preg_match("/N10001 \\+=\"([^&\"]+)/", $output, $res);
+        preg_match("/N100[^ ]{2} \\+=\"([^&\"]+)/", $output, $res);
         $email = $email.$res[1];
         return $email;
     }
