@@ -25,6 +25,7 @@ class Configuration implements ConfigurationInterface
                 ->isRequired()
                     ->children()
                         ->scalarNode('planning')->isRequired()->end()
+                        ->scalarNode('annuaire')->isRequired()->end()
                     ->end()
             ->end();
 

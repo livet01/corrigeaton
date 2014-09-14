@@ -2,16 +2,21 @@
 namespace Corrigeaton\Bundle\ScheduleBundle\Service;
 
 use Corrigeaton\Bundle\ScheduleBundle\Entity\Classroom;
+use Corrigeaton\Bundle\ScheduleBundle\Entity\Teacher;
 use Corrigeaton\Bundle\ScheduleBundle\Entity\Test;
+use Corrigeaton\Bundle\ScheduleBundle\Exception\ResourceNotFoundException;
+use Symfony\Component\DomCrawler\Crawler;
 
 class ADEService
 {
 
     private $urlPlanning;
+    private $urlAnnuaire;
 
-    public function __construct($urlPlanning)
+    public function __construct($urlPlanning, $urlAnnuaire)
     {
         $this->urlPlanning = $urlPlanning;
+        $this->urlAnnuaire = $urlAnnuaire;
     }
 
     public function findClassroomName(Classroom $classroom)                                                        // Give the class' name using the class' id
@@ -35,24 +40,41 @@ class ADEService
         return $res[1];
     }
 
-    public function findTeachersAdress($name) // Give the mail adress of a teacher with his name(=param)
+    /**
+     * Find in INSA annuaire the teacher with his name
+     * @param String $name Teacher name
+     * @return Teacher
+     * @throws \Corrigeaton\Bundle\ScheduleBundle\Exception\ResourceNotFoundException
+     */
+    public function findTeacher($name)
     {
-        $res = array();                                                                                 // Array for the reg match result's
-        $data = array('namefield' => '', 'first_namefield' => '', 'telephonefield' => '', 'pageLength' => '',
-            'startIndex' => '0', '_query' => 'Annuaire', 'texteNom' => $name, 'textePrenom' =>'', 'texteTelephone' => '',
-            'slctAffectation' => '-1', 'slctFonction' => '------+Inconnue+------', 'n-page' => '10' );  // Array of POST values
-        $regexp = "/N100[^ ]{2}=\"([^\".]*[.]".$name.")/i";                                             // Reg exp, surname.name in brackets, i option : non sensible to case
-        $ch = curl_init();                                                                              // Initiation of the curl request
-        curl_setopt($ch, CURLOPT_URL, 'www.insa-toulouse.fr/fr/annuaire.html');                         // Url of the form
-        curl_setopt($ch, CURLOPT_POST, 1);                                                              // Request-type : POST
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);                                                    // Give the array of values
-        curl_setopt($ch, CURLOPT_HEADER, FALSE);                                                        // Bullshit
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);                                                 // Bullshit
-        $output = curl_exec($ch);                                                                       // Launch the request, result in 'output'
-        preg_match($regexp, $output, $res);                                                             // Results in res
-        $email = $res[1]."@";                                                                           // Here and after : building the mail adress
-        preg_match("/N100[^ ]{2} \\+=\"([^&\"]+)/", $output, $res);                                     //
-        $email = $email.$res[1];                                                                        //
-        return $email;                                                                                  //
+        $teacher = new Teacher();
+
+        // Data post to send
+        $data = array('texteNom' => urlencode($name));
+
+        // Get page detail for a teacher
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $this->urlAnnuaire);
+        curl_setopt($ch, CURLOPT_POST, count($data));
+        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true); // Follow 302 redirection return by the first page
+        $output = curl_exec($ch);
+        curl_close($ch);
+
+        // Parse Teacher info with DOMCrawler
+        try{
+            $crawler = new Crawler($output);
+            $detail = $crawler->filter("#content > dl.detail")->children();
+            $teacher->setSurname($detail->eq(1)->html());
+            $teacher->setName($detail->eq(3)->html());
+            $teacher->setEmail($detail->eq(5)->children()->html());
+        }
+        catch(\InvalidArgumentException $e){
+            throw new ResourceNotFoundException("Teacher \"".$name."\" not found");
+        }
+
+        return $teacher;
     }
 }

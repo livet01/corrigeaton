@@ -6,24 +6,15 @@
     <table class="records_list">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Surname</th>
+                <th>Nom</th>
                 <th>Email</th>
-                <th>Unregistertoken</th>
-                <th>Isunregistered</th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody>
         {% for entity in entities %}
             <tr>
-                <td><a href="{{ path('teacher_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
-                <td>{{ entity.name }}</td>
-                <td>{{ entity.surname }}</td>
-                <td>{{ entity.email }}</td>
-                <td>{{ entity.unregisterToken }}</td>
-                <td>{{ entity.isUnregistered }}</td>
+                <td><a href="{{ path('teacher_show', { 'id': entity.id }) }}">{{ entity.name }} {{ entity.surname }}</a></td>
                 <td>
                 <ul>
                     <li>
@@ -39,11 +30,4 @@
         </tbody>
     </table>
 
-        <ul>
-        <li>
-            <a href="{{ path('teacher_new') }}">
-                Create a new entry
-            </a>
-        </li>
-    </ul>
     {% endblock %}

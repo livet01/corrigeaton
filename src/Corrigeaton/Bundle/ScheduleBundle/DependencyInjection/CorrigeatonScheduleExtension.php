@@ -26,5 +26,6 @@ class CorrigeatonScheduleExtension extends Extension
         $loader->load('services.xml');
 
         $container->setParameter('corrigeaton_schedule.url.planning',$config['url']['planning']);
+        $container->setParameter('corrigeaton_schedule.url.annuaire',$config['url']['annuaire']);
     }
 }

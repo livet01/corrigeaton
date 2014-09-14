@@ -12,6 +12,7 @@
     <services>
         <service id="corrigeaton_schedule.ade_service" class="%corrigeaton_schedule.ade_service.class%">
             <argument>%corrigeaton_schedule.url.planning%</argument>
+            <argument>%corrigeaton_schedule.url.annuaire%</argument>
         </service>
     </services>
 

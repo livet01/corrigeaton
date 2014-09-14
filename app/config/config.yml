@@ -71,3 +71,4 @@ swiftmailer:
 corrigeaton_schedule:
     url:
         planning: "https://www.etud.insa-toulouse.fr/planning/index.php?gid=%d&wid=0&ics=1"
+        annuaire: "http://www.insa-toulouse.fr/fr/annuaire.html"
