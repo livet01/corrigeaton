@@ -1,13 +1,22 @@
 <?php
 namespace Corrigeaton\Bundle\ScheduleBundle\Service;
 
+use Corrigeaton\Bundle\ScheduleBundle\Entity\Classroom;
+use Corrigeaton\Bundle\ScheduleBundle\Entity\Test;
+
 class ADEService
 {
 
-    public function findClassroomName($classNum)                                                        // Give the class' name using the class' id
+    private $urlPlanning;
+
+    public function __construct($urlPlanning)
     {
-        $url = "https://www.etud.insa-toulouse.fr/planning/index.php?gid=".$classNum."&wid=0&ics=1";    // Url of planning express ics
-        $week =  file_get_contents($url);                                                               // Open the ics in 'week'
+        $this->urlPlanning = $urlPlanning;
+    }
+
+    public function findClassroomName(Classroom $classroom)                                                        // Give the class' name using the class' id
+    {
+        $week = file_get_contents(sprintf($this->urlPlanning,$classroom->getId()));                                                               // Open the ics in 'week'
         $res = array();                                                                                 // Array for the reg match result's
         preg_match("/CALNAME:([^ ]*)/", $week, $res);                                                   // Reg Exp which find the name in brackets
         return $res[1];                                                                                 //

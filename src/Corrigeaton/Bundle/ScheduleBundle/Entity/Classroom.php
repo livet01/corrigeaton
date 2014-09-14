@@ -2,12 +2,13 @@
 
 namespace Corrigeaton\Bundle\ScheduleBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping as ORM;// src/Acme/BlogBundle/Entity/Author.php
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Classroom
  *
- * @ORM\Table()
+ * @ORM\Table(name="schedule_classroom")
  * @ORM\Entity
  */
 class Classroom
@@ -17,7 +18,8 @@ class Classroom
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\GeneratedValue(strategy="NONE")
+     * @Assert\NotBlank()
      */
     private $id;
 
@@ -25,15 +27,22 @@ class Classroom
      * @var string
      *
      * @ORM\Column(name="email", type="string", length=255)
+     * @Assert\Email(
+     *     message = "'{{ value }}' n'est pas un email valide.",
+     *     checkMX = true
+     * )
+     * @Assert\NotBlank()
      */
     private $email;
 
     /**
-     * @var integer
+     * @var string
      *
-     * @ORM\Column(name="classNum", type="integer")
+     * @ORM\Column(name="name", type="string", length=255)
+     * @Assert\NotBlank(
+           message = "ID invalide")
      */
-    private $classNum;
+    private $name;
 
 
     /**
@@ -70,25 +79,38 @@ class Classroom
     }
 
     /**
-     * Set classNum
+     * Set id
      *
-     * @param integer $classNum
+     * @param integer $id
      * @return Classroom
      */
-    public function setClassNum($classNum)
+    public function setId($id)
     {
-        $this->classNum = $classNum;
+        $this->id = $id;
 
         return $this;
     }
 
     /**
-     * Get classNum
+     * Set name
      *
-     * @return integer 
+     * @param string $name
+     * @return Classroom
      */
-    public function getClassNum()
+    public function setName($name)
     {
-        return $this->classNum;
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string 
+     */
+    public function getName()
+    {
+        return $this->name;
     }
 }

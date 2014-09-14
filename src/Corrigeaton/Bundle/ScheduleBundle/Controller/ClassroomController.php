@@ -49,11 +49,13 @@ class ClassroomController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
+            $entity->setName($this->get("corrigeaton_schedule.ade_service")->findClassroomName($entity));
+
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('classroom_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('classroom'));
         }
 
         return array(
@@ -96,31 +98,6 @@ class ClassroomController extends Controller
         return array(
             'entity' => $entity,
             'form'   => $form->createView(),
-        );
-    }
-
-    /**
-     * Finds and displays a Classroom entity.
-     *
-     * @Route("/{id}", name="classroom_show")
-     * @Method("GET")
-     * @Template()
-     */
-    public function showAction($id)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('CorrigeatonScheduleBundle:Classroom')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Classroom entity.');
-        }
-
-        $deleteForm = $this->createDeleteForm($id);
-
-        return array(
-            'entity'      => $entity,
-            'delete_form' => $deleteForm->createView(),
         );
     }
 
@@ -191,9 +168,10 @@ class ClassroomController extends Controller
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
+            $entity->setName($this->get("corrigeaton_schedule.ade_service")->findClassroomName($entity));
             $em->flush();
 
-            return $this->redirect($this->generateUrl('classroom_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('classroom'));
         }
 
         return array(

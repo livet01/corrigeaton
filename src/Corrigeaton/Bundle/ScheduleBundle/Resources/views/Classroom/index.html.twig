@@ -6,27 +6,18 @@
     <table class="records_list">
         <thead>
             <tr>
-                <th>Id</th>
+                <th>Nom</th>
                 <th>Email</th>
-                <th>Classnum</th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody>
         {% for entity in entities %}
             <tr>
-                <td><a href="{{ path('classroom_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td>{{ entity.name }} ({{ entity.id }})</td>
                 <td>{{ entity.email }}</td>
-                <td>{{ entity.classNum }}</td>
                 <td>
-                <ul>
-                    <li>
-                        <a href="{{ path('classroom_show', { 'id': entity.id }) }}">show</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('classroom_edit', { 'id': entity.id }) }}">edit</a>
-                    </li>
-                </ul>
+                    <a href="{{ path('classroom_edit', { 'id': entity.id }) }}">edit</a>
                 </td>
             </tr>
         {% endfor %}

@@ -24,5 +24,7 @@ class CorrigeatonScheduleExtension extends Extension
 
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.xml');
+
+        $container->setParameter('corrigeaton_schedule.url.planning',$config['url']['planning']);
     }
 }

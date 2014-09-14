@@ -67,3 +67,7 @@ swiftmailer:
     username:  "%mailer_user%"
     password:  "%mailer_password%"
     spool:     { type: memory }
+
+corrigeaton_schedule:
+    url:
+        planning: "https://www.etud.insa-toulouse.fr/planning/index.php?gid=%d&wid=0&ics=1"
