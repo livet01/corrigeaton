@@ -1,16 +1,24 @@
 {% extends 'CorrigeatonScheduleBundle::base.html.twig' %}
 
-{% block body -%}
-    <h1>Classroom edit</h1>
-
-    {{ form(edit_form) }}
-
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('classroom') }}">
-            Back to the list
-        </a>
-    </li>
-    <li>{{ form(delete_form) }}</li>
-</ul>
+{% form_theme edit_form 'CorrigeatonScheduleBundle::form.html.twig' %}
+{% block content -%}
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">{% trans %}Classes{% endtrans %}</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">{% trans %}Modification de la classe{% endtrans %} {{ entity.name }}</div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        {{ form(edit_form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

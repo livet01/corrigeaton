@@ -1,11 +1,20 @@
 {% extends 'CorrigeatonScheduleBundle::base.html.twig' %}
+
+{% form_theme form 'CorrigeatonScheduleBundle::form.html.twig' %}
 {% block title %}{% trans %}Classe{% endtrans %}{% endblock %}
 {% block content -%}
     <div class="row">
         <div class="col-lg-12">
             <h1 class="page-header">{% trans %} Classes{% endtrans %}</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-8">
             <div class="panel panel-default">
                 <div class="panel-heading">
+                    <i class="fa fa-list fa-fw"></i> {% trans %} Liste des classes{% endtrans %}
+                </div>
+                <div class="panel-body">
                     <div class="table-responsive">
                         <table class="table">
                             <thead>
@@ -14,13 +23,6 @@
                                     <th>Email</th>
                                     <th>Actions</th>
                                 </tr>
-                                <div class="pull-right">
-                                    <div class="btn-group">
-                                        <a class="btn btn-primary" href="{{ path('classroom_new') }}">
-                                            <i class="fa fa-plus"></i> Nouveau
-                                        </a>
-                                    </div>
-                                </div>
                             </thead>
                             <tbody>
                                 {% for entity in entities %}
@@ -28,21 +30,41 @@
                                     <td>{{ entity.name }} ({{ entity.id }})</td>
                                     <td>{{ entity.email }}</td>
                                     <td>
-                                        <a href="{{ path('classroom_edit', { 'id': entity.id }) }}">edit</a>
+                                        {% form_theme delete_forms[loop.index0] _self %}
+                                        {{ form_start(delete_forms[loop.index0]) }}
+                                        <div class="btn-group-sm">
+
+                                            <a class="btn btn-default" href="{{ path('classroom_edit', { 'id': entity.id }) }}" title="{% trans %}Editer{% endtrans %}"><i class="fa fa-pencil"></i></a>
+                                            {{ form_widget(delete_forms[loop.index0].submit) }}
+                                        </div>
+                                            {{ form_end(delete_forms[loop.index0]) }}
                                     </td>
                                 </tr>
                                 {% endfor %}
                             </tbody>
                         </table>
                     </div>
-                    <ul>
-                    <li>
-                        <a href="{{ path('classroom_new') }}">
-                            Create a new entry
-                        </a>
-                    </li>
-                </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="panel panel-default">
+                <div class="panel-heading"><i class="fa fa-plus fa-fw"></i> {% trans %}Ajouter une classe{% endtrans %}</div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            {{ form(form) }}
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-            {% endblock %}
+{% endblock %}
+
+{% block button_widget -%}
+    {% if label is empty -%}
+        {% set label = name|humanize %}
+    {%- endif -%}
+    <button class="btn btn-danger" type="{{ type|default('button') }}" {{ block('button_attributes') }} title="{{ label|trans({}, translation_domain) }}"><i class="fa fa-trash-o"></i></button>
+{%- endblock button_widget %}
