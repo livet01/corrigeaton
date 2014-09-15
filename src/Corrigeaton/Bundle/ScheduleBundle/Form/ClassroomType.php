@@ -18,6 +18,7 @@ class ClassroomType extends AbstractType
             ->add('id')
             ->add('email')
         ;
+        parent::buildForm($builder,$options);
     }
     
     /**

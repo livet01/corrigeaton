@@ -1,33 +1,38 @@
-{% extends '::base.html.twig' %}
-
-{% block body -%}
-    <h1>Teacher list</h1>
-
-    <table class="records_list">
-        <thead>
-            <tr>
-                <th>Nom</th>
-                <th>Email</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for entity in entities %}
-            <tr>
-                <td><a href="{{ path('teacher_show', { 'id': entity.id }) }}">{{ entity.name }} {{ entity.surname }}</a></td>
-                <td>
-                <ul>
-                    <li>
-                        <a href="{{ path('teacher_show', { 'id': entity.id }) }}">show</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('teacher_edit', { 'id': entity.id }) }}">edit</a>
-                    </li>
-                </ul>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    {% endblock %}
+{% extends 'CorrigeatonScheduleBundle::base.html.twig' %}
+{% block title %}{% trans %}Enseignant{% endtrans %}{% endblock %}
+{% block content -%}
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">{% trans %} Enseignants{% endtrans %}</h1>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Nom</th>
+                            <th>Prénom</th>
+                            <th>Email</th>
+                            <th>Enregistré</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for entity in entities %}
+                            <tr>
+                                <td>{{ entity.name }} ({{ entity.id }})</td>
+                                <td>{{ entity.surname }}</td>
+                                <td>{{ entity.email }}</td>
+                                <td>{% if entity.isUnregistered == false %}{% trans %}Oui{% endtrans %}{% else %}{% trans %}Non{% endtrans %}{% endif %}</td>
+                                <td>
+                                    <a href="{{ path('teacher_edit', { 'id': entity.id }) }}">edit</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

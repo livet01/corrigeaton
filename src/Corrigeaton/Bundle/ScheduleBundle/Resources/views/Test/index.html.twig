@@ -1,51 +1,43 @@
-{% extends '::base.html.twig' %}
 
-{% block body -%}
-    <h1>Test list</h1>
-
-    <table class="records_list">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Date</th>
-                <th>Numreminder</th>
-                <th>Finishtoken</th>
-                <th>Isfinished</th>
-                <th>Status</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for entity in entities %}
-            <tr>
-                <td><a href="{{ path('test_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
-                <td>{{ entity.name }}</td>
-                <td>{% if entity.date %}{{ entity.date|date('Y-m-d H:i:s') }}{% endif %}</td>
-                <td>{{ entity.numReminder }}</td>
-                <td>{{ entity.finishToken }}</td>
-                <td>{{ entity.isFinished }}</td>
-                <td>{{ entity.status }}</td>
-                <td>
-                <ul>
-                    <li>
-                        <a href="{{ path('test_show', { 'id': entity.id }) }}">show</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('test_edit', { 'id': entity.id }) }}">edit</a>
-                    </li>
-                </ul>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-        <ul>
-        <li>
-            <a href="{{ path('test_new') }}">
-                Create a new entry
-            </a>
-        </li>
-    </ul>
-    {% endblock %}
+{% extends 'CorrigeatonScheduleBundle::base.html.twig' %}
+{% block title %}{% trans %}Examen{% endtrans %}{% endblock %}
+{% block content -%}
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">{% trans %} Examens{% endtrans %}</h1>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>{% trans %}Nom{% endtrans %}</th>
+                                <th>{% trans %}Date{% endtrans %}</th>
+                                <th>{% trans %}Rappels{% endtrans %}</th>
+                                <th>{% trans %}Statut{% endtrans %}</th>
+                            </tr>
+                            <div class="pull-right">
+                                <div class="btn-group">
+                                    <a class="btn btn-primary" href="{{ path('test_new') }}">
+                                        <i class="fa fa-plus"></i> {% trans %} Nouveau{% endtrans %}
+                                    </a>
+                                </div>
+                            </div>
+                            </thead>
+                            <tbody>
+                            {% for entity in entities %}
+                                <tr>
+                                    <td>{{ entity.name }} ({{ entity.id }})</td>
+                                    <td>{{ entity.date }}</td>
+                                    <td>{{ entity.numReminder }}</td>
+                                    <td>{{ entity.status }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
