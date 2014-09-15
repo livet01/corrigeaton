@@ -2,14 +2,18 @@
 
 namespace Corrigeaton\Bundle\ScheduleBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;// src/Acme/BlogBundle/Entity/Author.php
+use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Corrigeaton\Bundle\ScheduleBundle\Constraint as ScheduleAssert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
 
 /**
  * Classroom
  *
  * @ORM\Table(name="schedule_classroom")
  * @ORM\Entity
+ * @UniqueEntity("id")
  */
 class Classroom
 {
@@ -20,6 +24,7 @@ class Classroom
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
      * @Assert\NotBlank()
+     * @ScheduleAssert\ContainsIDValid()
      */
     private $id;
 
@@ -39,8 +44,6 @@ class Classroom
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255)
-     * @Assert\NotBlank(
-           message = "ID invalide")
      */
     private $name;
 

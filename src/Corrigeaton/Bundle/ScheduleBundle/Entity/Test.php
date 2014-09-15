@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Test
  *
- * @ORM\Table()
+ * @ORM\Table(name="schedule_test")
  * @ORM\Entity
  */
 class Test
@@ -50,13 +50,6 @@ class Test
     private $finishToken;
 
     /**
-     * @var boolean
-     *
-     * @ORM\Column(name="isFinished", type="boolean")
-     */
-    private $isFinished;
-
-    /**
      * @var string
      *
      * @ORM\Column(name="status", type="string", length=255)
@@ -64,16 +57,28 @@ class Test
     private $status;
 
     /**
+     * @var \Doctrine\Common\Collections\ArrayCollection
+     *
      * @ORM\ManyToMany(targetEntity="Classroom", inversedBy="tests")
      * @ORM\JoinColumn(name="classroom_id", referencedColumnName="id")
      */
     protected $classrooms;
 
     /**
+     * @var Teacher
+     *
      * @ORM\ManyToOne(targetEntity="Teacher", inversedBy="tests")
      * @ORM\JoinColumn(name="teacher_id", referencedColumnName="id")
      */
     protected $teacher;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->classrooms = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Get id
@@ -178,29 +183,6 @@ class Test
     }
 
     /**
-     * Set isFinished
-     *
-     * @param boolean $isFinished
-     * @return Test
-     */
-    public function setIsFinished($isFinished)
-    {
-        $this->isFinished = $isFinished;
-
-        return $this;
-    }
-
-    /**
-     * Get isFinished
-     *
-     * @return boolean 
-     */
-    public function getIsFinished()
-    {
-        return $this->isFinished;
-    }
-
-    /**
      * Set status
      *
      * @param string $status
@@ -222,13 +204,6 @@ class Test
     {
         return $this->status;
     }
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->classrooms = new \Doctrine\Common\Collections\ArrayCollection();
-    }
 
     /**
      * Add classrooms
@@ -236,7 +211,7 @@ class Test
      * @param \Corrigeaton\Bundle\ScheduleBundle\Entity\Classroom $classrooms
      * @return Test
      */
-    public function addClassroom(\Corrigeaton\Bundle\ScheduleBundle\Entity\Classroom $classrooms)
+    public function addClassroom(Classroom $classrooms)
     {
         $this->classrooms[] = $classrooms;
 
@@ -248,7 +223,7 @@ class Test
      *
      * @param \Corrigeaton\Bundle\ScheduleBundle\Entity\Classroom $classrooms
      */
-    public function removeClassroom(\Corrigeaton\Bundle\ScheduleBundle\Entity\Classroom $classrooms)
+    public function removeClassroom(Classroom $classrooms)
     {
         $this->classrooms->removeElement($classrooms);
     }
@@ -269,7 +244,7 @@ class Test
      * @param \Corrigeaton\Bundle\ScheduleBundle\Entity\Teacher $teacher
      * @return Test
      */
-    public function setTeacher(\Corrigeaton\Bundle\ScheduleBundle\Entity\Teacher $teacher = null)
+    public function setTeacher(Teacher $teacher = null)
     {
         $this->teacher = $teacher;
 

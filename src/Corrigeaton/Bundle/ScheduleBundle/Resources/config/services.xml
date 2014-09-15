@@ -7,13 +7,22 @@
 
     <parameters>
         <parameter key="corrigeaton_schedule.ade_service.class">Corrigeaton\Bundle\ScheduleBundle\Service\ADEService</parameter>
+        <parameter key="validator.corrigeaton_schedule.contains_id_valid.class">Corrigeaton\Bundle\ScheduleBundle\Constraint\ContainsIDValidValidator</parameter>
     </parameters>
 
     <services>
         <service id="corrigeaton_schedule.ade_service" class="%corrigeaton_schedule.ade_service.class%">
+            <argument type="service" id="doctrine.orm.entity_manager" />
             <argument>%corrigeaton_schedule.url.planning%</argument>
             <argument>%corrigeaton_schedule.url.annuaire%</argument>
+            <argument>%corrigeaton_schedule.url.ade%</argument>
+        </service>
+        <service id="validator.corrigeaton_schedule.contains_id_valid" class="%validator.corrigeaton_schedule.contains_id_valid.class%">
+            <argument type="service" id="corrigeaton_schedule.ade_service" />
+            <tag name="validator.constraint_validator" alias="id_valid_validator" />
         </service>
     </services>
+
+
 
 </container>

@@ -45,12 +45,13 @@ class ClassroomController extends Controller
     public function createAction(Request $request)
     {
         $entity = new Classroom();
+
         $form = $this->createCreateForm($entity);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $entity->setName($this->get("corrigeaton_schedule.ade_service")->findClassroomName($entity));
 
+            $entity->setName($this->get("corrigeaton_schedule.ade_service")->findClassroomName($entity->getId()));
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
@@ -168,7 +169,7 @@ class ClassroomController extends Controller
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
-            $entity->setName($this->get("corrigeaton_schedule.ade_service")->findClassroomName($entity));
+            $entity->setName($this->get("corrigeaton_schedule.ade_service")->findClassroomName($entity->getId()));
             $em->flush();
 
             return $this->redirect($this->generateUrl('classroom'));

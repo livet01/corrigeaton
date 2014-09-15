@@ -5,26 +5,94 @@ use Corrigeaton\Bundle\ScheduleBundle\Entity\Classroom;
 use Corrigeaton\Bundle\ScheduleBundle\Entity\Teacher;
 use Corrigeaton\Bundle\ScheduleBundle\Entity\Test;
 use Corrigeaton\Bundle\ScheduleBundle\Exception\ResourceNotFoundException;
+use Doctrine\ORM\EntityManager;
 use Symfony\Component\DomCrawler\Crawler;
 
+/**
+ * Class ADEService manage connexion with planning, ade and INSA annuaire
+ * @package Corrigeaton\Bundle\ScheduleBundle\Service
+ */
 class ADEService
 {
+    /**
+     * @var EntityManager
+     */
+    private $em;
 
+    /**
+     * @var string
+     * See config
+     */
     private $urlPlanning;
+
+    /**
+     * @var string
+     * See config
+     */
     private $urlAnnuaire;
 
-    public function __construct($urlPlanning, $urlAnnuaire)
+    /**
+     * @var string
+     * See config
+     */
+    private $urlADE;
+
+
+    /**
+     * Constructor
+     *
+     * @param EntityManager $em
+     * @param string $urlPlanning
+     * @param string $urlAnnuaire
+     * @param string $urlADE
+     */
+    public function __construct(EntityManager $em,$urlPlanning, $urlAnnuaire, $urlADE)
     {
+        $this->em = $em;
         $this->urlPlanning = $urlPlanning;
         $this->urlAnnuaire = $urlAnnuaire;
+        $this->urlADE = $urlADE;
     }
 
-    public function findClassroomName(Classroom $classroom)                                             // Give the class' name using the class' id
+    /**
+     * Find name of classroom
+     * @param int $id id of classroom
+     * @return string
+     */
+    public function findClassroomName($id)
     {
-        $week = file_get_contents(sprintf($this->urlPlanning,$classroom->getId()));                                                               // Open the ics in 'week'
-        $res = array();                                                                                 // Array for the reg match result's
-        preg_match("/CALNAME:([^ ]*)/", $week, $res);                                                   // Reg Exp which find the name in brackets
-        return $res[1];                                                                                 //
+        $week = file_get_contents(sprintf($this->urlPlanning,$id));
+        $res = array();
+        preg_match("/CALNAME:([^ ]*)/", $week, $res);
+        return $res[1];
+    }
+
+    /**
+     * Find and add new test in BD
+     * @param int $id id of classroom
+     * @param \DateTime $beginAt
+     * @param \DateTime $endAt
+     */
+    public function findAndAddTests($id, \DateTime $beginAt, \DateTime $endAt){
+
+        // Find event in id classes at today
+        $url = sprintf($this->urlADE,$id,$beginAt->format("Y-m-d"),$endAt->format("Y-m-d"));
+
+        $ical = new \SG_iCalReader($url);
+
+        $evts = $ical->getEvents();
+        $tests = array();
+
+        if(count($evts) > 0){
+            foreach($evts as $event){
+
+                // Begin by EX -> is an exam
+                if(strpos($event->getSummary(),"EX ") === 0){
+                    //TODO check is in BD or not
+                }
+            }
+        }
+
     }
 
     public function findTestsTeacher(Test $test)                                                        // Give the teacher's name for a given test(=param)
@@ -41,13 +109,30 @@ class ADEService
     }
 
     /**
-     * Find in INSA annuaire the teacher with his name
+     * Find in BD or in INSA annuaire the teacher with his name
      * @param String $name Teacher name
      * @return Teacher
      * @throws \Corrigeaton\Bundle\ScheduleBundle\Exception\ResourceNotFoundException
      */
     public function findTeacher($name)
     {
+        $teacher = $this->em->getRepository('CorrigeatonScheduleBundle:Teacher')->findByName($name);
+
+        if(!$teacher){
+            return $this->findTeacherAnnuaire($name);
+        }
+
+        return $teacher;
+    }
+
+    /**
+     * Find in INSA annuaire the teacher
+     * @param $name
+     * @return Teacher
+     * @throws \Corrigeaton\Bundle\ScheduleBundle\Exception\ResourceNotFoundException
+     */
+    private function findTeacherAnnuaire($name){
+
         $teacher = new Teacher();
 
         // Data post to send
