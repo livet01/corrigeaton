@@ -18,8 +18,6 @@ class TeacherType extends AbstractType
             ->add('name')
             ->add('surname')
             ->add('email')
-            ->add('unregisterToken')
-            ->add('isUnregistered')
         ;
     }
     

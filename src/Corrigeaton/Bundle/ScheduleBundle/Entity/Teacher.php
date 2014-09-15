@@ -3,6 +3,7 @@
 namespace Corrigeaton\Bundle\ScheduleBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Teacher
@@ -39,6 +40,10 @@ class Teacher
      * @var string
      *
      * @ORM\Column(name="email", type="string", length=255)
+     * @Assert\Email(
+     *     message = "'{{ value }}' n'est pas un email valide.",
+     *     checkMX = true
+     * )
      */
     private $email;
 
@@ -54,12 +59,23 @@ class Teacher
      *
      * @ORM\Column(name="isUnregistered", type="boolean")
      */
-    private $isUnregistered;
+    private $isUnregistered = false;
 
     /**
      * @ORM\OneToMany(targetEntity="Test", mappedBy="teacher")
      */
     protected $tests;
+
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->setUnregisterToken(uniqid("",true));
+        $this->tests = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
     /**
      * Get id
      *
@@ -183,13 +199,6 @@ class Teacher
     public function getIsUnregistered()
     {
         return $this->isUnregistered;
-    }
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->tests = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
