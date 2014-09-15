@@ -1,9 +1,11 @@
 {% extends 'CorrigeatonScheduleBundle::base.html.twig' %}
 
-{% block body -%}
+{% block content -%}
     <h1>Classroom creation</h1>
 
-    {{ form(form) }}
+    {{ form_start(form) }}
+
+    {{ form_end(form) }}
 
         <ul class="record_actions">
     <li>
