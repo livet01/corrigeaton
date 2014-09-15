@@ -1,34 +1,48 @@
-{% extends '::base.html.twig' %}
-
-{% block body -%}
-    <h1>Classroom list</h1>
-
-    <table class="records_list">
-        <thead>
-            <tr>
-                <th>Nom</th>
-                <th>Email</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for entity in entities %}
-            <tr>
-                <td>{{ entity.name }} ({{ entity.id }})</td>
-                <td>{{ entity.email }}</td>
-                <td>
-                    <a href="{{ path('classroom_edit', { 'id': entity.id }) }}">edit</a>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-        <ul>
-        <li>
-            <a href="{{ path('classroom_new') }}">
-                Create a new entry
-            </a>
-        </li>
-    </ul>
-    {% endblock %}
+{% extends 'CorrigeatonScheduleBundle::base.html.twig' %}
+{% block title %}{% trans %}Classe{% endtrans %}{% endblock %}
+{% block content -%}
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">{% trans %} Classes{% endtrans %}</h1>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Nom</th>
+                                    <th>Email</th>
+                                    <th>Actions</th>
+                                </tr>
+                                <div class="pull-right">
+                                    <div class="btn-group">
+                                        <a class="btn btn-primary" href="{{ path('classroom_new') }}">
+                                            <i class="fa fa-plus"></i> Nouveau
+                                        </a>
+                                    </div>
+                                </div>
+                            </thead>
+                            <tbody>
+                                {% for entity in entities %}
+                                <tr>
+                                    <td>{{ entity.name }} ({{ entity.id }})</td>
+                                    <td>{{ entity.email }}</td>
+                                    <td>
+                                        <a href="{{ path('classroom_edit', { 'id': entity.id }) }}">edit</a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <ul>
+                    <li>
+                        <a href="{{ path('classroom_new') }}">
+                            Create a new entry
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+            {% endblock %}
