@@ -70,5 +70,6 @@ swiftmailer:
 
 corrigeaton_schedule:
     url:
-        planning: "https://www.etud.insa-toulouse.fr/planning/index.php?gid=%d&wid=0&ics=1"
+        planning: "https://www.etud.insa-toulouse.fr/planning/index.php?gid=%%d&wid=0&ics=1"
         annuaire: "http://www.insa-toulouse.fr/fr/annuaire.html"
+        ade: 'https://srv-ade.insa-toulouse.fr/jsp/custom/modules/plannings/anonymous_cal.jsp?resources=%%d&projectId=4&calType=ical&firstDate=%%s&lastDate=%%s'
