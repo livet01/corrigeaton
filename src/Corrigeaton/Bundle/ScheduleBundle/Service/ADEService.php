@@ -19,9 +19,9 @@ class ADEService
         $this->urlAnnuaire = $urlAnnuaire;
     }
 
-    public function findClassroomName(Classroom $classroom)                                                        // Give the class' name using the class' id
+    public function findClassroomName($id)                                                        // Give the class' name using the class' id
     {
-        $week = file_get_contents(sprintf($this->urlPlanning,$classroom->getId()));                                                               // Open the ics in 'week'
+        $week = file_get_contents(sprintf($this->urlPlanning,$id));                                                               // Open the ics in 'week'
         $res = array();                                                                                 // Array for the reg match result's
         preg_match("/CALNAME:([^ ]*)/", $week, $res);                                                   // Reg Exp which find the name in brackets
         return $res[1];                                                                                 //
