@@ -21,7 +21,7 @@ class Test
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
 
@@ -52,6 +52,13 @@ class Test
      * @ORM\Column(name="finishToken", type="string", length=255)
      */
     private $finishToken;
+
+    /**
+     * @var uid
+     * @ORM\Column(name="uid", type="string", length=255)
+     */
+    private $uid;
+
 
     /**
      * @var string
@@ -152,6 +159,27 @@ class Test
         return $this->date;
     }
 
+    /**
+     * Set uid
+     *
+     * @param string
+     * @return Test
+     */
+    public function setUid($uid)
+    {
+        $this->uid = $uid;
+        return $this;
+    }
+
+    /**
+     * Get uid
+     *
+     * @return string
+     */
+    public function getUid()
+    {
+        return $this->uid;
+    }
     /**
      * Set numReminder
      *

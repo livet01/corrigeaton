@@ -91,8 +91,9 @@ class ADEService
             foreach($evts as $event){
 
                 // Begin by EX -> is an exam
-                if(strpos($event->getSummary(),"EX ") === 0){
-                    $evBD = $this->em->getRepository('CorrigeatonScheduleBundle:Test')->find($event->getUID());
+                if(strpos($event->getSummary(),"CM") === 0){
+                    $uid = $event->getUID();
+                    $evBD = $this->em->getRepository('CorrigeatonScheduleBundle:Test')->findOneBy(array("uid" => $uid));
                     if(!$evBD)
                     {
                         $this->em->persist($this->parseEvent($event));
@@ -106,12 +107,14 @@ class ADEService
     private function parseEvent(\SG_iCal_VEvent $event)
     {
         $test = new Test();
-        $test->setId($event->getUID());
         $test->setName($event->getSummary());
         $date = new \DateTime();
         $date->setTimestamp($event->getStart());
         $test->setDate($date);
         $test->setNumReminder(0);
+        $test->setUid($event->getUID());
+        $token = (string)rand();
+        $test->setFinishToken($event->getUID().$token);
         $test->setStatus(Test::STATUS_FUTURE);
         $description = $event->getDescription();
         $res = explode ( "\n" , $description );
@@ -121,14 +124,9 @@ class ADEService
         return $test;
     }
 
-    public function addTeacherByMailIfNotIn(String $email)
-    {
-
-    }
-
     public function findTestsTeacher(Test $test)                                                        // Give the teacher's name for a given test(=param)
     {
-        $uid = $test->getId();                                                                          // The id is the uid of his Test
+        $uid = $test->getUID();                                                                          // The token is the uid of his Test
         $classNum = $test->getClassrooms(0)->getClassNum();                                             // Give the id of a class related to the test
         $res = array();                                                                                 //
         $url = "https://srv-ade.insa-toulouse.fr/jsp/custom/modules/plannings/anonymous_cal.jsp?resources="
@@ -165,7 +163,6 @@ class ADEService
     private function findTeacherAnnuaire($name){
 
         $teacher = new Teacher();
-
         // Data post to send
         $data = array('texteNom' => urlencode($name));
 
@@ -178,7 +175,7 @@ class ADEService
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true); // Follow 302 redirection return by the first page
         $output = curl_exec($ch);
         curl_close($ch);
-
+        echo "teacherannuaire1";
         // Parse Teacher info with DOMCrawler
         try{
             $crawler = new Crawler($output);
@@ -190,7 +187,6 @@ class ADEService
         catch(\InvalidArgumentException $e){
             throw new ResourceNotFoundException("Teacher \"".$name."\" not found");
         }
-
         $this->em->persist($teacher);
         $this->em->flush();
         return $teacher;
