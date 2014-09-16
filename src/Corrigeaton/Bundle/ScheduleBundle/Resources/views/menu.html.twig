@@ -1,0 +1,5 @@
+{% extends 'knp_menu.html.twig' %}
+
+{% block label %}<i class="fa fa-{{ item.getExtra('logo') }} fa-fw"></i>{% if options.allow_safe_labels and item.getExtra('safe_label', false) %}{{ item.label|raw }}{% else %}{{ item.label }}{% endif %}{% endblock %}
+
+{% block linkElement %}{% import 'knp_menu.html.twig' as knp_menu %}<a {% if matcher.isCurrent(item) %}class="active"{% endif %}  href="{{ item.uri }}"{{ knp_menu.attributes(item.linkAttributes) }}>{{ block('label') }}</a>{% endblock %}
