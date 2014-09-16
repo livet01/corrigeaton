@@ -7,6 +7,7 @@ use Corrigeaton\Bundle\ScheduleBundle\Entity\Test;
 use Corrigeaton\Bundle\ScheduleBundle\Exception\ResourceNotFoundException;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\DomCrawler\Crawler;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 /**
  * Class ADEService manage connexion with planning, ade and INSA annuaire
@@ -14,6 +15,8 @@ use Symfony\Component\DomCrawler\Crawler;
  */
 class ADEService
 {
+
+
     /**
      * @var EntityManager
      */
@@ -75,6 +78,7 @@ class ADEService
      */
     public function findAndAddTests($id, \DateTime $beginAt, \DateTime $endAt){
 
+        $totem = false;
         // Find event in id classes at today
         $url = sprintf($this->urlADE,$id,$beginAt->format("Y-m-d"),$endAt->format("Y-m-d"));
 
@@ -88,16 +92,43 @@ class ADEService
 
                 // Begin by EX -> is an exam
                 if(strpos($event->getSummary(),"EX ") === 0){
-                    //TODO check is in BD or not
+                    $evBD = $this->em->getRepository('CorrigeatonScheduleBundle:Test')->find($event->getUID());
+                    if(!$evBD)
+                    {
+                        $this->em->persist($this->parseEvent($event));
+                    }
                 }
             }
         }
+        $this->em->flush();
+    }
+
+    private function parseEvent(\SG_iCal_VEvent $event)
+    {
+        $test = new Test();
+        $test->setId($event->getUID());
+        $test->setName($event->getSummary());
+        $date = new \DateTime();
+        $date->setTimestamp($event->getStart());
+        $test->setDate($date);
+        $test->setNumReminder(0);
+        $test->setStatus(Test::STATUS_FUTURE);
+        $description = $event->getDescription();
+        $res = explode ( "\n" , $description );
+        $teachName = $res[count($res)-2];
+        $teachName = explode(" ", $teachName)[0];
+        
+        return $test;
+    }
+
+    public function addTeacherByMailIfNotIn(String $email)
+    {
 
     }
 
     public function findTestsTeacher(Test $test)                                                        // Give the teacher's name for a given test(=param)
     {
-        $uid = $test->getFinishToken();                                                                 // The Finish Token is the uid of his Test
+        $uid = $test->getId();                                                                          // The id is the uid of his Test
         $classNum = $test->getClassrooms(0)->getClassNum();                                             // Give the id of a class related to the test
         $res = array();                                                                                 //
         $url = "https://srv-ade.insa-toulouse.fr/jsp/custom/modules/plannings/anonymous_cal.jsp?resources="

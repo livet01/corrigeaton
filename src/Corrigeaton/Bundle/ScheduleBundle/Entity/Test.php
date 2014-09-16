@@ -12,12 +12,16 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Test
 {
+    const STATUS_FUTURE = "0";
+    const STATUS_NOTCORRECTED = "1";
+    const STATUS_CORRECTED = "2";
+
     /**
      * @var integer
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\GeneratedValue(strategy="NONE")
      */
     private $id;
 
@@ -88,6 +92,18 @@ class Test
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set id
+     *
+     * @param int id
+     * @return Test
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+        return $this;
     }
 
     /**
