@@ -19,7 +19,6 @@ class TestType extends AbstractType
             ->add('date')
             ->add('numReminder')
             ->add('finishToken')
-            ->add('isFinished')
             ->add('status')
             ->add('classrooms')
             ->add('teacher')

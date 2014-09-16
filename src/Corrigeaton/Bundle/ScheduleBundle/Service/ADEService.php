@@ -117,7 +117,7 @@ class ADEService
         $res = explode ( "\n" , $description );
         $teachName = $res[count($res)-2];
         $teachName = explode(" ", $teachName)[0];
-        
+        $test->setTeacher($this->findTeacher($teachName));
         return $test;
     }
 
@@ -191,6 +191,8 @@ class ADEService
             throw new ResourceNotFoundException("Teacher \"".$name."\" not found");
         }
 
+        $this->em->persist($teacher);
+        $this->em->flush();
         return $teacher;
     }
 }
