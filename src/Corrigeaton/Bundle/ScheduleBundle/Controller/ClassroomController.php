@@ -31,8 +31,19 @@ class ClassroomController extends Controller
 
         $entities = $em->getRepository('CorrigeatonScheduleBundle:Classroom')->findAll();
 
+        $deleteForms = array();
+        foreach($entities as $entity){
+            $deleteForms[] = $this->createDeleteForm($entity->getId())->createView();
+        }
+
+        $entity = new Classroom();
+        $form   = $this->createCreateForm($entity);
+
         return array(
             'entities' => $entities,
+            'delete_forms' => $deleteForms,
+            'entity' => $entity,
+            'form'   => $form->createView(),
         );
     }
     /**
@@ -40,10 +51,19 @@ class ClassroomController extends Controller
      *
      * @Route("/", name="classroom_create")
      * @Method("POST")
-     * @Template("CorrigeatonScheduleBundle:Classroom:new.html.twig")
+     * @Template("CorrigeatonScheduleBundle:Classroom:index.html.twig")
      */
     public function createAction(Request $request)
     {
+        $em = $this->getDoctrine()->getManager();
+
+        $entities = $em->getRepository('CorrigeatonScheduleBundle:Classroom')->findAll();
+
+        $deleteForms = array();
+        foreach($entities as $entity){
+            $deleteForms[] = $this->createDeleteForm($entity->getId())->createView();
+        }
+
         $entity = new Classroom();
 
         $form = $this->createCreateForm($entity);
@@ -60,6 +80,8 @@ class ClassroomController extends Controller
         }
 
         return array(
+            'entities' => $entities,
+            'delete_forms' => $deleteForms,
             'entity' => $entity,
             'form'   => $form->createView(),
         );
@@ -82,24 +104,6 @@ class ClassroomController extends Controller
         $form->add('submit', 'submit', array('label' => 'Create'));
 
         return $form;
-    }
-
-    /**
-     * Displays a form to create a new Classroom entity.
-     *
-     * @Route("/new", name="classroom_new")
-     * @Method("GET")
-     * @Template()
-     */
-    public function newAction()
-    {
-        $entity = new Classroom();
-        $form   = $this->createCreateForm($entity);
-
-        return array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
-        );
     }
 
     /**
