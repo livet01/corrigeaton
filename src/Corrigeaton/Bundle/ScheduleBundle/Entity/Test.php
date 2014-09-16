@@ -12,6 +12,10 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Test
 {
+    const STATUS_FUTURE = "0";
+    const STATUS_NOTCORRECTED = "1";
+    const STATUS_CORRECTED = "2";
+
     /**
      * @var integer
      *
@@ -48,6 +52,13 @@ class Test
      * @ORM\Column(name="finishToken", type="string", length=255)
      */
     private $finishToken;
+
+    /**
+     * @var uid
+     * @ORM\Column(name="uid", type="string", length=255)
+     */
+    private $uid;
+
 
     /**
      * @var string
@@ -88,6 +99,18 @@ class Test
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set id
+     *
+     * @param int id
+     * @return Test
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+        return $this;
     }
 
     /**
@@ -136,6 +159,27 @@ class Test
         return $this->date;
     }
 
+    /**
+     * Set uid
+     *
+     * @param string
+     * @return Test
+     */
+    public function setUid($uid)
+    {
+        $this->uid = $uid;
+        return $this;
+    }
+
+    /**
+     * Get uid
+     *
+     * @return string
+     */
+    public function getUid()
+    {
+        return $this->uid;
+    }
     /**
      * Set numReminder
      *

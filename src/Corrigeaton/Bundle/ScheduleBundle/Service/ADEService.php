@@ -7,6 +7,7 @@ use Corrigeaton\Bundle\ScheduleBundle\Entity\Test;
 use Corrigeaton\Bundle\ScheduleBundle\Exception\ResourceNotFoundException;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\DomCrawler\Crawler;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 /**
  * Class ADEService manage connexion with planning, ade and INSA annuaire
@@ -14,6 +15,8 @@ use Symfony\Component\DomCrawler\Crawler;
  */
 class ADEService
 {
+
+
     /**
      * @var EntityManager
      */
@@ -75,6 +78,7 @@ class ADEService
      */
     public function findAndAddTests($id, \DateTime $beginAt, \DateTime $endAt){
 
+        $totem = false;
         // Find event in id classes at today
         $url = sprintf($this->urlADE,$id,$beginAt->format("Y-m-d"),$endAt->format("Y-m-d"));
 
@@ -87,17 +91,42 @@ class ADEService
             foreach($evts as $event){
 
                 // Begin by EX -> is an exam
-                if(strpos($event->getSummary(),"EX ") === 0){
-                    //TODO check is in BD or not
+                if(strpos($event->getSummary(),"CM") === 0){
+                    $uid = $event->getUID();
+                    $evBD = $this->em->getRepository('CorrigeatonScheduleBundle:Test')->findOneBy(array("uid" => $uid));
+                    if(!$evBD)
+                    {
+                        $this->em->persist($this->parseEvent($event));
+                    }
                 }
             }
         }
+        $this->em->flush();
+    }
 
+    private function parseEvent(\SG_iCal_VEvent $event)
+    {
+        $test = new Test();
+        $test->setName($event->getSummary());
+        $date = new \DateTime();
+        $date->setTimestamp($event->getStart());
+        $test->setDate($date);
+        $test->setNumReminder(0);
+        $test->setUid($event->getUID());
+        $token = (string)rand();
+        $test->setFinishToken($event->getUID().$token);
+        $test->setStatus(Test::STATUS_FUTURE);
+        $description = $event->getDescription();
+        $res = explode ( "\n" , $description );
+        $teachName = $res[count($res)-2];
+        $teachName = explode(" ", $teachName)[0];
+        $test->setTeacher($this->findTeacher($teachName));
+        return $test;
     }
 
     public function findTestsTeacher(Test $test)                                                        // Give the teacher's name for a given test(=param)
     {
-        $uid = $test->getFinishToken();                                                                 // The Finish Token is the uid of his Test
+        $uid = $test->getUID();                                                                          // The token is the uid of his Test
         $classNum = $test->getClassrooms(0)->getClassNum();                                             // Give the id of a class related to the test
         $res = array();                                                                                 //
         $url = "https://srv-ade.insa-toulouse.fr/jsp/custom/modules/plannings/anonymous_cal.jsp?resources="
@@ -134,7 +163,6 @@ class ADEService
     private function findTeacherAnnuaire($name){
 
         $teacher = new Teacher();
-
         // Data post to send
         $data = array('texteNom' => urlencode($name));
 
@@ -147,7 +175,7 @@ class ADEService
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true); // Follow 302 redirection return by the first page
         $output = curl_exec($ch);
         curl_close($ch);
-
+        echo "teacherannuaire1";
         // Parse Teacher info with DOMCrawler
         try{
             $crawler = new Crawler($output);
@@ -159,7 +187,8 @@ class ADEService
         catch(\InvalidArgumentException $e){
             throw new ResourceNotFoundException("Teacher \"".$name."\" not found");
         }
-
+        $this->em->persist($teacher);
+        $this->em->flush();
         return $teacher;
     }
 }
