@@ -28,7 +28,7 @@
                             {% for entity in entities %}
                                 <tr>
                                     <td>{{ entity.name }} ({{ entity.id }})</td>
-                                    <td>{{ entity.date }}</td>
+                                    <td>{{ entity.date|date("d/m/Y") }}</td>
                                     <td>{{ entity.numReminder }}</td>
                                     <td>{{ entity.status }}</td>
                                 </tr>

@@ -4,6 +4,7 @@ namespace Corrigeaton\Bundle\ScheduleBundle\Service;
 use Corrigeaton\Bundle\ScheduleBundle\Entity\Classroom;
 use Corrigeaton\Bundle\ScheduleBundle\Entity\Teacher;
 use Corrigeaton\Bundle\ScheduleBundle\Entity\Test;
+use Corrigeaton\Bundle\ScheduleBundle\Exception\BadEventException;
 use Corrigeaton\Bundle\ScheduleBundle\Exception\ResourceNotFoundException;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\DomCrawler\Crawler;
@@ -96,7 +97,11 @@ class ADEService
                     $evBD = $this->em->getRepository('CorrigeatonScheduleBundle:Test')->findOneBy(array("uid" => $uid));
                     if(!$evBD)
                     {
-                        $this->em->persist($this->parseEvent($event));
+                        try{
+                            $this->em->persist($this->parseEvent($event));
+                        }
+                        catch(BadEventException $e){var_dump('Bad');}
+                        catch(ResourceNotFoundException $e){var_dump('Not found : '.$e->getMessage());}
                     }
                 }
             }
@@ -106,6 +111,18 @@ class ADEService
 
     private function parseEvent(\SG_iCal_VEvent $event)
     {
+        // Check validity of event
+        $description = $event->getDescription();
+        var_dump($description);
+
+        $res = explode ( "\n" , $description );
+
+        $teachNameAndInitial = $res[count($res)-2];
+
+        if(!$this->isTeacher($teachNameAndInitial)){
+            throw new BadEventException();
+        }
+
         $test = new Test();
         $test->setName($event->getSummary());
         $date = new \DateTime();
@@ -116,11 +133,22 @@ class ADEService
         $token = (string)rand();
         $test->setFinishToken($event->getUID().$token);
         $test->setStatus(Test::STATUS_FUTURE);
-        $description = $event->getDescription();
-        $res = explode ( "\n" , $description );
-        $teachNameAndInitial = $res[count($res)-2];
-        $test->setTeacher($this->findTeacher($teachNameAndInitial));
+        $test->setTeacher($this->findTeacher($this->getSurname($teachNameAndInitial),$this->getInital($teachNameAndInitial)));
         return $test;
+    }
+
+    private function isTeacher($fullName){
+        return count(explode(" ",$fullName)) >= 2;
+    }
+
+    private function getInital($fullName){
+        $res = explode(" ",$fullName);
+        return trim($res[1][0]);
+    }
+
+    private function getSurname($fullName){
+        $res = explode(" ",$fullName);
+        return trim($res[0]);
     }
 
     public function findTestsTeacher(Test $test)                                                        // Give the teacher's name for a given test(=param)
@@ -142,14 +170,12 @@ class ADEService
      * @return Teacher
      * @throws \Corrigeaton\Bundle\ScheduleBundle\Exception\ResourceNotFoundException
      */
-    public function findTeacher($nameAndInitial)
+    public function findTeacher($surname, $initial)
     {
-        $temp = explode(" ", $nameAndInitial);
-        $name=$temp[0];
-        $teacher = $this->em->getRepository('CorrigeatonScheduleBundle:Teacher')->findOneByName($name);
+        $teacher = $this->em->getRepository('CorrigeatonScheduleBundle:Teacher')->findOneBySurname($surname);
 
         if(!$teacher){
-            return $this->findTeacherAnnuaire($nameAndInitial);
+            return $this->findTeacherAnnuaire($surname,$initial);
         }
 
         return $teacher;
@@ -165,14 +191,13 @@ class ADEService
      * @return Teacher
      * @throws \Corrigeaton\Bundle\ScheduleBundle\Exception\ResourceNotFoundException
      */
-    public function findTeacherAnnuaire($nameAndInitial){
+    public function findTeacherAnnuaire($surname, $initial){
 
         $teacher = new Teacher();
+
         // Data post to send
-        $temp = explode(" ", $nameAndInitial);
-        $name = $temp[0];
-        $initial = explode(".", $temp[1])[0];
-        $data = array('texteNom' => urlencode($name));
+        $data = array('texteNom' => $surname);
+
         // Get page detail for a teacher
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $this->urlAnnuaire);
@@ -197,11 +222,11 @@ class ADEService
             $teachers = array();
 
             if($results->count() === 1){ // Have more results
-                $results->filter("tbody > tr")->each(function ($node, $i) use ($name, $initial, &$teachers){
+                $results->filter("tbody > tr")->each(function ($node, $i) use ($surname, $initial, &$teachers){
 
                     $node = $node->children();
 
-                    if(strcasecmp($node->eq(0)->html(),$name) === 0 && stripos($node->eq(1)->html(),$initial) === 0){
+                    if(strcasecmp($node->eq(0)->html(),$surname) === 0 && stripos($node->eq(1)->html(),$initial) === 0){
                         $teacher = new Teacher();
                         $teacher->setSurname($node->eq(0)->html());
                         $teacher->setName($node->eq(1)->html());
@@ -214,16 +239,15 @@ class ADEService
                     $teacher = $teachers[0];
                 }
                 else {
-                    throw new ResourceNotFoundException("Teacher \"".$name."\" not found");
+                    throw new ResourceNotFoundException("Teacher \"".$surname.' '.$initial."\" not found");
                 }
             }
             else{ // Unknown
-                throw new ResourceNotFoundException("Teacher \"".$name."\" not found");
+                throw new ResourceNotFoundException("Teacher \"".$surname.' '.$initial."\" not found");
             }
         }
 
         $this->em->persist($teacher);
-        $this->em->flush();
         return $teacher;
     }
 }
