@@ -77,9 +77,8 @@ class ADEService
      * @param \DateTime $beginAt
      * @param \DateTime $endAt
      */
-    public function findAndAddTests($id, \DateTime $beginAt, \DateTime $endAt){
+    public function findTests($id, \DateTime $beginAt, \DateTime $endAt){
 
-        $totem = false;
         // Find event in id classes at today
         $url = sprintf($this->urlADE,$id,$beginAt->format("Y-m-d"),$endAt->format("Y-m-d"));
 
@@ -93,34 +92,24 @@ class ADEService
 
                 // Begin by EX -> is an exam
                 if(strpos($event->getSummary(),"CM") === 0){
-                    $uid = $event->getUID();
-                    $evBD = $this->em->getRepository('CorrigeatonScheduleBundle:Test')->findOneBy(array("uid" => $uid));
-                    if(!$evBD)
-                    {
-                        try{
-                            $this->em->persist($this->parseEvent($event));
-                        }
-                        catch(BadEventException $e){var_dump('Bad');}
-                        catch(ResourceNotFoundException $e){var_dump('Not found : '.$e->getMessage());}
-                    }
+                    $tests[] = $event;
                 }
             }
         }
-        $this->em->flush();
+        return $tests;
     }
 
-    private function parseEvent(\SG_iCal_VEvent $event)
+    public function parseEvent(\SG_iCal_VEvent $event)
     {
         // Check validity of event
         $description = $event->getDescription();
-        var_dump($description);
 
         $res = explode ( "\n" , $description );
 
-        $teachNameAndInitial = $res[count($res)-2];
+        $teachNameAndInitial = $this->clearParticule($res[count($res)-2]);
 
         if(!$this->isTeacher($teachNameAndInitial)){
-            throw new BadEventException();
+            throw new BadEventException("Bad event : ".$event->getSummary());
         }
 
         $test = new Test();
@@ -134,6 +123,7 @@ class ADEService
         $test->setFinishToken($event->getUID().$token);
         $test->setStatus(Test::STATUS_FUTURE);
         $test->setTeacher($this->findTeacher($this->getSurname($teachNameAndInitial),$this->getInital($teachNameAndInitial)));
+
         return $test;
     }
 
@@ -150,18 +140,8 @@ class ADEService
         $res = explode(" ",$fullName);
         return trim($res[0]);
     }
-
-    public function findTestsTeacher(Test $test)                                                        // Give the teacher's name for a given test(=param)
-    {
-        $uid = $test->getUID();                                                                          // The token is the uid of his Test
-        $classNum = $test->getClassrooms(0)->getClassNum();                                             // Give the id of a class related to the test
-        $res = array();                                                                                 //
-        $url = "https://srv-ade.insa-toulouse.fr/jsp/custom/modules/plannings/anonymous_cal.jsp?resources="
-            .$classNum."&projectId=4&calType=ical&firstDate=2014-08-04&lastDate=2015-07-31";            // Url to the calendar of the class chosed
-        $week = file_get_contents($url);                                                                // Put the calendar (ics version) in 'week'
-        $regexp = "/([^ n]*) P.\\\\n[(][^()]*[)]\nuid:".$uid;                                           // Reg Exp which find the teacher related to a test (found because of the uid)
-        preg_match($regexp, $week, $res);                                                               // Search for the teacher's name in brackets
-        return $res[1];
+    private function clearParticule($fullName){
+        return trim(preg_replace("/([dleauDLEAU]{2}[ ]{1})*/","",$fullName));
     }
 
     /**
@@ -172,10 +152,10 @@ class ADEService
      */
     public function findTeacher($surname, $initial)
     {
-        $teacher = $this->em->getRepository('CorrigeatonScheduleBundle:Teacher')->findOneBySurname($surname);
+        $teacher = $this->em->getRepository('CorrigeatonScheduleBundle:Teacher')->findOneBy(array('ADEname'=>$surname));
 
         if(!$teacher){
-            return $this->findTeacherAnnuaire($surname,$initial);
+            $teacher =  $this->findTeacherAnnuaire($surname,$initial);
         }
 
         return $teacher;
@@ -191,9 +171,10 @@ class ADEService
      * @return Teacher
      * @throws \Corrigeaton\Bundle\ScheduleBundle\Exception\ResourceNotFoundException
      */
-    public function findTeacherAnnuaire($surname, $initial){
+    private function findTeacherAnnuaire($surname, $initial){
 
         $teacher = new Teacher();
+        $teacher->setADEname($surname);
 
         // Data post to send
         $data = array('texteNom' => $surname);
@@ -228,6 +209,7 @@ class ADEService
 
                     if(strcasecmp($node->eq(0)->html(),$surname) === 0 && stripos($node->eq(1)->html(),$initial) === 0){
                         $teacher = new Teacher();
+                        $teacher->setADEname($surname);
                         $teacher->setSurname($node->eq(0)->html());
                         $teacher->setName($node->eq(1)->html());
                         $teacher->setEmail($this->clearEmail($node->eq(2)->children()->html()));
@@ -248,6 +230,7 @@ class ADEService
         }
 
         $this->em->persist($teacher);
+        $this->em->flush();
         return $teacher;
     }
 }

@@ -39,6 +39,13 @@ class Teacher
     /**
      * @var string
      *
+     * @ORM\Column(name="ADEname", type="string", length=255)
+     */
+    private $ADEname;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="email", type="string", length=255)
      * @Assert\Email(
      *     message = "'{{ value }}' n'est pas un email valide.",
@@ -232,5 +239,28 @@ class Teacher
     public function getTests()
     {
         return $this->tests;
+    }
+
+    /**
+     * Set ADEname
+     *
+     * @param string $aDEname
+     * @return Teacher
+     */
+    public function setADEname($aDEname)
+    {
+        $this->ADEname = $aDEname;
+
+        return $this;
+    }
+
+    /**
+     * Get ADEname
+     *
+     * @return string 
+     */
+    public function getADEname()
+    {
+        return $this->ADEname;
     }
 }
