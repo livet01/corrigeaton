@@ -52,20 +52,7 @@
 
         <div class="navbar-default sidebar" role="navigation">
             <div class="sidebar-nav navbar-collapse">
-                <ul class="nav" id="side-menu">
-                    <li>
-                        <a href="#" title="{% trans %}Vers l'accueil{% endtrans %}"><i class="fa fa-beer fa-fw"></i> {% trans %}Accueil{% endtrans %}</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('teacher') }}" title="{% trans %}Vers la liste d'enseignants{% endtrans %}"><i class="fa fa-graduation-cap fa-fw"></i> {% trans %}Enseignants{% endtrans %}</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('classroom') }}" title="{% trans %}Vers la liste des classes{% endtrans %}"><i class="fa fa-users  fa-fw"></i> {% trans %}Classes{% endtrans %}</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('test') }}" title="{% trans %}Vers la liste des examens{% endtrans %}"><i class="fa fa-gavel  fa-fw"></i> {% trans %}Examens{% endtrans %}</a>
-                    </li>
-                </ul>
+            {{ knp_menu_render('CorrigeatonScheduleBundle:Builder:mainMenu',{ 'currentClass': 'active'}) }}
             </div>
             <!-- /.sidebar-collapse -->
         </div>
