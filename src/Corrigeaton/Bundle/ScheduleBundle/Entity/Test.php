@@ -12,9 +12,9 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Test
 {
-    const STATUS_FUTURE = "0";
-    const STATUS_NOTCORRECTED = "1";
-    const STATUS_CORRECTED = "2";
+    const STATUS_FUTURE = "future";
+    const STATUS_NOTCORRECTED = "notCorrected";
+    const STATUS_CORRECTED = "corrected";
 
     /**
      * @var integer

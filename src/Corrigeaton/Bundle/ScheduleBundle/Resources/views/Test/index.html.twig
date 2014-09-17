@@ -2,35 +2,99 @@
 {% extends 'CorrigeatonScheduleBundle::base.html.twig' %}
 {% block title %}{% trans %}Examen{% endtrans %}{% endblock %}
 {% block content -%}
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">{% trans %} Examens{% endtrans %}</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-danger">
+            <div class="panel-heading">
+                <i class="fa fa-list fa-fw"></i> {% trans %} Liste des examens non corrigés{% endtrans %}
+            </div>
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>{% trans %}Nom{% endtrans %}</th>
+                            <th>{% trans %}Date{% endtrans %}</th>
+                            <th>{% trans %}Enseignant{% endtrans %}</th>
+                            <th>{% trans %}Rappels{% endtrans %}</th>
+                            <th>{% trans %}Actions{% endtrans %}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for entity in notCorrected %}
+                            <tr>
+                                <td>{{ entity.name }} ({{ entity.id }})</td>
+                                <td>{{ entity.date|date("d/m/Y") }}</td>
+                                <td>{{ entity.teacher }}</td>
+                                <td>{{ entity.numReminder }}</td>
+                                <td></td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
     <div class="row">
-        <div class="col-lg-12">
-            <h1 class="page-header">{% trans %} Examens{% endtrans %}</h1>
+        <div class="col-lg-6">
             <div class="panel panel-default">
                 <div class="panel-heading">
+                    <i class="fa fa-list fa-fw"></i> {% trans %} Liste des examens à venir{% endtrans %}
+                </div>
+                <div class="panel-body">
                     <div class="table-responsive">
                         <table class="table">
                             <thead>
                             <tr>
                                 <th>{% trans %}Nom{% endtrans %}</th>
                                 <th>{% trans %}Date{% endtrans %}</th>
-                                <th>{% trans %}Rappels{% endtrans %}</th>
-                                <th>{% trans %}Statut{% endtrans %}</th>
+                                <th>{% trans %}Enseignant{% endtrans %}</th>
                             </tr>
-                            <div class="pull-right">
-                                <div class="btn-group">
-                                    <a class="btn btn-primary" href="{{ path('test_new') }}">
-                                        <i class="fa fa-plus"></i> {% trans %} Nouveau{% endtrans %}
-                                    </a>
-                                </div>
-                            </div>
                             </thead>
                             <tbody>
-                            {% for entity in entities %}
+                            {% for entity in future %}
                                 <tr>
-                                    <td>{{ entity.name }} ({{ entity.id }})</td>
+                                    <td>{{ entity.name }}</td>
                                     <td>{{ entity.date|date("d/m/Y") }}</td>
-                                    <td>{{ entity.numReminder }}</td>
-                                    <td>{{ entity.status }}</td>
+                                    <td>{{ entity.teacher }}</td>
+                                    <td></td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <i class="fa fa-list fa-fw"></i> {% trans %} Historique des examens{% endtrans %}
+                </div>
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>{% trans %}Nom{% endtrans %}</th>
+                                <th>{% trans %}Date{% endtrans %}</th>
+                                <th>{% trans %}Enseignant{% endtrans %}</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for entity in corrected %}
+                                <tr>
+                                    <td>{{ entity.name }}</td>
+                                    <td>{{ entity.date|date("d/m/Y") }}</td>
+                                    <td>{{ entity.teacher }}</td>
+                                    <td></td>
                                 </tr>
                             {% endfor %}
                             </tbody>
@@ -40,4 +104,5 @@
             </div>
         </div>
     </div>
+
 {% endblock %}

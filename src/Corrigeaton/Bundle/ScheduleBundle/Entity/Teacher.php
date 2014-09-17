@@ -263,4 +263,8 @@ class Teacher
     {
         return $this->ADEname;
     }
+
+    public function __toString(){
+        return $this->getName()." ".$this->getSurname();
+    }
 }

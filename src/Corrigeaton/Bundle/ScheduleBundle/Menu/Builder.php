@@ -14,16 +14,16 @@ class Builder extends ContainerAware
         $menu->setChildrenAttribute('id','side-menu');
         $menu->setChildrenAttribute('class','nav');
 
-        $menu->addChild('Home', array(
+        $menu->addChild('Accueil', array(
             'route' => 'dashboard'
         ))->setExtra('logo','beer');
-        $menu->addChild('Teacher', array(
+        $menu->addChild('Enseignants', array(
             'route' => 'teacher',
         ))->setExtra('logo','graduation-cap');
-        $menu->addChild('Classroom', array(
+        $menu->addChild('Classes', array(
             'route' => 'classroom',
         ))->setExtra('logo','user');
-        $menu->addChild('Test', array(
+        $menu->addChild('Examens', array(
             'route' => 'test',
         ))->setExtra('logo','gavel');
 

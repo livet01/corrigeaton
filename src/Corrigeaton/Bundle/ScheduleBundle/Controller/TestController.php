@@ -31,8 +31,27 @@ class TestController extends Controller
 
         $entities = $em->getRepository('CorrigeatonScheduleBundle:Test')->findAll();
 
+        $future = array();
+        $notCorrected = array();
+        $corrected = array();
+
+        foreach($entities as $entity){
+            switch($entity->getStatus()){
+                case Test::STATUS_FUTURE:
+                    $future[] = $entity;
+                    break;
+                case Test::STATUS_CORRECTED:
+                    $corrected[] = $entity;
+                    break;
+                case Test::STATUS_NOTCORRECTED:
+                    $notCorrected[] = $notCorrected;
+            }
+        }
+
         return array(
-            'entities' => $entities,
+            'future' => $future,
+            'corrected' => $corrected,
+            'notCorrected' => $notCorrected,
         );
     }
     /**

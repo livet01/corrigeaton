@@ -31,8 +31,19 @@ class TeacherController extends Controller
 
         $entities = $em->getRepository('CorrigeatonScheduleBundle:Teacher')->findAll();
 
+        $unregistered = array();
+        $registered = array();
+        foreach($entities as $entity){
+            if($entity->getIsUnregistered()){
+                $unregistered[] = $entity;
+            }
+            else
+                $registered[] = $entity;
+        }
+
         return array(
-            'entities' => $entities,
+            'registered' => $registered,
+            'unregistered' => $unregistered,
         );
     }
 
