@@ -138,7 +138,7 @@ class ADEService
 
     /**
      * Find in BD or in INSA annuaire the teacher with his name
-     * @param String $name Teacher name
+     * @param String $nameAndInitial Teacher name
      * @return Teacher
      * @throws \Corrigeaton\Bundle\ScheduleBundle\Exception\ResourceNotFoundException
      */
@@ -146,7 +146,7 @@ class ADEService
     {
         $temp = explode(" ", $nameAndInitial);
         $name=$temp[0];
-        $teacher = $this->em->getRepository('CorrigeatonScheduleBundle:Teacher')->findByName($name);
+        $teacher = $this->em->getRepository('CorrigeatonScheduleBundle:Teacher')->findOneByName($name);
 
         if(!$teacher){
             return $this->findTeacherAnnuaire($nameAndInitial);
@@ -155,21 +155,24 @@ class ADEService
         return $teacher;
     }
 
+    private function clearEmail($email){
+        return str_replace('<span style="display: none;"> </span>',"",$email);
+    }
+
     /**
      * Find in INSA annuaire the teacher
-     * @param $name
+     * @param $nameAndInitial
      * @return Teacher
      * @throws \Corrigeaton\Bundle\ScheduleBundle\Exception\ResourceNotFoundException
      */
-    private function findTeacherAnnuaire($nameAndInitial){
+    public function findTeacherAnnuaire($nameAndInitial){
 
         $teacher = new Teacher();
         // Data post to send
-        $temp = explode(" ", $nameAndInitial)[0];
+        $temp = explode(" ", $nameAndInitial);
         $name = $temp[0];
         $initial = explode(".", $temp[1])[0];
         $data = array('texteNom' => urlencode($name));
-
         // Get page detail for a teacher
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $this->urlAnnuaire);
@@ -179,33 +182,46 @@ class ADEService
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true); // Follow 302 redirection return by the first page
         $output = curl_exec($ch);
         curl_close($ch);
-        // Parse Teacher info with DOMCrawler
-        try{
-            $crawler = new Crawler($output);
-            $moreThanOne = $crawler->filter(".result-report > strong")->children();
-            $results = $crawler->filter(".results tbody ")->children();
-            $data = array();
-            foreach ($results as $result => $node) {
-                if(strcasecmp($node->eq(1)->html(), $name)  == 0)
-                {
-                    $teacher->setName($node->eq(1)->html());
-                    $teacher->setSurname($node->eq(2)->html());
-                    $teacher->setEmail($node->eq(3)->children()->html());
+
+        $crawler = new Crawler($output);
+
+        $detail = $crawler->filter("#content > dl.detail");
+        if($detail->count() === 1){ // Have 1 result
+            $detail = $detail->children();
+            $teacher->setSurname($detail->eq(1)->html());
+            $teacher->setName($detail->eq(3)->html());
+            $teacher->setEmail($this->clearEmail($detail->eq(5)->children()->html()));
+        }
+        else { // Have more or 0 result
+            $results = $crawler->filter("#content div.results");
+            $teachers = array();
+
+            if($results->count() === 1){ // Have more results
+                $results->filter("tbody > tr")->each(function ($node, $i) use ($name, $initial, &$teachers){
+
+                    $node = $node->children();
+
+                    if(strcasecmp($node->eq(0)->html(),$name) === 0 && stripos($node->eq(1)->html(),$initial) === 0){
+                        $teacher = new Teacher();
+                        $teacher->setSurname($node->eq(0)->html());
+                        $teacher->setName($node->eq(1)->html());
+                        $teacher->setEmail($this->clearEmail($node->eq(2)->children()->html()));
+                        $teachers[] = $teacher;
+                    }
+                });
+
+                if(count($teachers) == 1){
+                    $teacher = $teachers[0];
+                }
+                else {
+                    throw new ResourceNotFoundException("Teacher \"".$name."\" not found");
                 }
             }
-        }
-        catch(\InvalidArgumentException $e){
-            try{
-                $detail = $crawler->filter("#content > dl.detail")->children();
-                $teacher->setSurname($detail->eq(1)->html());
-                $teacher->setName($detail->eq(3)->html());
-                $teacher->setEmail($detail->eq(5)->children()->html());
-            }
-            catch(\InvalidArgumentException $e){
+            else{ // Unknown
                 throw new ResourceNotFoundException("Teacher \"".$name."\" not found");
             }
-
         }
+
         $this->em->persist($teacher);
         $this->em->flush();
         return $teacher;
