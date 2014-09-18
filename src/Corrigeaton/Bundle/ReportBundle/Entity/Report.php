@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Report
  *
- * @ORM\Table()
+ * @ORM\Table(name="report_report")
  * @ORM\Entity
  */
 class Report
@@ -24,7 +24,7 @@ class Report
     /**
      * @var boolean
      *
-     * @ORM\Column(name="isFinished" type="boolean")
+     * @ORM\Column(name="isFinished", type="boolean")
      */
     private $isFinished = false;
 

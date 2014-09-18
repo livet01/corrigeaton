@@ -11,12 +11,18 @@ namespace Corrigeaton\Bundle\ReportBundle\Listener;
 
 use Corrigeaton\Bundle\ReportBundle\Entity\Report;
 use Corrigeaton\Bundle\ReportBundle\Event\ReportEvent;
+use Doctrine\ORM\EntityManager;
 
 class ReportListener {
     /**
      * @var EntityManager
      */
     private $em;
+
+    function __construct($em)
+    {
+        $this->em = $em;
+    }
 
     public function onReportEvent(ReportEvent $reportEvent)
     {
@@ -28,10 +34,11 @@ class ReportListener {
         $data = array();
         foreach ($reflectedProperties as $reflectedProperty)
         {
-            $data[$reflectedProperty->getName()] = $reflectedProperty->getValue();
+            $reflectedProperty->setAccessible(true);
+            $data[$reflectedProperty->getName()] = $reflectedProperty->getValue($classReportEvent);
         }
         $report->setData($data);
-        $report->setType($classReportEvent->get_class());
+        $report->setType(get_class($classReportEvent));
         $this->em->persist($report);
         $this->em->flush();
 

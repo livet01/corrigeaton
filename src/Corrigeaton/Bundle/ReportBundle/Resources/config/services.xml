@@ -6,12 +6,13 @@
 
 
     <parameters>
-        <parameter key="corrigeaton_report.report_listener.class">Corrigeaton\Bundle\ReportBundle\ReportListener</parameter>
+        <parameter key="corrigeaton_report.report_listener.class">Corrigeaton\Bundle\ReportBundle\Listener\ReportListener</parameter>
     </parameters>
 
     <services>
         <service id="corrigeaton_report.report_listener" class="%corrigeaton_report.report_listener.class%">
             <argument type="service" id="doctrine.orm.entity_manager" />
+            <tag name ="kernel.event_listener" event="corrigeaton_report.events.report" method="onReportEvent"/>
         </service>
     </services>
 

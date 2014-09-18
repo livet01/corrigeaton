@@ -101,16 +101,7 @@ class ADEService
 
     public function parseEvent(\SG_iCal_VEvent $event)
     {
-        // Check validity of event
-        $description = $event->getDescription();
 
-        $res = explode ( "\n" , $description );
-
-        $teachNameAndInitial = $this->clearParticule($res[count($res)-2]);
-
-        if(!$this->isTeacher($teachNameAndInitial)){
-            throw new BadEventException("Bad event : ".$event->getSummary());
-        }
 
         $test = new Test();
         $test->setName($event->getSummary());
@@ -119,9 +110,18 @@ class ADEService
         $test->setDate($date);
         $test->setNumReminder(0);
         $test->setUid($event->getUID());
-        $token = (string)rand();
-        $test->setFinishToken($event->getUID().$token);
+        $test->setFinishToken((string)rand());
         $test->setStatus(Test::STATUS_FUTURE);
+        // Check validity of event
+        $description = $event->getDescription();
+
+        $res = explode ( "\n" , $description );
+
+        $teachNameAndInitial = $this->clearParticule($res[count($res)-2]);
+
+        if(!$this->isTeacher($teachNameAndInitial)){
+            throw new BadEventException($test, "Bad event : ".$event->getSummary());
+        }
         $test->setTeacher($this->findTeacher($this->getSurname($teachNameAndInitial),$this->getInital($teachNameAndInitial)));
 
         return $test;
@@ -221,11 +221,11 @@ class ADEService
                     $teacher = $teachers[0];
                 }
                 else {
-                    throw new ResourceNotFoundException("Teacher \"".$surname.' '.$initial."\" not found");
+                    throw new ResourceNotFoundException($teacher, "Teacher \"".$surname.' '.$initial."\" not found");
                 }
             }
             else{ // Unknown
-                throw new ResourceNotFoundException("Teacher \"".$surname.' '.$initial."\" not found");
+                throw new ResourceNotFoundException($teacher, "Teacher \"".$surname.' '.$initial."\" not found");
             }
         }
 

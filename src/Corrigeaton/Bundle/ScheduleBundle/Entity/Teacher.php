@@ -2,7 +2,6 @@
 
 namespace Corrigeaton\Bundle\ScheduleBundle\Entity;
 
-use Corrigeaton\Bundle\ReportBundle\Service\ReportEntityInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -12,7 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(name="schedule_teacher")
  * @ORM\Entity
  */
-class Teacher implements ReportEntityInterface
+class Teacher
 {
     /**
      * @var integer
