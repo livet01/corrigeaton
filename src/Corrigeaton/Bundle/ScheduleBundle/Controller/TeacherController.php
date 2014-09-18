@@ -149,7 +149,11 @@ class TeacherController extends Controller
         if ($editForm->isValid()) {
             $em->flush();
 
-            return $this->redirect($this->generateUrl('teacher_edit', array('id' => $id)));
+            $this->get('session')->getFlashBag()->add(
+                'success',
+                $entity.' a été modifié.'
+            );
+            return $this->redirect($this->generateUrl('teacher_show', array('id' => $id)));
         }
 
         return array(
