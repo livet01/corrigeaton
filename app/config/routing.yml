@@ -1,3 +1,8 @@
+corrigeaton_report:
+    resource: "@CorrigeatonReportBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 corrigeaton_schedule:
     resource: "@CorrigeatonScheduleBundle/Controller/"
     type:     annotation
