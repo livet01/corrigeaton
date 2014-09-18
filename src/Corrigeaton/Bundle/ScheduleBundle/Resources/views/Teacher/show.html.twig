@@ -11,7 +11,9 @@
     <h1 class="page-header">
         {% trans %}Enseignant{% endtrans %} - {{ teacher.name }} {{ teacher.surname }}
         <a class="btn btn-sm btn-default" href="{{ path('teacher_edit', { 'id': teacher.id }) }}" title="{% trans %}Editer{% endtrans %}"><i class="fa fa-pencil"></i></a>
-        </h1>
+        <a class="btn btn-sm btn-default" href="{{ path('teacher_toggle_register', { 'id': teacher.id }) }}" title="{% trans %}Désabonner{% endtrans %}"><i class="fa fa-bell{% if not teacher.isUnregistered %}-slash{% endif %}"></i></a>
+
+    </h1>
 </div>
 
 {% endblock %}
@@ -32,10 +34,10 @@
                             </thead>
                             <tbody>
                             {% for exam in exams %}
-                                <tr>
+                                <tr{% if exam.status == constant('Corrigeaton\\Bundle\\ScheduleBundle\\Entity\\Test::STATUS_NOTCORRECTED') %} class="danger" {%
+                                elseif exam.status == constant('Corrigeaton\\Bundle\\ScheduleBundle\\Entity\\Test::STATUS_CORRECTED')%}class="success"{% endif %}>
                                     <td>{{ exam.name }}</td>
                                     <td>{{ exam.date|date("d/m/Y") }}</td>
-                                    <td></td>
                                 </tr>
                             {% endfor %}
                             </tbody>
