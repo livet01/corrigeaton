@@ -32,7 +32,7 @@ class ReportListener {
         }
         $report->setData($data);
         $report->setType($classReportEvent->get_class());
-        $this->$em->persist($report);
+        $this->em->persist($report);
         $this->em->flush();
 
     }
