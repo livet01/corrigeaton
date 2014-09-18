@@ -66,17 +66,17 @@ class TeacherController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('CorrigeatonScheduleBundle:Teacher')->find($id);
+        $teacher = $em->getRepository('CorrigeatonScheduleBundle:Teacher')->find($id);
 
-        if (!$entity) {
+        if (!$teacher) {
             throw $this->createNotFoundException('Unable to find Teacher entity.');
         }
 
-        $deleteForm = $this->createDeleteForm($id);
+        $exams = $em->getRepository('CorrigeatonScheduleBundle:Test')->findByTeacher($teacher);
 
         return array(
-            'entity'      => $entity,
-            'delete_form' => $deleteForm->createView(),
+            'teacher'      => $teacher,
+            'exams'        => $exams
         );
     }
 
