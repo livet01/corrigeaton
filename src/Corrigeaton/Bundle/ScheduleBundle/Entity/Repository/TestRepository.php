@@ -26,4 +26,15 @@ class TestRepository extends EntityRepository
             ->getSingleScalarResult();
     }
 
+    public function countTestByStatus($status)
+    {
+        return $this->getEntityManager()->createQueryBuilder()
+            ->select('count(t)')
+            ->from('CorrigeatonScheduleBundle:Test', 't')
+            ->where('t.status = :status')
+            ->setParameter('status', $status)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
 }

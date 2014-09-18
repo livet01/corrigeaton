@@ -2,6 +2,7 @@
 
 namespace Corrigeaton\Bundle\ScheduleBundle\Entity;
 
+use Corrigeaton\Bundle\ReportBundle\Service\ReportEntityInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Corrigeaton\Bundle\ScheduleBundle\Constraint as ScheduleAssert;
