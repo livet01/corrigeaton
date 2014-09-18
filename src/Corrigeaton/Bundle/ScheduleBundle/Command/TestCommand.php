@@ -5,7 +5,7 @@ namespace Corrigeaton\Bundle\ScheduleBundle\Command;
 
 use Corrigeaton\Bundle\ScheduleBundle\Exception\BadEventException;
 use Corrigeaton\Bundle\ScheduleBundle\Exception\ResourceNotFoundException;
-use Proxies\__CG__\Corrigeaton\Bundle\ScheduleBundle\Entity\Classroom;
+use Corrigeaton\Bundle\ScheduleBundle\Entity\Classroom;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
