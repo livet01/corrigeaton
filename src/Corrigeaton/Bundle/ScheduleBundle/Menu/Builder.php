@@ -17,6 +17,9 @@ class Builder extends ContainerAware
         $menu->addChild('Accueil', array(
             'route' => 'dashboard'
         ))->setExtra('logo','beer');
+        $menu->addChild('Rapports', array(
+            'route' => 'report'
+        ))->setExtra('logo','bolt');
         $menu->addChild('Enseignants', array(
             'route' => 'teacher',
         ))->setExtra('logo','graduation-cap');

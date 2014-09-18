@@ -8,7 +8,8 @@ use Doctrine\ORM\Mapping as ORM;
  * Report
  *
  * @ORM\Table(name="report_report")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Corrigeaton\Bundle\ReportBundle\Entity\Repository\ReportRepository")
+
  */
 class Report
 {
@@ -180,5 +181,9 @@ class Report
     public function getData()
     {
         return $this->data;
+    }
+    public function dateToString()
+    {
+        return date_format($this->date, 'H:i d-m');
     }
 }

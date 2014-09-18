@@ -1,0 +1,49 @@
+{% extends 'CorrigeatonScheduleBundle::base.html.twig' %}
+
+
+{% block body -%}
+    <h1>Report</h1>
+
+    <table class="record_properties">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ entity.id }}</td>
+            </tr>
+            <tr>
+                <th>Isfinished</th>
+                <td>{{ entity.isFinished }}</td>
+            </tr>
+            <tr>
+                <th>Log</th>
+                <td>{{ entity.log }}</td>
+            </tr>
+            <tr>
+                <th>Date</th>
+                <td>{{ entity.date|date('Y-m-d H:i:s') }}</td>
+            </tr>
+            <tr>
+                <th>Type</th>
+                <td>{{ entity.type }}</td>
+            </tr>
+            <tr>
+                <th>Data</th>
+                <td>{{ entity.data }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+        <ul class="record_actions">
+    <li>
+        <a href="{{ path('report') }}">
+            Back to the list
+        </a>
+    </li>
+    <li>
+        <a href="{{ path('report_edit', { 'id': entity.id }) }}">
+            Edit
+        </a>
+    </li>
+    <li>{{ form(delete_form) }}</li>
+</ul>
+{% endblock %}
