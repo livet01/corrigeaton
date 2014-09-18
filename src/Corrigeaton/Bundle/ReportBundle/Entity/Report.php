@@ -22,6 +22,14 @@ class Report
     private $id;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="isFinished" type="boolean")
+     */
+    private $isFinished = false;
+
+
+    /**
      * @var string
      *
      * @ORM\Column(name="log", type="string", length=255)
@@ -48,6 +56,11 @@ class Report
      * @ORM\Column(name="data", type="array")
      */
     private $data;
+
+    function __construct()
+    {
+        $this->date = new \DateTime();
+    }
 
 
     /**
@@ -105,6 +118,23 @@ class Report
     {
         return $this->date;
     }
+
+    /**
+     * @param boolean $isFinished
+     */
+    public function setIsFinished($isFinished)
+    {
+        $this->isFinished = $isFinished;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getIsFinished()
+    {
+        return $this->isFinished;
+    }
+
 
     /**
      * Set type

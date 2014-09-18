@@ -2,6 +2,7 @@
 
 namespace Corrigeaton\Bundle\ScheduleBundle\Entity;
 
+use Corrigeaton\Bundle\ReportBundle\Service\ReportEntityInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -11,7 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(name="schedule_teacher")
  * @ORM\Entity
  */
-class Teacher
+class Teacher implements ReportEntityInterface
 {
     /**
      * @var integer
@@ -82,6 +83,8 @@ class Teacher
         $this->setUnregisterToken(uniqid("",true));
         $this->tests = new \Doctrine\Common\Collections\ArrayCollection();
     }
+
+
 
     /**
      * Get id
@@ -267,4 +270,5 @@ class Teacher
     public function __toString(){
         return $this->getName()." ".$this->getSurname();
     }
+
 }
