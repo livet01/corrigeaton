@@ -108,6 +108,41 @@ class TeacherController extends Controller
     }
 
     /**
+     * Désinscrit un enseignant
+     * 
+     * @Route("/{id}/toggle/register", name="teacher_toggle_register")
+     * @Method("GET")
+     */
+    public function unregisterAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $teacher = $em->getRepository("CorrigeatonScheduleBundle:Teacher")->find($id);
+        if(!$teacher)
+        {
+            throw $this->createNotFoundException("Unable to find teacher entity");
+        }
+
+        if($teacher->getIsUnregistered())
+        {
+            $teacher->setIsUnregistered(false);
+            $what = "abonné";
+        } else {
+            $teacher->setIsUnregistered(true);
+            $what = "désabonné";
+        }
+
+        $em->flush();
+
+        $this->get('session')->getFlashBag()->add(
+                'success',
+                'La professeur '.$teacher->getName().' '.$teacher->getSurname().' a été '.$what.'.'
+            );
+
+        return $this->redirect($this->generateUrl('teacher'));
+    }
+
+    /**
     * Creates a form to edit a Teacher entity.
     *
     * @param Teacher $entity The entity
