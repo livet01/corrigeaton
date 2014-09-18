@@ -2,6 +2,7 @@
 
 namespace Corrigeaton\Bundle\ScheduleBundle\Controller;
 
+use Corrigeaton\Bundle\ScheduleBundle\Entity\Test;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -37,8 +38,15 @@ class TeacherController extends Controller
             if($entity->getIsUnregistered()){
                 $unregistered[] = $entity;
             }
-            else
-                $registered[] = $entity;
+            else {
+                $registered[] = array('entity'=>$entity,
+                    'count' => array(
+                        Test::STATUS_FUTURE => $em->getRepository('CorrigeatonScheduleBundle:Test')->countNameTestTeacherStatus($entity,Test::STATUS_FUTURE),
+                        Test::STATUS_NOTCORRECTED => $em->getRepository('CorrigeatonScheduleBundle:Test')->countNameTestTeacherStatus($entity,Test::STATUS_NOTCORRECTED),
+                        Test::STATUS_CORRECTED => $em->getRepository('CorrigeatonScheduleBundle:Test')->countNameTestTeacherStatus($entity,Test::STATUS_CORRECTED)
+                    ));
+
+            }
         }
 
         return array(

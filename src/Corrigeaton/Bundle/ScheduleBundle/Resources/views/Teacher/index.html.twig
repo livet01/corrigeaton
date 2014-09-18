@@ -26,11 +26,11 @@
                         <tbody>
                         {% for entity in registered %}
                             <tr>
-                                <td>{{ entity.name }} {{ entity.surname }}</td>
-                                <td>{{ entity.email }}</td>
-                                <td><span class="label label-success">- <i class="fa fa-check"></i></span> <span  class="label label-danger">- <i class="fa fa-times"></i></span> <span  class="label label-default">- <i class="fa fa-plus"></i></span></td>
+                                <td>{{ entity.entity.name }} {{ entity.entity.surname }}</td>
+                                <td>{{ entity.entity.email }}</td>
+                                <td><span class="label label-success">{{ entity.count.corrected }} <i class="fa fa-check"></i></span> <span  class="label label-danger">{{ entity.count.notCorrected }} <i class="fa fa-times"></i></span> <span  class="label label-default">{{ entity.count.future }} <i class="fa fa-plus"></i></span></td>
                                 <td>
-                                    <a class="btn btn-sm btn-default" href="{{ path('teacher_edit', { 'id': entity.id }) }}" title="{% trans %}Editer{% endtrans %}"><i class="fa fa-pencil"></i></a>
+                                    <a class="btn btn-sm btn-default" href="{{ path('teacher_edit', { 'id': entity.entity.id }) }}" title="{% trans %}Editer{% endtrans %}"><i class="fa fa-pencil"></i></a>
 
                                 </td>
                             </tr>
