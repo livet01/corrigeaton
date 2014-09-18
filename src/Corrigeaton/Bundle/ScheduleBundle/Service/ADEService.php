@@ -128,7 +128,8 @@ class ADEService
     }
 
     private function isTeacher($fullName){
-        return count(explode(" ",$fullName)) >= 2;
+        $res = explode(" ",$fullName);
+        return count($res) >= 2 && strlen($res[0]) >= 1 && strlen($res[1]) >=1 ;
     }
 
     private function getInital($fullName){
