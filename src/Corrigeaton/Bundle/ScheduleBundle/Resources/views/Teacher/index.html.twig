@@ -28,7 +28,7 @@
                         <tbody>
                         {% for entity in registered %}
                             <tr>
-                                <td>{{ entity.entity.name }} {{ entity.entity.surname }}</td>
+                                <td><a href="{{ path("teacher_show",{id:entity.entity.id}) }}">{{ entity.entity.name }} {{ entity.entity.surname }}</a></td>
                                 <td>{{ entity.entity.email }}</td>
                                 <td><span class="label label-success">{{ entity.count[constant('Corrigeaton\\Bundle\\ScheduleBundle\\Entity\\Test::STATUS_CORRECTED')] }} <i class="fa fa-check"></i></span> <span  class="label label-danger">{{ entity.count[constant('Corrigeaton\\Bundle\\ScheduleBundle\\Entity\\Test::STATUS_NOTCORRECTED')] }} <i class="fa fa-times"></i></span> <span  class="label label-default">{{ entity.count[constant('Corrigeaton\\Bundle\\ScheduleBundle\\Entity\\Test::STATUS_FUTURE')] }} <i class="fa fa-plus"></i></span></td>
                                 <td>

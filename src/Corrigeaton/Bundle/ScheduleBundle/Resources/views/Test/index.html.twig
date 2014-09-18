@@ -32,7 +32,7 @@
                             <tr>
                                 <td>{{ entity.name }} ({{ entity.id }})</td>
                                 <td>{{ entity.date|date("d/m/Y") }}</td>
-                                <td>{{ entity.teacher }}</td>
+                                <td><a href="{{ path("teacher_show",{id:entity.teacher.id}) }}">{{ entity.teacher }}</a></td>
                                 <td>{{ entity.numReminder }}</td>
                                 <td></td>
                             </tr>
@@ -65,7 +65,7 @@
                                 <tr>
                                     <td>{{ entity.name }}</td>
                                     <td>{{ entity.date|date("d/m/Y") }}</td>
-                                    <td>{{ entity.teacher }}</td>
+                                    <td><a href="{{ path("teacher_show",{id:entity.teacher.id}) }}">{{ entity.teacher }}</a></td>
                                     <td></td>
                                 </tr>
                             {% endfor %}
@@ -95,7 +95,7 @@
                                 <tr>
                                     <td>{{ entity.name }}</td>
                                     <td>{{ entity.date|date("d/m/Y") }}</td>
-                                    <td>{{ entity.teacher }}</td>
+                                    <td><a href="{{ path("teacher_show",{id:entity.teacher.id}) }}">{{ entity.teacher }}</a></td>
                                     <td></td>
                                 </tr>
                             {% endfor %}
