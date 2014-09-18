@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Test
  *
  * @ORM\Table(name="schedule_test")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Corrigeaton\Bundle\ScheduleBundle\Entity\Repository\TestRepository")
  */
 class Test
 {
@@ -70,7 +70,7 @@ class Test
     /**
      * @var \Doctrine\Common\Collections\ArrayCollection
      *
-     * @ORM\ManyToMany(targetEntity="Classroom", inversedBy="tests")
+     * @ORM\ManyToMany(targetEntity="Classroom")
      * @ORM\JoinColumn(name="classroom_id", referencedColumnName="id")
      */
     protected $classrooms;

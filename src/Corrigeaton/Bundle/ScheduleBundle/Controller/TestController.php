@@ -44,7 +44,7 @@ class TestController extends Controller
                     $corrected[] = $entity;
                     break;
                 case Test::STATUS_NOTCORRECTED:
-                    $notCorrected[] = $notCorrected;
+                    $notCorrected[] = $entity;
             }
         }
 
