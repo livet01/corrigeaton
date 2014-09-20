@@ -31,6 +31,9 @@
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
+    <link rel="apple-touch-icon" type="image/png" href="{{ asset("apple-touch-icon.png") }}">
+    <link rel="apple-touch-icon-precomposed" type="image/png" href="{{ asset("apple-touch-icon.png") }}">
+    <link rel="icon" href="{{ asset("favicon.ico") }}" />
 </head>
 
 <body>
@@ -46,7 +49,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">{% trans %}Corrigeaton{% endtrans %}</a>
+            <a class="navbar-brand" href="{{ path("dashboard") }}"><img src="{{ asset("bundles/corrigeatonschedule/img/logo.png") }}"/>{% trans %}Corrigeaton{% endtrans %}</a>
         </div>
 
         <!-- /.navbar-top-links -->
