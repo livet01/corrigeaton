@@ -6,7 +6,7 @@
  * Time: 14:30
  */
 
-namespace Corrigeaton\Bundle\ReportBundle\Listener;
+namespace Corrigeaton\Bundle\ReportBundle\EventListener;
 
 
 use Corrigeaton\Bundle\ReportBundle\Entity\Report;

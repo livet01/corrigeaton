@@ -7,6 +7,7 @@
 
     <parameters>
         <parameter key="corrigeaton_schedule.ade_service.class">Corrigeaton\Bundle\ScheduleBundle\Service\ADEService</parameter>
+        <parameter key="corrigeaton_schedule.menu.class">Corrigeaton\Bundle\ScheduleBundle\Menu\Builder</parameter>
         <parameter key="validator.corrigeaton_schedule.contains_id_valid.class">Corrigeaton\Bundle\ScheduleBundle\Constraint\ContainsIDValidValidator</parameter>
     </parameters>
 
@@ -20,6 +21,14 @@
         <service id="validator.corrigeaton_schedule.contains_id_valid" class="%validator.corrigeaton_schedule.contains_id_valid.class%">
             <argument type="service" id="corrigeaton_schedule.ade_service" />
             <tag name="validator.constraint_validator" alias="id_valid_validator" />
+        </service>
+        <service id="corrigeaton_schedule.menu_builder" class="%corrigeaton_schedule.menu.class%">
+            <argument type="service" id="knp_menu.factory" />
+            <argument type="service" id="event_dispatcher" />
+        </service>
+        <service id="corrigeaton_schedule.menu" class="Knp\Menu\MenuItem" factory-service="corrigeaton_schedule.menu_builder" factory-method="mainMenu" scope="request">
+            <argument type="service" id="request" />
+            <tag name="knp_menu.menu" alias="main" />
         </service>
     </services>
 
