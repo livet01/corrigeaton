@@ -2,14 +2,27 @@
 
 namespace Corrigeaton\Bundle\ScheduleBundle\Menu;
 
+use Corrigeaton\Bundle\ScheduleBundle\Event\ConfigureMenuEvent;
 use Knp\Menu\FactoryInterface;
-use Symfony\Component\DependencyInjection\ContainerAware;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\HttpFoundation\Request;
 
-class Builder extends ContainerAware
+class Builder
 {
-    public function mainMenu(FactoryInterface $factory, array $options)
+
+    private $factory;
+    private $eventDispatcher;
+
+    function __construct(FactoryInterface $factory, EventDispatcherInterface $eventDispatcher)
     {
-        $menu = $factory->createItem('root');
+        $this->factory = $factory;
+        $this->eventDispatcher = $eventDispatcher;
+    }
+
+
+    public function mainMenu(Request $request)
+    {
+        $menu = $this->factory->createItem('root');
 
         $menu->setChildrenAttribute('id','side-menu');
         $menu->setChildrenAttribute('class','nav');
@@ -17,9 +30,6 @@ class Builder extends ContainerAware
         $menu->addChild('Accueil', array(
             'route' => 'dashboard'
         ))->setExtra('logo','beer');
-        $menu->addChild('Rapports', array(
-            'route' => 'report'
-        ))->setExtra('logo','bolt');
         $menu->addChild('Enseignants', array(
             'route' => 'teacher',
         ))->setExtra('logo','graduation-cap');
@@ -29,6 +39,8 @@ class Builder extends ContainerAware
         $menu->addChild('Examens', array(
             'route' => 'test',
         ))->setExtra('logo','gavel');
+
+        $this->eventDispatcher->dispatch(ConfigureMenuEvent::CONFIGURE,new ConfigureMenuEvent($this->factory,$menu));
 
         return $menu;
     }
