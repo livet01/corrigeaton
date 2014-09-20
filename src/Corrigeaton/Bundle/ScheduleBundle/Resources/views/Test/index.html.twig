@@ -17,7 +17,7 @@
             </div>
             <div class="panel-body">
                 <div class="table-responsive">
-                    <table class="table">
+                    <table class="table" id="test-notCorrected-list">
                         <thead>
                         <tr>
                             <th>{% trans %}Nom{% endtrans %}</th>
@@ -31,7 +31,7 @@
                         {% for entity in notCorrected %}
                             <tr>
                                 <td>{{ entity.name }} ({{ entity.id }})</td>
-                                <td>{{ entity.date|date("d/m/Y") }}</td>
+                                <td data-order="{{ entity.date|date("U") }}">{{ entity.date|date("d/m/Y") }}</td>
                                 <td><a href="{{ path("teacher_show",{id:entity.teacher.id}) }}">{{ entity.teacher }}</a></td>
                                 <td>{{ entity.numReminder }}</td>
                                 <td></td>
@@ -52,7 +52,7 @@
                 </div>
                 <div class="panel-body">
                     <div class="table-responsive">
-                        <table class="table">
+                        <table class="table" id="test-future-list">
                             <thead>
                             <tr>
                                 <th>{% trans %}Nom{% endtrans %}</th>
@@ -64,9 +64,8 @@
                             {% for entity in future %}
                                 <tr>
                                     <td>{{ entity.name }}</td>
-                                    <td>{{ entity.date|date("d/m/Y") }}</td>
+                                    <td data-order="{{ entity.date|date("U") }}">{{ entity.date|date("d/m/Y") }}</td>
                                     <td><a href="{{ path("teacher_show",{id:entity.teacher.id}) }}">{{ entity.teacher }}</a></td>
-                                    <td></td>
                                 </tr>
                             {% endfor %}
                             </tbody>
@@ -82,7 +81,7 @@
                 </div>
                 <div class="panel-body">
                     <div class="table-responsive">
-                        <table class="table">
+                        <table class="table" id="test-corrected-list">
                             <thead>
                             <tr>
                                 <th>{% trans %}Nom{% endtrans %}</th>
@@ -94,9 +93,8 @@
                             {% for entity in corrected %}
                                 <tr>
                                     <td>{{ entity.name }}</td>
-                                    <td>{{ entity.date|date("d/m/Y") }}</td>
+                                    <td data-order="{{ entity.date|date("U") }}">{{ entity.date|date("d/m/Y") }}</td>
                                     <td><a href="{{ path("teacher_show",{id:entity.teacher.id}) }}">{{ entity.teacher }}</a></td>
-                                    <td></td>
                                 </tr>
                             {% endfor %}
                             </tbody>
@@ -107,4 +105,36 @@
         </div>
     </div>
 
+{% endblock %}
+
+{% block javascript %}
+    <script>
+        $(document).ready(function() {
+            $('#test-notCorrected-list').dataTable({
+                language: {
+                    url: '{{ asset("bundles/corrigeatonschedule/js/plugins/dataTables/French.json") }}'
+                },
+                "order": [[ 1, "asc" ]],
+                aoColumns: [
+                    null,
+                    null,
+                    null,
+                    null,
+                    { "bSortable": false , "searchable": false}
+                ]
+            });
+            $('#test-corrected-list').dataTable({
+                language: {
+                    url: '{{ asset("bundles/corrigeatonschedule/js/plugins/dataTables/French.json") }}'
+                },
+                "order": [[ 1, "asc" ]]
+            });
+            $('#test-future-list').dataTable({
+                language: {
+                    url: '{{ asset("bundles/corrigeatonschedule/js/plugins/dataTables/French.json") }}'
+                },
+                "order": [[ 1, "asc" ]]
+            });
+        });
+    </script>
 {% endblock %}

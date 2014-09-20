@@ -16,7 +16,7 @@
             </div>
             <div class="panel-body">
                 <div class="table-responsive">
-                    <table class="table">
+                    <table class="table" id="teacher-list">
                         <thead>
                         <tr>
                             <th>Nom</th>
@@ -50,7 +50,7 @@
             </div>
             <div class="panel-body">
                 <div class="table-responsive">
-                    <table class="table">
+                    <table class="table" id="teacher-unregistered-list">
                         <thead>
                         <tr>
                             <th>Nom</th>
@@ -73,4 +73,33 @@
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block javascript %}
+<script>
+    $(document).ready(function() {
+        $('#teacher-list').dataTable({
+            language: {
+                url: '{{ asset("bundles/corrigeatonschedule/js/plugins/dataTables/French.json") }}'
+            },
+
+            aoColumns: [
+                null,
+                null,
+                { "bSortable": false , "searchable": false},
+                { "bSortable": false , "searchable": false},
+            ]
+        });
+        $('#teacher-unregistered-list').dataTable({
+            language: {
+                url: '{{ asset("bundles/corrigeatonschedule/js/plugins/dataTables/French.json") }}'
+            },
+
+            aoColumns: [
+                null,
+                { "bSortable": false , "searchable": false},
+            ]
+        });
+    });
+</script>
 {% endblock %}

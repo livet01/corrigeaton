@@ -18,7 +18,7 @@
                 </div>
                 <div class="panel-body">
                     <div class="table-responsive">
-                        <table class="table">
+                        <table class="table" id="classroom-list">
                             <thead>
                                 <tr>
                                     <th>Nom</th>
@@ -70,3 +70,21 @@
     {%- endif -%}
     <button class="btn btn-danger" type="{{ type|default('button') }}" {{ block('button_attributes') }} title="{{ label|trans({}, translation_domain) }}"><i class="fa fa-trash-o"></i></button>
 {%- endblock button_widget %}
+
+{% block javascript %}
+    <script>
+        $(document).ready(function() {
+            $('#classroom-list').dataTable({
+                language: {
+                    url: '{{ asset("bundles/corrigeatonschedule/js/plugins/dataTables/French.json") }}'
+                },
+
+                aoColumns: [
+                    null,
+                    null,
+                    { "bSortable": false , "searchable": false},
+                ]
+            });
+        });
+    </script>
+{% endblock %}
