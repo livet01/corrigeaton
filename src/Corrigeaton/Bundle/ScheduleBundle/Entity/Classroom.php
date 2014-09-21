@@ -117,4 +117,8 @@ class Classroom
     {
         return $this->name;
     }
+
+    public function __toString(){
+        return str_replace('_'," ",$this->getName());
+    }
 }

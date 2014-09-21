@@ -12,53 +12,7 @@
 
 	<div class="row">
 
-		<div class="col-lg-4 col-md-6">
-			<div class="panel panel-green">
-				<div class="panel-heading">
-					<div class="row">
-						<div class="col-xs-3">
-							<i class="fa fa-glass fa-5x"></i>
-						</div>
-						<div class="col-xs-9 text-right">
-							<div class="huge">{{ count[constant('Corrigeaton\\Bundle\\ScheduleBundle\\Entity\\Test::STATUS_CORRECTED')] }}</div>
-							<div>Examens corrigés</div>
-						</div>
-					</div>
-				</div>
-				<a href="{{ path('test') }}">
-					<div class="panel-footer">
-						<span class="pull-left">Voir les détails</span>
-						<span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-						<div class="clearfix"></div>
-					</div>
-				</a>
-			</div>
-		</div>
-
-		<div class="col-lg-4 col-md-6">
-			<div class="panel panel-primary">
-				<div class="panel-heading">
-					<div class="row">
-						<div class="col-xs-3">
-							<i class="fa fa-list fa-5x"></i>
-						</div>
-						<div class="col-xs-9 text-right">
-							<div class="huge">{{ count[constant('Corrigeaton\\Bundle\\ScheduleBundle\\Entity\\Test::STATUS_FUTURE')] }}</div>
-							<div>Examens à venir</div>
-						</div>
-					</div>
-				</div>
-				<a href="{{ path('test') }}">
-					<div class="panel-footer">
-						<span class="pull-left">Voir les détails</span>
-						<span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-						<div class="clearfix"></div>
-					</div>
-				</a>
-			</div>
-		</div>
-
-		<div class="col-lg-4 col-md-6">
+		<div class="col-lg-3 col-md-6">
 			<div class="panel panel-red">
 				<div class="panel-heading">
 					<div class="row">
@@ -66,8 +20,8 @@
 							<i class="fa fa-fire-extinguisher fa-5x"></i>
 						</div>
 						<div class="col-xs-9 text-right">
-							<div class="huge">{{ count[constant('Corrigeaton\\Bundle\\ScheduleBundle\\Entity\\Test::STATUS_NOTCORRECTED')] }}</div>
-							<div>Examens non corrigés</div>
+							<div class="huge">{{ count[true] }}/{{ count[true]+count[false] }}</div>
+							<div>Examens corrigés</div>
 						</div>
 					</div>
 				</div>

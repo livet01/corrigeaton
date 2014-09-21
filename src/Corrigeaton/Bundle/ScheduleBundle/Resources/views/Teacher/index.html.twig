@@ -30,7 +30,7 @@
                             <tr>
                                 <td><a href="{{ path("teacher_show",{id:entity.entity.id}) }}">{{ entity.entity.name }} {{ entity.entity.surname }}</a></td>
                                 <td>{{ entity.entity.email }}</td>
-                                <td><span class="label label-success">{{ entity.count[constant('Corrigeaton\\Bundle\\ScheduleBundle\\Entity\\Test::STATUS_CORRECTED')] }} <i class="fa fa-check"></i></span> <span  class="label label-danger">{{ entity.count[constant('Corrigeaton\\Bundle\\ScheduleBundle\\Entity\\Test::STATUS_NOTCORRECTED')] }} <i class="fa fa-times"></i></span> <span  class="label label-default">{{ entity.count[constant('Corrigeaton\\Bundle\\ScheduleBundle\\Entity\\Test::STATUS_FUTURE')] }} <i class="fa fa-plus"></i></span></td>
+                                <td><span class="label label-success">{{ entity.count[true] }} <i class="fa fa-check"></i></span> <span  class="label label-danger">{{ entity.count[false] }} <i class="fa fa-times"></i></span></td>
                                 <td>
                                     <a class="btn btn-sm btn-default" href="{{ path('teacher_edit', { 'id': entity.entity.id }) }}" title="{% trans %}Editer{% endtrans %}"><i class="fa fa-pencil"></i></a>
                                     <a class="btn btn-sm btn-default" href="{{ path('teacher_toggle_register', { 'id': entity.entity.id }) }}" title="{% trans %}Désabonner{% endtrans %}"><i class="fa fa-bell-slash"></i></a>

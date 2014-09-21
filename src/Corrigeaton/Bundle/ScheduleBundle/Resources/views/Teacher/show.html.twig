@@ -35,8 +35,7 @@
                             </thead>
                             <tbody>
                             {% for exam in exams %}
-                                <tr{% if exam.status == constant('Corrigeaton\\Bundle\\ScheduleBundle\\Entity\\Test::STATUS_NOTCORRECTED') %} class="danger" {%
-                                elseif exam.status == constant('Corrigeaton\\Bundle\\ScheduleBundle\\Entity\\Test::STATUS_CORRECTED')%}class="success"{% endif %}>
+                                <tr{% if exam.isCorrected == false %} class="danger"{% endif %}>
                                     <td>{{ exam.name }}</td>
                                     <td data-order="{{ exam.date|date("U") }}">{{ exam.date|date("d/m/Y") }}</td>
                                 </tr>

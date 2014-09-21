@@ -12,16 +12,13 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Test
 {
-    const STATUS_FUTURE = "future";
-    const STATUS_NOTCORRECTED = "notCorrected";
-    const STATUS_CORRECTED = "corrected";
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="id", type="integer")
+     * @ORM\Column(name="id", type="string")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\GeneratedValue(strategy="NONE")
      */
     private $id;
 
@@ -40,11 +37,18 @@ class Test
     private $date;
 
     /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="date_corrected", type="datetime", nullable=true)
+     */
+    private $dateCorrected;
+
+    /**
      * @var integer
      *
      * @ORM\Column(name="numReminder", type="integer")
      */
-    private $numReminder;
+    private $numReminder = 0;
 
     /**
      * @var string
@@ -52,20 +56,6 @@ class Test
      * @ORM\Column(name="finishToken", type="string", length=255)
      */
     private $finishToken;
-
-    /**
-     * @var uid
-     * @ORM\Column(name="uid", type="string", length=255)
-     */
-    private $uid;
-
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="status", type="string", length=255)
-     */
-    private $status;
 
     /**
      * @var \Doctrine\Common\Collections\ArrayCollection
@@ -89,6 +79,7 @@ class Test
     public function __construct()
     {
         $this->classrooms = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->finishToken = uniqid(time(),true);
     }
 
     /**
@@ -104,7 +95,7 @@ class Test
     /**
      * Set id
      *
-     * @param int id
+     * @param string $id
      * @return Test
      */
     public function setId($id)
@@ -160,27 +151,6 @@ class Test
     }
 
     /**
-     * Set uid
-     *
-     * @param string
-     * @return Test
-     */
-    public function setUid($uid)
-    {
-        $this->uid = $uid;
-        return $this;
-    }
-
-    /**
-     * Get uid
-     *
-     * @return string
-     */
-    public function getUid()
-    {
-        return $this->uid;
-    }
-    /**
      * Set numReminder
      *
      * @param integer $numReminder
@@ -224,29 +194,6 @@ class Test
     public function getFinishToken()
     {
         return $this->finishToken;
-    }
-
-    /**
-     * Set status
-     *
-     * @param string $status
-     * @return Test
-     */
-    public function setStatus($status)
-    {
-        $this->status = $status;
-
-        return $this;
-    }
-
-    /**
-     * Get status
-     *
-     * @return string 
-     */
-    public function getStatus()
-    {
-        return $this->status;
     }
 
     /**
@@ -303,5 +250,32 @@ class Test
     public function getTeacher()
     {
         return $this->teacher;
+    }
+
+    public function isCorrected(){
+        return ! is_null($this->dateCorrected);
+    }
+
+    /**
+     * Set dateCorrected
+     *
+     * @param \DateTime $dateCorrected
+     * @return Test
+     */
+    public function setDateCorrected($dateCorrected)
+    {
+        $this->dateCorrected = $dateCorrected;
+
+        return $this;
+    }
+
+    /**
+     * Get dateCorrected
+     *
+     * @return \DateTime 
+     */
+    public function getDateCorrected()
+    {
+        return $this->dateCorrected;
     }
 }

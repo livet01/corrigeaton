@@ -17,12 +17,13 @@
             </div>
             <div class="panel-body">
                 <div class="table-responsive">
-                    <table class="table" id="test-notCorrected-list">
+                    <table class="table table-hover" id="test-notCorrected-list">
                         <thead>
                         <tr>
                             <th>{% trans %}Nom{% endtrans %}</th>
                             <th>{% trans %}Date{% endtrans %}</th>
                             <th>{% trans %}Enseignant{% endtrans %}</th>
+                            <th>{% trans %}Classes{% endtrans %}</th>
                             <th>{% trans %}Rappels{% endtrans %}</th>
                             <th>{% trans %}Actions{% endtrans %}</th>
                         </tr>
@@ -30,11 +31,14 @@
                         <tbody>
                         {% for entity in notCorrected %}
                             <tr>
-                                <td>{{ entity.name }} ({{ entity.id }})</td>
+                                <td>{{ entity.name }}</td>
                                 <td data-order="{{ entity.date|date("U") }}">{{ entity.date|date("d/m/Y") }}</td>
                                 <td><a href="{{ path("teacher_show",{id:entity.teacher.id}) }}">{{ entity.teacher }}</a></td>
+                                <td>{% for classroom in entity.classrooms %}{{ classroom }}{% if not loop.last %}, {% endif %}{% endfor %}</td>
                                 <td>{{ entity.numReminder }}</td>
-                                <td></td>
+                                <td>
+                                    <a class="btn-sm btn-success" href="{{ path("test_corrected",{id:entity.id}) }}" title="{% trans %}Corrigé{% endtrans %}"><i class="fa fa-check"></i></a>
+                                </td>
                             </tr>
                         {% endfor %}
                         </tbody>
@@ -45,36 +49,7 @@
     </div>
 </div>
     <div class="row">
-        <div class="col-lg-6">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <i class="fa fa-list fa-fw"></i> {% trans %} Liste des examens à venir{% endtrans %}
-                </div>
-                <div class="panel-body">
-                    <div class="table-responsive">
-                        <table class="table" id="test-future-list">
-                            <thead>
-                            <tr>
-                                <th>{% trans %}Nom{% endtrans %}</th>
-                                <th>{% trans %}Date{% endtrans %}</th>
-                                <th>{% trans %}Enseignant{% endtrans %}</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {% for entity in future %}
-                                <tr>
-                                    <td>{{ entity.name }}</td>
-                                    <td data-order="{{ entity.date|date("U") }}">{{ entity.date|date("d/m/Y") }}</td>
-                                    <td><a href="{{ path("teacher_show",{id:entity.teacher.id}) }}">{{ entity.teacher }}</a></td>
-                                </tr>
-                            {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-6">
+        <div class="col-lg-12">
             <div class="panel panel-success">
                 <div class="panel-heading">
                     <i class="fa fa-list fa-fw"></i> {% trans %} Historique des examens{% endtrans %}
@@ -87,6 +62,9 @@
                                 <th>{% trans %}Nom{% endtrans %}</th>
                                 <th>{% trans %}Date{% endtrans %}</th>
                                 <th>{% trans %}Enseignant{% endtrans %}</th>
+                                <th>{% trans %}Classes{% endtrans %}</th>
+                                <th>{% trans %}Date de correction{% endtrans %}</th>
+                                <th>{% trans %}Actions{% endtrans %}</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -95,6 +73,11 @@
                                     <td>{{ entity.name }}</td>
                                     <td data-order="{{ entity.date|date("U") }}">{{ entity.date|date("d/m/Y") }}</td>
                                     <td><a href="{{ path("teacher_show",{id:entity.teacher.id}) }}">{{ entity.teacher }}</a></td>
+                                    <td>{% for classroom in entity.classrooms %}{{ classroom }}{% if not loop.last %}, {% endif %}{% endfor %}</td>
+                                    <td data-order="{{ entity.dateCorrected|date("U") }}">{{ entity.dateCorrected|date("d/m/Y") }}</td>
+                                    <td>
+                                        <a class="btn-sm btn-danger" href="{{ path("test_corrected",{id:entity.id}) }}" title="{% trans %}Non corrigé{% endtrans %}"><i class="fa fa-times"></i></a>
+                                    </td>
                                 </tr>
                             {% endfor %}
                             </tbody>
@@ -120,6 +103,7 @@
                     null,
                     null,
                     null,
+                    null,
                     { "bSortable": false , "searchable": false}
                 ]
             });
@@ -127,13 +111,15 @@
                 language: {
                     url: '{{ asset("bundles/corrigeatonschedule/js/plugins/dataTables/French.json") }}'
                 },
-                "order": [[ 1, "asc" ]]
-            });
-            $('#test-future-list').dataTable({
-                language: {
-                    url: '{{ asset("bundles/corrigeatonschedule/js/plugins/dataTables/French.json") }}'
-                },
-                "order": [[ 1, "asc" ]]
+                "order": [[ 1, "asc" ]],
+                aoColumns: [
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    { "bSortable": false , "searchable": false}
+                ]
             });
         });
     </script>

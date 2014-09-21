@@ -79,7 +79,7 @@ class Teacher
      */
     public function __construct()
     {
-        $this->setUnregisterToken(uniqid("",true));
+        $this->setUnregisterToken(uniqid(time(),true));
         $this->tests = new \Doctrine\Common\Collections\ArrayCollection();
     }
 

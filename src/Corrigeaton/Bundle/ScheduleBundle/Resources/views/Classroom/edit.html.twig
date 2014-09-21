@@ -1,6 +1,7 @@
 {% extends 'CorrigeatonScheduleBundle::base.html.twig' %}
 
 {% form_theme edit_form 'CorrigeatonScheduleBundle::form.html.twig' %}
+{% block title %}{% trans %}Classe{% endtrans %} {{ entity.name }}{% endblock %}
 {% block title_content -%}
 <div class="row">
     <div class="col-lg-12">

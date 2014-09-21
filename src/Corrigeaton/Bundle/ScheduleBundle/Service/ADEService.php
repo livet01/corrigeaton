@@ -109,9 +109,8 @@ class ADEService
         $date->setTimestamp($event->getStart());
         $test->setDate($date);
         $test->setNumReminder(0);
-        $test->setUid($event->getUID());
+        $test->setId($event->getUID());
         $test->setFinishToken((string)rand());
-        $test->setStatus(Test::STATUS_FUTURE);
         // Check validity of event
         $description = $event->getDescription();
 
