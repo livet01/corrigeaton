@@ -186,4 +186,5 @@ class Report
     {
         return date_format($this->date, 'H:i d-m');
     }
+
 }

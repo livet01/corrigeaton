@@ -26,8 +26,39 @@
                     {% endif %}
                 </a>
             {%  endfor %}
+            <table class="table" id="report-list">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Log</th>
+                    <th>Type</th>
+                    <th>Date</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for entity in entities %}
+                    <tr>
+                        <td>{{ entity.id }}</td>
+                        <td>{{ entity.log }}</td>
+                        <td>{{ entity.get }}</td>
+                        <td>{{ entity.dateToString }}</td>
+                        <td>
+                            {% form_theme delete_forms[loop.index0] _self %}
+                            {{ form_start(delete_forms[loop.index0]) }}
+                            <div class="btn-group-sm">
+
+                                <a class="btn btn-default" href="{{ path('report_edit', { 'id': entity.id }) }}" title="{% trans %}Editer{% endtrans %}"><i class="fa fa-pencil"></i></a>
+                                {{ form_widget(delete_forms[loop.index0].submit) }}
+                            </div>
+                            {{ form_end(delete_forms[loop.index0]) }}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
         </div>
     </div>
     <!-- /.panel-body -->
 </div>
 {% endblock %}
+

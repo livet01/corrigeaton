@@ -26,21 +26,37 @@ class ReportListener {
 
     public function onReportEvent(ReportEvent $reportEvent)
     {
+
+        $toto = false;
         $report = new Report();
         $classReportEvent = $reportEvent->getClass();
         $reflectedClass = new \ReflectionClass($classReportEvent);
         $report->setLog($reportEvent->getLog());
-        $reflectedProperties = $reflectedClass->getProperties();
-        $data = array();
-        foreach ($reflectedProperties as $reflectedProperty)
+        $reports = $this->em->getRepository('CorrigeatonReportBundle:Report')->findAll();
+        foreach($reports as $rep)
         {
-            $reflectedProperty->setAccessible(true);
-            $data[$reflectedProperty->getName()] = $reflectedProperty->getValue($classReportEvent);
+            if ($rep->getLog() == $report->getLog())
+            {
+                $toto = true;
+            }
+            echo $toto;
         }
-        $report->setData($data);
-        $report->setType(get_class($classReportEvent));
-        $this->em->persist($report);
-        $this->em->flush();
+        if($toto == false)
+        {
+            $reflectedProperties = $reflectedClass->getProperties();
+            $data = array();
+            foreach ($reflectedProperties as $reflectedProperty)
+            {
+                $reflectedProperty->setAccessible(true);
+                $data[$reflectedProperty->getName()] = $reflectedProperty->getValue($classReportEvent);
+            }
+            $report->setData($data);
+
+            $report->setType(get_class($reportEvent));
+            $this->em->persist($report);
+            $this->em->flush();
+        }
+
 
     }
 

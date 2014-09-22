@@ -2,6 +2,7 @@
 
 namespace Corrigeaton\Bundle\ReportBundle\Controller;
 
+use Corrigeaton\Bundle\ReportBundle\Event\ReportEvent;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -45,9 +46,15 @@ class ReportController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $entities = $em->getRepository('CorrigeatonReportBundle:Report')->findAll();
+        $deleteForms = array();
+        foreach($entities as $entity){
+            $deleteForms[] = $this->createDeleteForm($entity->getId())->createView();
+        }
 
         return array(
             'entities' => $entities,
+            'delete_forms' =>$deleteForms,
+
         );
     }
     /**
