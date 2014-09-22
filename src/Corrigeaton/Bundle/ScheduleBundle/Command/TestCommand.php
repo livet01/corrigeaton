@@ -35,13 +35,13 @@ class TestCommand extends ContainerAwareCommand {
             $tests = $this->getContainer()->get("corrigeaton_schedule.ade_service")->findTests($classroom->getId(), new \DateTime(), new \DateTime("2 week"));
 
             foreach($tests as $test){
-                $evBD = $em->getRepository('CorrigeatonScheduleBundle:Test')->findOneByUid(array("uid" => $test->getUID()));
+                $evBD = $em->getRepository('CorrigeatonScheduleBundle:Test')->find($test->getUID());
                 if(!$evBD)
                 {
                     try{
-                        $newTest = $this->getContainer()->get("corrigeaton_schedule.ade_service")->parseEvent($test);
-                        $em->persist($newTest);
-                        $output->writeln("<info>Ajout de ".$newTest->getName().'</info>');
+                        $evBD = $this->getContainer()->get("corrigeaton_schedule.ade_service")->parseEvent($test);
+                        $em->persist($evBD);
+                        $output->writeln("<info>Ajout de ".$evBD->getName().'</info>');
                         $nbTestAdd++;
                     }
                     catch(BadEventException $e){
@@ -53,6 +53,10 @@ class TestCommand extends ContainerAwareCommand {
                     catch(ResourceNotFoundException $e){
                         $reportEvent = new ReportEvent($e->getClass(), $e->getMessage());
                         $output->writeln('<error>'.$e->getMessage()."</error>");}
+                }
+
+                if(!$evBD->getClassrooms()->contains($classroom)){
+                    $evBD->addClassroom($classroom);
                 }
             }
 

@@ -20,8 +20,9 @@
     <!-- Custom CSS -->
     <link href=" {{ asset("bundles/corrigeatonschedule/css/sb-admin-2.css") }}" rel="stylesheet">
 
+    <link href="{{ asset("bundles/corrigeatonschedule/css/plugins/dataTables.bootstrap.css") }}" rel="stylesheet">
     <!-- Custom Fonts -->
-    <link href="{{ asset("bundles/corrigeatonschedule/font-awesome-4.1.0/css/font-awesome.min.css")}}" rel="stylesheet" type="text/css">
+    <link href="{{ asset("bundles/corrigeatonschedule/font-awesome-4.2.0/css/font-awesome.min.css")}}" rel="stylesheet" type="text/css">
     {{ block("stylesheet") }}
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -30,6 +31,9 @@
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
+    <link rel="apple-touch-icon" type="image/png" href="{{ asset("apple-touch-icon.png") }}">
+    <link rel="apple-touch-icon-precomposed" type="image/png" href="{{ asset("apple-touch-icon.png") }}">
+    <link rel="icon" href="{{ asset("favicon.ico") }}" />
 </head>
 
 <body>
@@ -45,14 +49,14 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">{% trans %}Corrigeaton{% endtrans %}</a>
+            <a class="navbar-brand" href="{{ path("dashboard") }}"><img src="{{ asset("bundles/corrigeatonschedule/img/logo.png") }}"/>{% trans %}Corrigeaton{% endtrans %}</a>
         </div>
 
         <!-- /.navbar-top-links -->
 
         <div class="navbar-default sidebar" role="navigation">
             <div class="sidebar-nav navbar-collapse">
-            {{ knp_menu_render('CorrigeatonScheduleBundle:Builder:mainMenu',{ 'currentClass': 'active'}) }}
+            {{ knp_menu_render('main',{ 'currentClass': 'active'}) }}
             </div>
             <!-- /.sidebar-collapse -->
         </div>
@@ -61,6 +65,19 @@
 
     <!-- Page Content -->
     <div id="page-wrapper">
+        {{ block("title_content") }}
+
+        <div class="row">
+                    <div class="col-lg-12">
+                            {% for type, flashMessage in app.session.flashbag %}
+                                 <div class="alert alert-{{ type }} alert-dismissable">
+                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                    {{ flashMessage[0] }}
+                                </div>
+                            {% endfor %}
+                    </div>
+                </div>
+
         {{ block("content") }}
     </div>
     <!-- /#page-wrapper -->
@@ -79,6 +96,8 @@
 
 <!-- Custom Theme JavaScript -->
 <script src="{{ asset("bundles/corrigeatonschedule/js/sb-admin-2.js") }}"></script>
+<script src="{{ asset("bundles/corrigeatonschedule/js/plugins/dataTables/jquery.dataTables.js") }}"></script>
+<script src="{{ asset("bundles/corrigeatonschedule/js/plugins/dataTables/dataTables.bootstrap.js") }}"></script>
 {{ block("javascript") }}
 </body>
 

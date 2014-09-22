@@ -1,12 +1,14 @@
 
 {% extends 'CorrigeatonScheduleBundle::base.html.twig' %}
 {% block title %}{% trans %}Examen{% endtrans %}{% endblock %}
-{% block content -%}
+{% block title_content -%}
 <div class="row">
     <div class="col-lg-12">
         <h1 class="page-header">{% trans %} Examens{% endtrans %}</h1>
     </div>
 </div>
+{% endblock %}
+{% block content %}
 <div class="row">
     <div class="col-lg-12">
         <div class="panel panel-danger">
@@ -15,12 +17,13 @@
             </div>
             <div class="panel-body">
                 <div class="table-responsive">
-                    <table class="table">
+                    <table class="table table-hover" id="test-notCorrected-list">
                         <thead>
                         <tr>
                             <th>{% trans %}Nom{% endtrans %}</th>
                             <th>{% trans %}Date{% endtrans %}</th>
                             <th>{% trans %}Enseignant{% endtrans %}</th>
+                            <th>{% trans %}Classes{% endtrans %}</th>
                             <th>{% trans %}Rappels{% endtrans %}</th>
                             <th>{% trans %}Actions{% endtrans %}</th>
                         </tr>
@@ -28,11 +31,14 @@
                         <tbody>
                         {% for entity in notCorrected %}
                             <tr>
-                                <td>{{ entity.name }} ({{ entity.id }})</td>
-                                <td>{{ entity.date|date("d/m/Y") }}</td>
-                                <td>{{ entity.teacher }}</td>
+                                <td>{{ entity.name }}</td>
+                                <td data-order="{{ entity.date|date("U") }}">{{ entity.date|date("d/m/Y") }}</td>
+                                <td><a href="{{ path("teacher_show",{id:entity.teacher.id}) }}">{{ entity.teacher }}</a></td>
+                                <td>{% for classroom in entity.classrooms %}{{ classroom }}{% if not loop.last %}, {% endif %}{% endfor %}</td>
                                 <td>{{ entity.numReminder }}</td>
-                                <td></td>
+                                <td>
+                                    <a class="btn-sm btn-success" href="{{ path("test_corrected",{id:entity.id}) }}" title="{% trans %}Corrigé{% endtrans %}"><i class="fa fa-check"></i></a>
+                                </td>
                             </tr>
                         {% endfor %}
                         </tbody>
@@ -43,58 +49,35 @@
     </div>
 </div>
     <div class="row">
-        <div class="col-lg-6">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <i class="fa fa-list fa-fw"></i> {% trans %} Liste des examens à venir{% endtrans %}
-                </div>
-                <div class="panel-body">
-                    <div class="table-responsive">
-                        <table class="table">
-                            <thead>
-                            <tr>
-                                <th>{% trans %}Nom{% endtrans %}</th>
-                                <th>{% trans %}Date{% endtrans %}</th>
-                                <th>{% trans %}Enseignant{% endtrans %}</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {% for entity in future %}
-                                <tr>
-                                    <td>{{ entity.name }}</td>
-                                    <td>{{ entity.date|date("d/m/Y") }}</td>
-                                    <td>{{ entity.teacher }}</td>
-                                    <td></td>
-                                </tr>
-                            {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-6">
+        <div class="col-lg-12">
             <div class="panel panel-success">
                 <div class="panel-heading">
                     <i class="fa fa-list fa-fw"></i> {% trans %} Historique des examens{% endtrans %}
                 </div>
                 <div class="panel-body">
                     <div class="table-responsive">
-                        <table class="table">
+                        <table class="table" id="test-corrected-list">
                             <thead>
                             <tr>
                                 <th>{% trans %}Nom{% endtrans %}</th>
                                 <th>{% trans %}Date{% endtrans %}</th>
                                 <th>{% trans %}Enseignant{% endtrans %}</th>
+                                <th>{% trans %}Classes{% endtrans %}</th>
+                                <th>{% trans %}Date de correction{% endtrans %}</th>
+                                <th>{% trans %}Actions{% endtrans %}</th>
                             </tr>
                             </thead>
                             <tbody>
                             {% for entity in corrected %}
                                 <tr>
                                     <td>{{ entity.name }}</td>
-                                    <td>{{ entity.date|date("d/m/Y") }}</td>
-                                    <td>{{ entity.teacher }}</td>
-                                    <td></td>
+                                    <td data-order="{{ entity.date|date("U") }}">{{ entity.date|date("d/m/Y") }}</td>
+                                    <td><a href="{{ path("teacher_show",{id:entity.teacher.id}) }}">{{ entity.teacher }}</a></td>
+                                    <td>{% for classroom in entity.classrooms %}{{ classroom }}{% if not loop.last %}, {% endif %}{% endfor %}</td>
+                                    <td data-order="{{ entity.dateCorrected|date("U") }}">{{ entity.dateCorrected|date("d/m/Y") }}</td>
+                                    <td>
+                                        <a class="btn-sm btn-danger" href="{{ path("test_corrected",{id:entity.id}) }}" title="{% trans %}Non corrigé{% endtrans %}"><i class="fa fa-times"></i></a>
+                                    </td>
                                 </tr>
                             {% endfor %}
                             </tbody>
@@ -105,4 +88,39 @@
         </div>
     </div>
 
+{% endblock %}
+
+{% block javascript %}
+    <script>
+        $(document).ready(function() {
+            $('#test-notCorrected-list').dataTable({
+                language: {
+                    url: '{{ asset("bundles/corrigeatonschedule/js/plugins/dataTables/French.json") }}'
+                },
+                "order": [[ 1, "asc" ]],
+                aoColumns: [
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    { "bSortable": false , "searchable": false}
+                ]
+            });
+            $('#test-corrected-list').dataTable({
+                language: {
+                    url: '{{ asset("bundles/corrigeatonschedule/js/plugins/dataTables/French.json") }}'
+                },
+                "order": [[ 1, "asc" ]],
+                aoColumns: [
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    { "bSortable": false , "searchable": false}
+                ]
+            });
+        });
+    </script>
 {% endblock %}

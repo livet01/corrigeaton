@@ -1,11 +1,13 @@
 {% extends 'CorrigeatonScheduleBundle::base.html.twig' %}
 {% block title %}{% trans %}Enseignant{% endtrans %}{% endblock %}
-{% block content -%}
+{% block title_content -%}
 <div class="row">
     <div class="col-lg-12">
         <h1 class="page-header">{% trans %} Enseignants{% endtrans %}</h1>
     </div>
 </div>
+{% endblock %}
+{% block content %}
 <div class="row">
     <div class="col-lg-8">
         <div class="panel panel-default">
@@ -14,7 +16,7 @@
             </div>
             <div class="panel-body">
                 <div class="table-responsive">
-                    <table class="table">
+                    <table class="table" id="teacher-list">
                         <thead>
                         <tr>
                             <th>Nom</th>
@@ -26,12 +28,12 @@
                         <tbody>
                         {% for entity in registered %}
                             <tr>
-                                <td>{{ entity.entity.name }} {{ entity.entity.surname }}</td>
+                                <td><a href="{{ path("teacher_show",{id:entity.entity.id}) }}">{{ entity.entity.name }} {{ entity.entity.surname }}</a></td>
                                 <td>{{ entity.entity.email }}</td>
-                                <td><span class="label label-success">{{ entity.count[constant('Corrigeaton\\Bundle\\ScheduleBundle\\Entity\\Test::STATUS_CORRECTED')] }} <i class="fa fa-check"></i></span> <span  class="label label-danger">{{ entity.count[constant('Corrigeaton\\Bundle\\ScheduleBundle\\Entity\\Test::STATUS_NOTCORRECTED')] }} <i class="fa fa-times"></i></span> <span  class="label label-default">{{ entity.count[constant('Corrigeaton\\Bundle\\ScheduleBundle\\Entity\\Test::STATUS_FUTURE')] }} <i class="fa fa-plus"></i></span></td>
+                                <td><span class="label label-success">{{ entity.count[true] }} <i class="fa fa-check"></i></span> <span  class="label label-danger">{{ entity.count[false] }} <i class="fa fa-times"></i></span></td>
                                 <td>
                                     <a class="btn btn-sm btn-default" href="{{ path('teacher_edit', { 'id': entity.entity.id }) }}" title="{% trans %}Editer{% endtrans %}"><i class="fa fa-pencil"></i></a>
-
+                                    <a class="btn btn-sm btn-default" href="{{ path('teacher_toggle_register', { 'id': entity.entity.id }) }}" title="{% trans %}Désabonner{% endtrans %}"><i class="fa fa-bell-slash"></i></a>
                                 </td>
                             </tr>
                         {% endfor %}
@@ -48,7 +50,7 @@
             </div>
             <div class="panel-body">
                 <div class="table-responsive">
-                    <table class="table">
+                    <table class="table" id="teacher-unregistered-list">
                         <thead>
                         <tr>
                             <th>Nom</th>
@@ -59,7 +61,9 @@
                         {% for entity in unregistered %}
                             <tr>
                                 <td>{{ entity.name }} {{ entity.surname }}</td>
-                                <td></td>
+                                <td>
+                                    <a class="btn btn-sm btn-default" href="{{ path('teacher_toggle_register', { 'id': entity.id }) }}" title="{% trans %}Abonner{% endtrans %}"><i class="fa fa-bell"></i></a>
+                                </td>
                             </tr>
                         {% endfor %}
                         </tbody>
@@ -69,4 +73,33 @@
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block javascript %}
+<script>
+    $(document).ready(function() {
+        $('#teacher-list').dataTable({
+            language: {
+                url: '{{ asset("bundles/corrigeatonschedule/js/plugins/dataTables/French.json") }}'
+            },
+
+            aoColumns: [
+                null,
+                null,
+                { "bSortable": false , "searchable": false},
+                { "bSortable": false , "searchable": false},
+            ]
+        });
+        $('#teacher-unregistered-list').dataTable({
+            language: {
+                url: '{{ asset("bundles/corrigeatonschedule/js/plugins/dataTables/French.json") }}'
+            },
+
+            aoColumns: [
+                null,
+                { "bSortable": false , "searchable": false},
+            ]
+        });
+    });
+</script>
 {% endblock %}

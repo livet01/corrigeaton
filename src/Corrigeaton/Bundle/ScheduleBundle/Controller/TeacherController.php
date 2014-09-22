@@ -41,9 +41,8 @@ class TeacherController extends Controller
             else {
                 $registered[] = array('entity'=>$entity,
                     'count' => array(
-                        Test::STATUS_FUTURE => $em->getRepository('CorrigeatonScheduleBundle:Test')->countNameTestTeacherStatus($entity,Test::STATUS_FUTURE),
-                        Test::STATUS_NOTCORRECTED => $em->getRepository('CorrigeatonScheduleBundle:Test')->countNameTestTeacherStatus($entity,Test::STATUS_NOTCORRECTED),
-                        Test::STATUS_CORRECTED => $em->getRepository('CorrigeatonScheduleBundle:Test')->countNameTestTeacherStatus($entity,Test::STATUS_CORRECTED)
+                        true => $em->getRepository('CorrigeatonScheduleBundle:Test')->countTest(true,$entity),
+                        false => $em->getRepository('CorrigeatonScheduleBundle:Test')->countTest(false,$entity),
                     ));
 
             }
@@ -66,17 +65,17 @@ class TeacherController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('CorrigeatonScheduleBundle:Teacher')->find($id);
+        $teacher = $em->getRepository('CorrigeatonScheduleBundle:Teacher')->find($id);
 
-        if (!$entity) {
+        if (!$teacher) {
             throw $this->createNotFoundException('Unable to find Teacher entity.');
         }
 
-        $deleteForm = $this->createDeleteForm($id);
+        $exams = $em->getRepository('CorrigeatonScheduleBundle:Test')->findByTeacher($teacher);
 
         return array(
-            'entity'      => $entity,
-            'delete_form' => $deleteForm->createView(),
+            'teacher'      => $teacher,
+            'exams'        => $exams
         );
     }
 
@@ -105,6 +104,41 @@ class TeacherController extends Controller
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
+    }
+
+    /**
+     * Désinscrit un enseignant
+     * 
+     * @Route("/{id}/toggle/register", name="teacher_toggle_register")
+     * @Method("GET")
+     */
+    public function unregisterAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $teacher = $em->getRepository("CorrigeatonScheduleBundle:Teacher")->find($id);
+        if(!$teacher)
+        {
+            throw $this->createNotFoundException("Unable to find teacher entity");
+        }
+
+        if($teacher->getIsUnregistered())
+        {
+            $teacher->setIsUnregistered(false);
+            $what = "abonné";
+        } else {
+            $teacher->setIsUnregistered(true);
+            $what = "désabonné";
+        }
+
+        $em->flush();
+
+        $this->get('session')->getFlashBag()->add(
+                'success',
+                'La professeur '.$teacher->getName().' '.$teacher->getSurname().' a été '.$what.'.'
+            );
+
+        return $this->redirect($this->generateUrl('teacher'));
     }
 
     /**
@@ -149,7 +183,11 @@ class TeacherController extends Controller
         if ($editForm->isValid()) {
             $em->flush();
 
-            return $this->redirect($this->generateUrl('teacher_edit', array('id' => $id)));
+            $this->get('session')->getFlashBag()->add(
+                'success',
+                $entity.' a été modifié.'
+            );
+            return $this->redirect($this->generateUrl('teacher_show', array('id' => $id)));
         }
 
         return array(

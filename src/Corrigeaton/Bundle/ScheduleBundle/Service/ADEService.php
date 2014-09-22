@@ -109,9 +109,8 @@ class ADEService
         $date->setTimestamp($event->getStart());
         $test->setDate($date);
         $test->setNumReminder(0);
-        $test->setUid($event->getUID());
+        $test->setId($event->getUID());
         $test->setFinishToken((string)rand());
-        $test->setStatus(Test::STATUS_FUTURE);
         // Check validity of event
         $description = $event->getDescription();
 
@@ -128,7 +127,8 @@ class ADEService
     }
 
     private function isTeacher($fullName){
-        return count(explode(" ",$fullName)) >= 2;
+        $res = explode(" ",$fullName);
+        return count($res) >= 2 && strlen($res[0]) >= 1 && strlen($res[1]) >=1 ;
     }
 
     private function getInital($fullName){

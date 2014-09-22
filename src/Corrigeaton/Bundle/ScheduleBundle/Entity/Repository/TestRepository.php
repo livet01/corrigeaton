@@ -13,26 +13,24 @@ use Doctrine\ORM\EntityRepository;
  */
 class TestRepository extends EntityRepository
 {
-    public function countNameTestTeacherStatus(Teacher $t, $status)
+    public function countTest($isCorrected, Teacher $t=null)
     {
-        return $this->getEntityManager()->createQueryBuilder()
+        $query = $this->getEntityManager()->createQueryBuilder()
             ->select('count(t)')
-            ->from('CorrigeatonScheduleBundle:Test','t')
-            ->where('t.status = :status')
-            ->andWhere('t.teacher = :teacher')
-            ->setParameter('teacher',$t)
-            ->setParameter('status',$status)
-            ->getQuery()
-            ->getSingleScalarResult();
-    }
+            ->from('CorrigeatonScheduleBundle:Test','t');
 
-    public function countTestByStatus($status)
-    {
-        return $this->getEntityManager()->createQueryBuilder()
-            ->select('count(t)')
-            ->from('CorrigeatonScheduleBundle:Test', 't')
-            ->where('t.status = :status')
-            ->setParameter('status', $status)
+        if($isCorrected){
+            $query->where('t.dateCorrected IS NOT NULL');
+        }
+        else
+            $query->where('t.dateCorrected IS NULL');
+
+        if(!empty($t)){
+            $query->andWhere('t.teacher = :teacher')
+                ->setParameter('teacher',$t);
+        }
+
+        return $query
             ->getQuery()
             ->getSingleScalarResult();
     }

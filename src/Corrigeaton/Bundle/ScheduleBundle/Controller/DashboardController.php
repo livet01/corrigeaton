@@ -27,9 +27,8 @@ class DashboardController extends Controller {
         $em = $this->getDoctrine()->getManager();
         return array(
             'count' => array(
-                Test::STATUS_FUTURE => $em->getRepository('CorrigeatonScheduleBundle:Test')->countTestByStatus(Test::STATUS_FUTURE),
-                Test::STATUS_NOTCORRECTED => $em->getRepository('CorrigeatonScheduleBundle:Test')->countTestByStatus(Test::STATUS_NOTCORRECTED),
-                Test::STATUS_CORRECTED => $em->getRepository('CorrigeatonScheduleBundle:Test')->countTestByStatus(Test::STATUS_CORRECTED)
+                true => $em->getRepository('CorrigeatonScheduleBundle:Test')->countTest(true),
+                false => $em->getRepository('CorrigeatonScheduleBundle:Test')->countTest(false),
         ));
     }
 } 

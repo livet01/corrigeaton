@@ -75,6 +75,10 @@ class ClassroomController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
+            $this->get('session')->getFlashBag()->add(
+                'success',
+                'La classe '.$entity->getName().' a été ajouté.'
+            );
 
             return $this->redirect($this->generateUrl('classroom'));
         }
@@ -147,7 +151,7 @@ class ClassroomController extends Controller
             'method' => 'PUT',
         ));
 
-        $form->add('submit', 'submit', array('label' => 'Update'));
+        $form->add('submit', 'submit', array('label' => 'Modifier'));
 
         return $form;
     }
@@ -176,6 +180,10 @@ class ClassroomController extends Controller
             $entity->setName($this->get("corrigeaton_schedule.ade_service")->findClassroomName($entity->getId()));
             $em->flush();
 
+            $this->get('session')->getFlashBag()->add(
+                'success',
+                'La classe '.$entity->getName().' a été modifié.'
+            );
             return $this->redirect($this->generateUrl('classroom'));
         }
 
@@ -206,6 +214,11 @@ class ClassroomController extends Controller
 
             $em->remove($entity);
             $em->flush();
+
+            $this->get('session')->getFlashBag()->add(
+                'success',
+                'La classe '.$entity->getName().' a été supprimé.'
+            );
         }
 
         return $this->redirect($this->generateUrl('classroom'));
