@@ -35,7 +35,7 @@ class SendmailCommand extends ContainerAwareCommand {
 
                 $mail = \Swift_Message::newInstance()
                         ->setSubject("Corrigeaton - ".$exam->getName())
-                        ->setFrom("test@test.fr") // TODO: mettre ça dans la config de symfony
+                        ->setFrom($this->getContainer()->getParameter("corrigeaton_mailer.email_send"))
                         ->setTo($teacher->getEmail())
                         ->setBody(
                                 $templating->render("CorrigeatonMailerBundle:Mail:mail-".$exam->getNumReminder().".html.twig")
