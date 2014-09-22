@@ -14,6 +14,7 @@ framework:
     validation:      { enable_annotations: true }
     templating:
         engines: ['twig']
+        assets_base_urls: {http: ['http://corrigeaton.local:8888/'], ssl: ['http://corrigeaton.local:8888/']}
         #assets_version: SomeVersionScheme
     default_locale:  "%locale%"
     trusted_hosts:   ~

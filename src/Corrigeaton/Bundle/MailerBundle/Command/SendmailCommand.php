@@ -18,6 +18,45 @@ class SendmailCommand extends ContainerAwareCommand {
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $output->writeln("<info>Not implemented yet</info>");
+        $em = $this->getContainer()->get("doctrine.orm.entity_manager");
+        $mailer = $this->getContainer()->get('mailer');
+        $templating = $this->getContainer()->get('templating');
+
+        $exams = $em->getRepository("CorrigeatonScheduleBundle:Test")->findByCorrected(false);
+
+        $output->writeln("<info>Traitement de ".count($exams)." examens</info>");
+        $count = 0;
+        foreach($exams as $exam)
+        {
+            $teacher = $exam->getTeacher();
+            if(!$teacher->isUnregistered())
+            {
+                $output->write("<info>Envoie du mail N°".$exam->getNumReminder()." à ".$teacher." pour ".$exam->getName()." ... </info>");
+
+                $mail = \Swift_Message::newInstance()
+                        ->setSubject("Corrigeaton - ".$exam->getName())
+                        ->setFrom("test@test.fr") // TODO: mettre ça dans la config de symfony
+                        ->setTo($teacher->getEmail())
+                        ->setBody(
+                                $templating->render("CorrigeatonMailerBundle:Mail:mail-".$exam->getNumReminder().".html.twig")
+                            ,'text/html');
+
+                if($mailer->send($mail) == 1)
+                {
+                    $output->writeln("<comment>OK</comment>");
+                    $exam->setNumReminder($exam->getNumReminder()+1);
+                } else {
+                    $output->writeln("<error>ERROR</error>");
+                }
+
+                $count++;
+            }
+            else {
+                $output->writeln("<comment>".$teacher." is unregistered</comment>");
+            }
+        }
+        
+        $output->writeln("<info>".$count." mails envoyés</info>");
+        $em->flush();
     }
 } 

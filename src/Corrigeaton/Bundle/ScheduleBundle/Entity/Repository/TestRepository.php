@@ -35,4 +35,20 @@ class TestRepository extends EntityRepository
             ->getSingleScalarResult();
     }
 
+    public function findByCorrected($isCorrected)
+    {
+        $query = $this->getEntityManager()->createQueryBuilder()
+                      ->select('t')
+                      ->from("CorrigeatonScheduleBundle:Test", "t");
+
+        if($isCorrected)
+        {
+            $query->where("t.dateCorrected IS NOT NULL");
+        } else {
+            $query->where("t.dateCorrected IS NULL");
+        }
+
+        return $query->getQuery()->getResult();
+    }
+
 }
