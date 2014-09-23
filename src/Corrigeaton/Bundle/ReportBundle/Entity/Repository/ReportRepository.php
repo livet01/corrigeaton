@@ -24,4 +24,26 @@ class ReportRepository extends EntityRepository{
             ->getResult();
     }
 
+    public function countReport($isFinished, Report $r=null)
+    {
+        $query = $this->getEntityManager()->createQueryBuilder()
+            ->select('count(r)')
+            ->from('CorrigeatonReportBundle:Report','r');
+
+        if($isFinished){
+            $query->where('r.isFinished=TRUE');
+        }
+        else
+            $query->where('r.isFinished=FALSE');
+
+        if(!empty($r)){
+            $query->andWhere('r.report = :report')
+                ->setParameter('report',$r);
+        }
+
+        return $query
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
 } 

@@ -46,14 +46,23 @@ class ReportController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $entities = $em->getRepository('CorrigeatonReportBundle:Report')->findAll();
-        $deleteForms = array();
+        $classified = array();
+        $unClassified = array();
         foreach($entities as $entity){
-            $deleteForms[] = $this->createDeleteForm($entity->getId())->createView();
+            if($entity->getIsFinished())
+            {
+                $classified[] = $entity;
+            }
+            else
+            {
+                $unClassified[] =$entity;
+            }
         }
 
+
         return array(
-            'entities' => $entities,
-            'delete_forms' =>$deleteForms,
+            'classified' => $classified,
+            'unClassified' => $unClassified,
 
         );
     }
@@ -265,5 +274,39 @@ class ReportController extends Controller
             ->add('submit', 'submit', array('label' => 'Delete'))
             ->getForm()
         ;
+    }
+    /**
+     * Classe un rapport
+     *
+     * @Route("/{id}/toggle/classified", name="report_toggle_classified")
+     * @Method("GET")
+     */
+    public function unregisterAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $report = $em->getRepository("CorrigeatonReportBundle:Report")->find($id);
+        if(!$report)
+        {
+            throw $this->createNotFoundException("Unable to find report entity");
+        }
+
+        if($report->getIsFinished())
+        {
+            $report->setIsFinished(false);
+            $what = "déclassé";
+        } else {
+            $report->setIsFinished(true);
+            $what = "classé";
+        }
+
+        $em->flush();
+
+        $this->get('session')->getFlashBag()->add(
+            'success',
+            'Le report '.$report->getLog().' a été '.$what.'.'
+        );
+
+        return $this->redirect($this->generateUrl('report'));
     }
 }

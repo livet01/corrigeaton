@@ -10,15 +10,9 @@
             <div class="list-group">
                 {% for entity in entities %}
                     <a href="{{ path('report_show', { 'id': entity.id }) }}" class="list-group-item">
-                        {%  if entity.getIsFinished %}
-                            <i class="fa fa-check fa-fw"></i> {{ entity.getLog}}
+                            <i class="fa fa-{% if entity.isFinished %}check{% else %}bolt{% endif %} fa-fw"></i> {{ entity.getLog}}
                                     <span class="pull-right text-muted small"><em>{{entity.dateToString}}</em>
                                     </span>
-                        {% else %}
-                            <i class="fa fa-bolt fa-fw"></i> {{entity.getLog}}
-                                    <span class="pull-right text-muted small"><em>{{entity.dateToString}}</em>
-                                    </span>
-                        {% endif %}
                 </a>
                 {%  endfor %}
             </div>
