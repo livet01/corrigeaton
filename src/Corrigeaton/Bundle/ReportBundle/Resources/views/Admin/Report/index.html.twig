@@ -1,0 +1,24 @@
+
+
+{% block body -%}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <i class="fa fa-bell fa-fw"></i> Liste des rapports
+        </div>
+        <!-- /.panel-heading -->
+        <div class="panel-body">
+            <div class="list-group">
+                {% for entity in entities %}
+                    <a href="{{ path('report_show', { 'id': entity.id }) }}" class="list-group-item">
+                            <i class="fa fa-{% if entity.isFinished %}check{% else %}bolt{% endif %} fa-fw"></i> {{ entity.getLog}}
+                                    <span class="pull-right text-muted small"><em>{{entity.dateToString}}</em>
+                                    </span>
+                </a>
+                {%  endfor %}
+            </div>
+            <!-- /.list-group -->
+            <a href="{{ path('report') }}" class="btn btn-default btn-block">Voir tous les rapports</a>
+        </div>
+        <!-- /.panel-body -->
+    </div>
+{% endblock %}
