@@ -1,6 +1,6 @@
 <?php
 
-namespace Corrigeaton\Bundle\ScheduleBundle\Controller;
+namespace Corrigeaton\Bundle\ScheduleBundle\Controller\Admin;
 
 use Corrigeaton\Bundle\ScheduleBundle\Entity\Test;
 use Symfony\Component\HttpFoundation\Request;
@@ -164,7 +164,7 @@ class TeacherController extends Controller
      *
      * @Route("/{id}", name="teacher_update")
      * @Method("PUT")
-     * @Template("CorrigeatonScheduleBundle:Teacher:edit.html.twig")
+     * @Template("CorrigeatonScheduleBundle:Admin/Teacher:edit.html.twig")
      */
     public function updateAction(Request $request, $id)
     {

@@ -1,10 +1,10 @@
 corrigeaton_report:
     resource: "@CorrigeatonReportBundle/Controller/"
     type:     annotation
-    prefix:   /
+    prefix:   /admin/
 
 corrigeaton_schedule:
     resource: "@CorrigeatonScheduleBundle/Controller/"
     type:     annotation
-    prefix:   /
+    prefix:   /admin/
 

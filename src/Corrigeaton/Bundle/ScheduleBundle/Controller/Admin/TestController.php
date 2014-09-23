@@ -1,6 +1,6 @@
 <?php
 
-namespace Corrigeaton\Bundle\ScheduleBundle\Controller;
+namespace Corrigeaton\Bundle\ScheduleBundle\Controller\Admin;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;

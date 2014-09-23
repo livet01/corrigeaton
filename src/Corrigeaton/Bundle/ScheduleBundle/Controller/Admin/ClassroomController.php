@@ -1,6 +1,6 @@
 <?php
 
-namespace Corrigeaton\Bundle\ScheduleBundle\Controller;
+namespace Corrigeaton\Bundle\ScheduleBundle\Controller\Admin;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -51,7 +51,7 @@ class ClassroomController extends Controller
      *
      * @Route("/", name="classroom_create")
      * @Method("POST")
-     * @Template("CorrigeatonScheduleBundle:Classroom:index.html.twig")
+     * @Template("CorrigeatonScheduleBundle:Admin/Classroom:index.html.twig")
      */
     public function createAction(Request $request)
     {
@@ -160,7 +160,7 @@ class ClassroomController extends Controller
      *
      * @Route("/{id}", name="classroom_update")
      * @Method("PUT")
-     * @Template("CorrigeatonScheduleBundle:Classroom:edit.html.twig")
+     * @Template("CorrigeatonScheduleBundle:Admin/Classroom:edit.html.twig")
      */
     public function updateAction(Request $request, $id)
     {
