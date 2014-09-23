@@ -24,6 +24,11 @@ class ReportRepository extends EntityRepository{
             ->getResult();
     }
 
+    public function findByLog($log)
+    {
+
+    }
+
     public function countReport($isFinished, Report $r=null)
     {
         $query = $this->getEntityManager()->createQueryBuilder()
