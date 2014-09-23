@@ -1,0 +1,105 @@
+{% extends 'CorrigeatonScheduleBundle::base.html.twig' %}
+{% block title %}{% trans %}Rapports{% endtrans %}{% endblock %}
+{% block title_content -%}
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">{% trans %} Rapports{% endtrans %}</h1>
+    </div>
+</div>
+{%  endblock %}
+{% block content -%}
+<div class="row">
+    <div class="col-lg-8">
+        <div class="panel panel-danger">
+            <div class="panel-heading">
+                <i class="fa fa-bell fa-fw"></i> {% trans %}Rapports non classés{% endtrans %}
+            </div>
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <table class="table" id="report-list">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Log</th>
+                                <th>Type</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for entity in unClassified %}
+                            <tr>
+                                <td data-order="{{ entity.date|date("U") }}">{{ entity.date|date('H:i - d M') }}</td>
+                                <td><a href="{{ path("report_show",{id:entity.id}) }}">{{ entity.log }}</a></td>
+                                <td>{{ entity.type }}</td>
+                                <td>
+                                    <div class="btn-group-sm">
+                                        <a class="btn btn-sm btn-default" href="{{ path('report_toggle_classified', { 'id': entity.id }) }}" title="{% trans %}Classer{% endtrans %}"><i class="fa fa-circle-thin"></i></a>                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+             </div>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <i class="fa fa-list fa-fw"></i> {% trans %}Rapports classés{% endtrans %}
+            </div>
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <table class="table" id="report-classified-list">
+                        <thead>
+                        <tr>
+                            <th>Log</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for entity in classified %}
+                            <tr>
+                                <td data-order="{{ entity.date|date("U") }}"><a href="{{ path("report_show",{id:entity.id}) }}">{{ entity.date|date('H:i - d M') }} : {{ entity.log }}</a></td>
+                                <td>
+                                    <a class="btn btn-sm btn-default" href="{{ path('report_toggle_classified', { 'id': entity.id }) }}" title="{% trans %}Déclasser{% endtrans %}"><i class="fa fa-circle"></i></a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+{% block javascript %}
+    <script>
+        $(document).ready(function() {
+            $('#report-list').dataTable({
+                language: {
+                    url: '{{ asset("bundles/corrigeatonschedule/js/plugins/dataTables/French.json") }}'
+                },
+                aoColumns: [
+                    null,
+                    null,
+                    null,
+                    { "bSortable": false , "searchable": false},
+                ]
+            });
+            $('#report-classified-list').dataTable({
+                language: {
+                    url: '{{ asset("bundles/corrigeatonschedule/js/plugins/dataTables/French.json") }}'
+                },
+
+                aoColumns: [
+                    null,
+                    { "bSortable": false , "searchable": false},
+                ]
+            });
+        });
+    </script>
+{% endblock %}
+

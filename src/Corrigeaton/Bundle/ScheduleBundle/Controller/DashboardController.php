@@ -29,6 +29,8 @@ class DashboardController extends Controller {
             'count' => array(
                 true => $em->getRepository('CorrigeatonScheduleBundle:Test')->countTest(true),
                 false => $em->getRepository('CorrigeatonScheduleBundle:Test')->countTest(false),
-        ));
+
+            ),
+            'countReport' =>$em->getRepository('CorrigeatonReportBundle:Report')->countReport(false));
     }
 } 
