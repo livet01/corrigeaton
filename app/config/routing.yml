@@ -8,3 +8,8 @@ corrigeaton_schedule:
     type:     annotation
     prefix:   /admin/
 
+corrigeaton_mailer:
+    resource: "@CorrigeatonMailerBundle/Controller/"
+    type:     annotation
+    prefix:   /
+

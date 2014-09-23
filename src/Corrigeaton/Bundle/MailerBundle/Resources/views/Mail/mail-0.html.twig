@@ -1,0 +1,120 @@
+{% extends 'CorrigeatonMailerBundle::email.html.twig' %}
+
+{% block body %}
+<table class="row header">
+    <tr>
+        <td class="center" align="center">
+            <center>
+
+                <table class="container">
+                    <tr>
+                        <td class="wrapper last">
+
+                            <table class="twelve columns">
+                                <tr>
+                                    <td class="twelve sub-columns">
+                                        <img src="{{ asset('bundles/corrigeatonschedule/img/logo.png') }}"> <span class="template-label">Corrigeaton</span>
+                                    </td>
+                                    <td class="expander"></td>
+                                </tr>
+                            </table>
+
+                        </td>
+                    </tr>
+                </table>
+
+            </center>
+        </td>
+    </tr>
+</table>
+
+<table class="container">
+    <tr>
+        <td>
+
+            <table class="row">
+                <tr>
+                    <td class="wrapper last">
+
+                        <table class="twelve columns">
+                            <tr>
+                                <td>
+                                    <h1>Hi, Daniel Marre</h1>
+                                    <p class="lead">Nous sommes le 20 Septembre 2014, exactement 3 semaines après l'examen EX Mat Info de la classe 4IR.</p>
+                                    <p>Sauf erreur, je crois que vous n'avez pas rendu les copies. </p>
+                                    <p> <img src="{{ asset('bundles/corrigeatonmailer/img/les-profs-corrections.jpg') }}"> </p>
+                                </td>
+                                <td class="expander"></td>
+                            </tr>
+                        </table>
+
+                    </td>
+                </tr>
+            </table>
+
+            <table class="row callout">
+                <tr>
+                    <td class="wrapper last">
+
+                        <table class="twelve columns">
+                            <tr>
+                                <td class="panel">
+                                    <p>Ce message est un mail automatique du service Corrigeaton. Si vous ne souhaitez plus recevoir ce genre de message vous pouvez vous désabonner <a href="#">ici ! »</a></p>
+                                </td>
+                                <td class="expander"></td>
+                            </tr>
+                        </table>
+
+                    </td>
+                </tr>
+            </table>
+
+            <table class="row footer">
+                <tr>
+                    <td class="wrapper">
+
+                        <table class="twelve columns">
+                            <tr>
+                                <td class="left-text-pad">
+
+                                    <table class="large-button success">
+                                        <tr>
+                                            <td>
+                                                <a href="#">J'ai fini de corriger !</a>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td class="expander"></td>
+                            </tr>
+                        </table>
+
+                    </td>
+                </tr>
+            </table>
+
+
+            <table class="row">
+                <tr>
+                    <td class="wrapper last">
+
+                        <table class="twelve columns">
+                            <tr>
+                                <td align="center">
+                                    <center>
+                                        <p style="text-align:center;"><a href="#">Mentions légales</a> | <a href="#">Politique de confidentialité</a> | <a href="#">Désabonnement</a></p>
+                                    </center>
+                                </td>
+                                <td class="expander"></td>
+                            </tr>
+                        </table>
+
+                    </td>
+                </tr>
+            </table>
+
+            <!-- container end below -->
+        </td>
+    </tr>
+</table>
+{% endblock %}

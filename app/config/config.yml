@@ -14,6 +14,7 @@ framework:
     validation:      { enable_annotations: true }
     templating:
         engines: ['twig']
+        assets_base_urls: {http: ["%base_url%"], ssl: ["%base_url%"]}
         #assets_version: SomeVersionScheme
     default_locale:  "%locale%"
     trusted_hosts:   ~
@@ -77,3 +78,6 @@ corrigeaton_schedule:
 knp_menu:
     twig:  # use "twig: false" to disable the Twig extension and the TwigRenderer
         template: CorrigeatonScheduleBundle::menu.html.twig
+
+corrigeaton_mailer:
+    email_send: "%mailer_mail%"

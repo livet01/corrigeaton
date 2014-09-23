@@ -211,6 +211,15 @@ class Teacher
     }
 
     /**
+     * Return isUnregistered
+     * @return boolean
+     */
+    public function isUnregistered()
+    {
+        return $this->isUnregistered == true;
+    }
+
+    /**
      * Add tests
      *
      * @param \Corrigeaton\Bundle\ScheduleBundle\Entity\Test $tests
