@@ -6,6 +6,7 @@ namespace Corrigeaton\Bundle\MailerBundle\Command;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use TijsVerkoyen\CssToInlineStyles\CssToInlineStyles;
 
 class SendmailCommand extends ContainerAwareCommand {
 
@@ -33,13 +34,14 @@ class SendmailCommand extends ContainerAwareCommand {
             {
                 $output->write("<info>Envoie du mail N°".$exam->getNumReminder()." à ".$teacher." pour ".$exam->getName()." ... </info>");
 
+                $html = $templating->render("CorrigeatonMailerBundle:Mail:mail-0.html.twig");
+                $css = file_get_contents($this->getContainer()->get('templating.helper.assets')->getUrl('bundles/corrigeatonmailer/css/main.css'));
+
                 $mail = \Swift_Message::newInstance()
                         ->setSubject("Corrigeaton - ".$exam->getName())
                         ->setFrom($this->getContainer()->getParameter("corrigeaton_mailer.email_send"))
                         ->setTo($teacher->getEmail())
-                        ->setBody(
-                                $templating->render("CorrigeatonMailerBundle:Mail:mail-".$exam->getNumReminder().".html.twig")
-                            ,'text/html');
+                        ->setBody((new CssToInlineStyles($html,$css))->convert(),'text/html');
 
                 if($mailer->send($mail) == 1)
                 {
