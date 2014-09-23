@@ -1,45 +1,48 @@
 {% extends 'CorrigeatonScheduleBundle::base.html.twig' %}
 
+{% block title %}{% trans %}Rapport{% endtrans %} {{ entity.log }}{% endblock %}
+{% block title_content -%}
+<div class="row">
+    <div class="col-lg-12">
 
+        <div class="page-header">
+            <div class="pull-right">
+                <a class="btn btn-default" href="{{ path('report') }}">
+                    <i class="fa fa-reply fa-fw"></i>Retour
+                </a>
+            </div>
+            <h1>Rapport {{ entity.log }} <small>{% if entity.isFinished %}<span class="label label-default">Classé</span>{% else %}<span class="label label-danger">Non classé</span>{% endif %}</small>
+            </h1>
+
+        </div>
+    </div>
+</div>
+{%  endblock %}
 {% block content -%}
-    <h1>Report</h1>
-
-    <table class="record_properties">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ entity.id }}</td>
-            </tr>
-            <tr>
-                <th>Isfinished</th>
-                <td>{{ entity.isFinished }}</td>
-            </tr>
-            <tr>
-                <th>Log</th>
-                <td>{{ entity.log }}</td>
-            </tr>
-            <tr>
-                <th>Date</th>
-                <td>{{ entity.date|date('Y-m-d H:i:s') }}</td>
-            </tr>
-            <tr>
-                <th>Type</th>
-                <td>{{ entity.type }}</td>
-</tr>
-        </tbody>
-    </table>
-
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('report') }}">
-            Back to the list
-        </a>
-    </li>
-    <li>
-        <a href="{{ path('report_edit', { 'id': entity.id }) }}">
-            Edit
-        </a>
-    </li>
-    <li>{{ form(delete_form) }}</li>
-</ul>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <i class="fa fa-list fa-fw"></i> {% trans %}Détails{% endtrans %}
+            </div>
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <table class="table ">
+                        <tbody>
+                        {% for key,data in entity.data %}
+                        <tr>
+                            <th>{{ key }}</th>
+                            <td><pre>{{ dump(data) }}</pre></td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="panel-footer">
+                <small>Le {{ entity.date|date('d-M-Y à H:i:s') }}</small>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

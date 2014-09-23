@@ -3,7 +3,7 @@
 {% block body -%}
     <div class="panel panel-default">
         <div class="panel-heading">
-            <i class="fa fa-bell fa-fw"></i> Notifications Panel
+            <i class="fa fa-bell fa-fw"></i> Liste des rapports
         </div>
         <!-- /.panel-heading -->
         <div class="panel-body">
@@ -17,8 +17,8 @@
                 {%  endfor %}
             </div>
             <!-- /.list-group -->
-            <a href="{{ path('report') }}" class="btn btn-default btn-block">View All Alerts</a>
+            <a href="{{ path('report') }}" class="btn btn-default btn-block">Voir tous les rapports</a>
         </div>
         <!-- /.panel-body -->
     </div>
-    {% endblock %}
+{% endblock %}

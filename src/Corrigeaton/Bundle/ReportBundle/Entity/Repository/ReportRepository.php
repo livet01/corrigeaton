@@ -9,6 +9,7 @@
 namespace Corrigeaton\Bundle\ReportBundle\Entity\Repository;
 
 
+use Corrigeaton\Bundle\ReportBundle\Entity\Report;
 use Doctrine\ORM\EntityRepository;
 
 class ReportRepository extends EntityRepository{
@@ -24,22 +25,14 @@ class ReportRepository extends EntityRepository{
             ->getResult();
     }
 
-    public function findByLog($log)
-    {
-
-    }
 
     public function countReport($isFinished, Report $r=null)
     {
         $query = $this->getEntityManager()->createQueryBuilder()
             ->select('count(r)')
-            ->from('CorrigeatonReportBundle:Report','r');
-
-        if($isFinished){
-            $query->where('r.isFinished=TRUE');
-        }
-        else
-            $query->where('r.isFinished=FALSE');
+            ->from('CorrigeatonReportBundle:Report','r')
+            ->where('r.isFinished= :isFinished')
+            ->setParameter('isFinished',$isFinished);
 
         if(!empty($r)){
             $query->andWhere('r.report = :report')

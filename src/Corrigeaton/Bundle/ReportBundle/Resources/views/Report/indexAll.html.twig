@@ -10,9 +10,9 @@
 {% block content -%}
 <div class="row">
     <div class="col-lg-8">
-        <div class="panel panel-default">
+        <div class="panel panel-danger">
             <div class="panel-heading">
-                <i class="fa fa-bell fa-fw"></i> Notifications Panel
+                <i class="fa fa-bell fa-fw"></i> {% trans %}Rapports non classés{% endtrans %}
             </div>
             <div class="panel-body">
                 <div class="table-responsive">
@@ -29,7 +29,7 @@
                             {% for entity in unClassified %}
                             <tr>
                                 <td data-order="{{ entity.date|date("U") }}">{{ entity.date|date('H:i - d M') }}</td>
-                                <td>{{ entity.log }}</td>
+                                <td><a href="{{ path("report_show",{id:entity.id}) }}">{{ entity.log }}</a></td>
                                 <td>{{ entity.type }}</td>
                                 <td>
                                     <div class="btn-group-sm">
@@ -44,9 +44,9 @@
         </div>
     </div>
     <div class="col-lg-4">
-        <div class="panel panel-warning">
+        <div class="panel panel-default">
             <div class="panel-heading">
-                <i class="fa fa-list fa-fw"></i> {% trans %}Rapports Classés{% endtrans %}
+                <i class="fa fa-list fa-fw"></i> {% trans %}Rapports classés{% endtrans %}
             </div>
             <div class="panel-body">
                 <div class="table-responsive">
@@ -60,7 +60,7 @@
                         <tbody>
                         {% for entity in classified %}
                             <tr>
-                                <td data-order="{{ entity.date|date("U") }}">{{ entity.date|date('H:i - d M') }} : {{ entity.log }}</td>
+                                <td data-order="{{ entity.date|date("U") }}"><a href="{{ path("report_show",{id:entity.id}) }}">{{ entity.date|date('H:i - d M') }} : {{ entity.log }}</a></td>
                                 <td>
                                     <a class="btn btn-sm btn-default" href="{{ path('report_toggle_classified', { 'id': entity.id }) }}" title="{% trans %}Déclasser{% endtrans %}"><i class="fa fa-circle"></i></a>
                                 </td>
@@ -82,7 +82,6 @@
                 language: {
                     url: '{{ asset("bundles/corrigeatonschedule/js/plugins/dataTables/French.json") }}'
                 },
-                order:[[1,"asc"]],
                 aoColumns: [
                     null,
                     null,
