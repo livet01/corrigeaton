@@ -33,11 +33,7 @@ class SendmailCommand extends ContainerAwareCommand {
             if(!$teacher->isUnregistered())
             {
                 $numMail = $exam->doISend();
-                if($numMail == -1)
-                {
-
-                }
-                else
+                if($numMail != -1)
                 {
                     $output->write("<info>Envoie du mail N°".$numMail." à ".$teacher." pour ".$exam->getName()." ... </info>");
 
@@ -53,7 +49,7 @@ class SendmailCommand extends ContainerAwareCommand {
                     if($mailer->send($mail) == 1)
                     {
                         $output->writeln("<comment>OK</comment>");
-                        $exam->setNumReminder($exam->getNumReminder()+1);
+                        $exam->setNumReminder($numMail);
                     } else {
                         $output->writeln("<error>ERROR</error>");
                     }

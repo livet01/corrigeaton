@@ -261,28 +261,30 @@ class Test
      */
     public function doISend()
     {
-        $intTemps = array(0,3,4.5,5.25,6,6.75,7.5,8.25,9);
-        $ret = -1;
         $dateExam = $this->date;
+        $intTemps = array(
+            new \DateTime($dateExam).add('P59D'),
+            new \DateTime($dateExam).add('P55D'),
+            new \DateTime($dateExam).add('P51D'),
+            new \DateTime($dateExam).add('P47D'),
+            new \DateTime($dateExam).add('P43D'),
+            new \DateTime($dateExam).add('P39D'),
+            new \DateTime($dateExam).add('P35D'),
+            new \DateTime($dateExam).add('P31D'),
+            new \DateTime($dateExam).add('P20D'),
+            new \DateTime($dateExam)
+        );
         $dateToday = new \DateTime();
-        $diffDate = $dateToday->diff($dateExam,true);
-        $dayDiff = intval($diffDate->format('d'));
-        $monthDiff = intval($diffDate->format('m'));
-        $yearDiff = intval($diffDate->format('Y'));
-        $totDay = $dayDiff + $monthDiff*30 + $yearDiff*365;
         $numReminder = $this->numReminder;
-        for ($i=0; $i <10; $i++ )
+        for ($i=0; $i <count($intTemps); $i++)
         {
-            if ($totDay == intval($intTemps[$i]*7))
+            if ($dateToday >= $intTemps[$i] && $numReminder < count($intTemps)-$i)
             {
-                if ($numReminder == $i)
-                {
-                    $ret = $i;
-                }
+                $numReminder =count($intTemps)-$i;
+                return $numReminder;
             }
-
         }
-        return $ret;
+        return -1;
     }
 
     public function isCorrected(){
