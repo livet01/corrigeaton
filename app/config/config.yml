@@ -14,6 +14,7 @@ framework:
     validation:      { enable_annotations: true }
     templating:
         engines: ['twig']
+        assets_base_urls: {http: ["%base_url%"], ssl: ["%base_url%"]}
         #assets_version: SomeVersionScheme
     default_locale:  "%locale%"
     trusted_hosts:   ~
@@ -67,3 +68,16 @@ swiftmailer:
     username:  "%mailer_user%"
     password:  "%mailer_password%"
     spool:     { type: memory }
+
+corrigeaton_schedule:
+    url:
+        planning: "https://www.etud.insa-toulouse.fr/planning/index.php?gid=%%d&wid=0&ics=1"
+        annuaire: "http://www.insa-toulouse.fr/fr/annuaire.html"
+        ade: 'https://srv-ade.insa-toulouse.fr/jsp/custom/modules/plannings/anonymous_cal.jsp?resources=%%d&projectId=4&calType=ical&firstDate=%%s&lastDate=%%s'
+
+knp_menu:
+    twig:  # use "twig: false" to disable the Twig extension and the TwigRenderer
+        template: CorrigeatonScheduleBundle::menu.html.twig
+
+corrigeaton_mailer:
+    email_send: "%mailer_mail%"

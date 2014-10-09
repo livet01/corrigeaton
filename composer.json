@@ -1,8 +1,8 @@
 {
-    "name": "symfony/framework-standard-edition",
+    "name": "corrigeaton/corrigeaton",
     "license": "MIT",
     "type": "project",
-    "description": "The \"Symfony Standard Edition\" distribution",
+    "description": "Don't forget your exam",
     "autoload": {
         "psr-0": { "": "src/", "SymfonyStandard": "app/" }
     },
@@ -18,7 +18,9 @@
         "sensio/distribution-bundle": "~3.0",
         "sensio/framework-extra-bundle": "~3.0",
         "incenteev/composer-parameter-handler": "~2.0",
-        "minmb/sg-icalendar": "dev-master"
+        "minmb/sg-icalendar": "dev-master",
+        "knplabs/knp-menu-bundle": "~2.0",
+        "tijsverkoyen/css-to-inline-styles" : "dev-master"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"

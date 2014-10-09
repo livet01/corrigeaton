@@ -1,0 +1,52 @@
+{% extends 'form_div_layout.html.twig' %}
+
+{% block form_row %}
+    {% spaceless %}
+        <div class="form-group {% if errors|length > 0 -%}has-error{%- endif %}">
+            {{- form_label(form) -}}
+            {{- form_widget(form) -}}
+            {{- form_errors(form) -}}
+        </div>
+    {% endspaceless %}
+{% endblock form_row %}
+
+{% block form_widget_simple %}
+    {% spaceless %}
+        {% set type = type|default('text') %}
+        <input class="form-control" type="{{ type }}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
+    {% endspaceless %}
+{% endblock form_widget_simple %}
+
+{% block button_widget -%}
+    {% if label is empty -%}
+        {% set label = name|humanize %}
+    {%- endif -%}
+    <button class="btn btn-primary" type="{{ type|default('button') }}" {{ block('button_attributes') }}>{{ label|trans({}, translation_domain) }}</button>
+{%- endblock button_widget %}
+
+
+{% block form_errors -%}
+    {% if errors|length > 0 -%}
+        <p class="help-block">
+            {%- for error in errors -%}
+                {{ error.message }}<br/>
+            {%- endfor -%}
+        </p>
+    {%- endif %}
+{%- endblock form_errors %}
+
+
+{% block form_label -%}
+    {% if label is not sameas(false) -%}
+        {% if not compound -%}
+            {% set label_attr = label_attr|merge({'for': id}) %}
+        {%- endif %}
+        {% if required -%}
+            {% set label_attr = label_attr|merge({'class': (label_attr.class|default('') ~ ' required')|trim}) %}
+        {%- endif %}
+        {% if label is empty -%}
+            {% set label = name|humanize %}
+        {%- endif -%}
+        <label class="control-label" {% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>{{ label|trans({}, translation_domain) }}</label>
+    {%- endif %}
+{%- endblock form_label %}

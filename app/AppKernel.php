@@ -18,6 +18,8 @@ class AppKernel extends Kernel
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new Corrigeaton\Bundle\ScheduleBundle\CorrigeatonScheduleBundle(),
             new Corrigeaton\Bundle\MailerBundle\CorrigeatonMailerBundle(),
+            new Knp\Bundle\MenuBundle\KnpMenuBundle(),
+            new Corrigeaton\Bundle\ReportBundle\CorrigeatonReportBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

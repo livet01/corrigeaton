@@ -2,13 +2,19 @@
 
 namespace Corrigeaton\Bundle\ScheduleBundle\Entity;
 
+use Corrigeaton\Bundle\ReportBundle\Service\ReportEntityInterface;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Corrigeaton\Bundle\ScheduleBundle\Constraint as ScheduleAssert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
 
 /**
  * Classroom
  *
- * @ORM\Table()
+ * @ORM\Table(name="schedule_classroom")
  * @ORM\Entity
+ * @UniqueEntity("id")
  */
 class Classroom
 {
@@ -17,9 +23,23 @@ class Classroom
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\GeneratedValue(strategy="NONE")
+     * @Assert\NotBlank()
+     * @ScheduleAssert\ContainsIDValid()
      */
     private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="email", type="string", length=255)
+     * @Assert\Email(
+     *     message = "'{{ value }}' n'est pas un email valide.",
+     *     checkMX = true
+     * )
+     * @Assert\NotBlank()
+     */
+    private $email;
 
     /**
      * @var string
@@ -27,20 +47,6 @@ class Classroom
      * @ORM\Column(name="name", type="string", length=255)
      */
     private $name;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="url", type="string", length=255)
-     */
-    private $url;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="email", type="string", length=255)
-     */
-    private $email;
 
 
     /**
@@ -51,6 +57,42 @@ class Classroom
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set email
+     *
+     * @param string $email
+     * @return Classroom
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    /**
+     * Get email
+     *
+     * @return string 
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * Set id
+     *
+     * @param integer $id
+     * @return Classroom
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
     }
 
     /**
@@ -76,49 +118,7 @@ class Classroom
         return $this->name;
     }
 
-    /**
-     * Set url
-     *
-     * @param string $url
-     * @return Classroom
-     */
-    public function setUrl($url)
-    {
-        $this->url = $url;
-
-        return $this;
-    }
-
-    /**
-     * Get url
-     *
-     * @return string 
-     */
-    public function getUrl()
-    {
-        return $this->url;
-    }
-
-    /**
-     * Set email
-     *
-     * @param string $email
-     * @return Classroom
-     */
-    public function setEmail($email)
-    {
-        $this->email = $email;
-
-        return $this;
-    }
-
-    /**
-     * Get email
-     *
-     * @return string 
-     */
-    public function getEmail()
-    {
-        return $this->email;
+    public function __toString(){
+        return str_replace('_'," ",$this->getName());
     }
 }
