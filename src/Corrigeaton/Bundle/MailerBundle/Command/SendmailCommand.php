@@ -32,26 +32,35 @@ class SendmailCommand extends ContainerAwareCommand {
             $teacher = $exam->getTeacher();
             if(!$teacher->isUnregistered())
             {
-                $output->write("<info>Envoie du mail N°".$exam->getNumReminder()." à ".$teacher." pour ".$exam->getName()." ... </info>");
+                $numMail = $exam->doISend();
+                if($numMail == -1)
+                {
 
-                $html = $templating->render("CorrigeatonMailerBundle:Mail:mail-0.html.twig");
-                $css = file_get_contents($this->getContainer()->get('templating.helper.assets')->getUrl('bundles/corrigeatonmailer/css/main.css'));
+                }
+                else
+                {
+                    $output->write("<info>Envoie du mail N°".$numMail." à ".$teacher." pour ".$exam->getName()." ... </info>");
 
-                $mail = \Swift_Message::newInstance()
+                    $html = $templating->render("CorrigeatonMailerBundle:Mail:mail-".$numMail.".html.twig");
+                    $css = file_get_contents($this->getContainer()->get('templating.helper.assets')->getUrl('bundles/corrigeatonmailer/css/main.css'));
+
+                    $mail = \Swift_Message::newInstance()
                         ->setSubject("Corrigeaton - ".$exam->getName())
                         ->setFrom($this->getContainer()->getParameter("corrigeaton_mailer.email_send"))
                         ->setTo($teacher->getEmail())
                         ->setBody((new CssToInlineStyles($html,$css))->convert(),'text/html');
 
-                if($mailer->send($mail) == 1)
-                {
-                    $output->writeln("<comment>OK</comment>");
-                    $exam->setNumReminder($exam->getNumReminder()+1);
-                } else {
-                    $output->writeln("<error>ERROR</error>");
+                    if($mailer->send($mail) == 1)
+                    {
+                        $output->writeln("<comment>OK</comment>");
+                        $exam->setNumReminder($exam->getNumReminder()+1);
+                    } else {
+                        $output->writeln("<error>ERROR</error>");
+                    }
+
+                    $count++;
                 }
 
-                $count++;
             }
             else {
                 $output->writeln("<comment>".$teacher." is unregistered</comment>");

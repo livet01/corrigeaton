@@ -252,6 +252,39 @@ class Test
         return $this->teacher;
     }
 
+    /**
+     * Return :
+     *          -1 if nothing to send
+     *          0 if mail '0'
+     *          1 if mail '1' ....
+     * @return int
+     */
+    public function doISend()
+    {
+        $intTemps = array(0,3,4.5,5.25,6,6.75,7.5,8.25,9);
+        $ret = -1;
+        $dateExam = $this->date;
+        $dateToday = new \DateTime();
+        $diffDate = $dateToday->diff($dateExam,true);
+        $dayDiff = intval($diffDate->format('d'));
+        $monthDiff = intval($diffDate->format('m'));
+        $yearDiff = intval($diffDate->format('Y'));
+        $totDay = $dayDiff + $monthDiff*30 + $yearDiff*365;
+        $numReminder = $this->numReminder;
+        for ($i=0; $i <10; $i++ )
+        {
+            if ($totDay == intval($intTemps[$i]*7))
+            {
+                if ($numReminder == $i)
+                {
+                    $ret = $i;
+                }
+            }
+
+        }
+        return $ret;
+    }
+
     public function isCorrected(){
         return ! is_null($this->dateCorrected);
     }
