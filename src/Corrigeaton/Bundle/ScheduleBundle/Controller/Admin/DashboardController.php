@@ -18,7 +18,7 @@ class DashboardController extends Controller {
     /**
      * Lists all Classroom entities.
      *
-     * @Route("/", name="dashboard")
+     * @Route("/admin/", name="dashboard")
      * @Method("GET")
      * @Template()
      */

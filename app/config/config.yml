@@ -29,6 +29,8 @@ framework:
 twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
+    globals:
+      email_send: "%mailer_mail%"
 
 # Assetic Configuration
 assetic:

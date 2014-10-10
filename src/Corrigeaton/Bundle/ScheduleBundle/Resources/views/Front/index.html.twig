@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% trans %}Corrigeaton{% endtrans %}</title>
+
+    <!-- Bootstrap -->
+    <link href="{{ asset("bundles/corrigeatonschedule/css/bootstrap.min.css") }}" rel="stylesheet">
+    <link href="{{ asset("bundles/corrigeatonschedule/css/sticky-footer-navbar.css") }}" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{ asset("bundles/corrigeatonschedule/css/sweet-alert.css") }}">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <link rel="apple-touch-icon" sizes="57x57" href="{{ asset("apple-touch-icon-57x57.png") }}">
+    <link rel="apple-touch-icon" sizes="114x114" href="{{ asset("apple-touch-icon-114x114.png") }}">
+    <link rel="apple-touch-icon" sizes="72x72" href="{{ asset("apple-touch-icon-72x72.png") }}">
+    <link rel="apple-touch-icon" sizes="144x144" href="{{ asset("apple-touch-icon-144x144.png") }}">
+    <link rel="apple-touch-icon" sizes="60x60" href="{{ asset("apple-touch-icon-60x60.png") }}">
+    <link rel="apple-touch-icon" sizes="120x120" href="{{ asset("apple-touch-icon-120x120.png") }}">
+    <link rel="apple-touch-icon" sizes="76x76" href="{{ asset("apple-touch-icon-76x76.png") }}">
+    <link rel="apple-touch-icon" sizes="152x152" href="{{ asset("apple-touch-icon-152x152.png") }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset("apple-touch-icon-180x180.png") }}">
+    <meta name="apple-mobile-web-app-title" content="Corrigeathon">
+    <link rel="icon" type="image/png" href="{{ asset("favicon-192x192.png") }}" sizes="192x192">
+    <link rel="icon" type="image/png" href="{{ asset("favicon-160x160.png") }}" sizes="160x160">
+    <link rel="icon" type="image/png" href="{{ asset("favicon-96x96.png") }}" sizes="96x96">
+    <link rel="icon" type="image/png" href="{{ asset("favicon-16x16.png") }}" sizes="16x16">
+    <link rel="icon" type="image/png" href="{{ asset("favicon-32x32.png") }}" sizes="32x32">
+    <meta name="msapplication-TileColor" content="#2d89ef">
+    <meta name="msapplication-TileImage" content="{{ asset("mstile-144x144.png") }}">
+    <meta name="application-name" content="Corrigeathon">
+</head>
+<body>
+
+<!-- Fixed navbar -->
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="{{ path("index") }}"><img src="{{ asset("bundles/corrigeatonschedule/img/logo.png") }}"/>Corrigeathon</a>
+        </div>
+        <div class="collapse navbar-collapse">
+
+        </div><!--/.nav-collapse -->
+    </div>
+</div>
+{% block body %}
+<!-- Begin page content -->
+<div class="container">
+    <div class="page-header">
+        <h1>Pour ne plus avoir de piles de copies</h1>
+    </div>
+    <p class="lead">Corrigeathon est un service de rappel sur la correction des copies d'un examen.</p>
+    <div class="row">
+        <div class="col-md-6"><h2>Pour vous étudiant</h2>
+            <p>Arrêtez de <strong>harceler</strong> vos professeurs lorsque vous avez hâte de recevoir votre note à un brillant examen ! Corrigeathon s'occupe de le faire pour vous. Tout en accord avec le règlement des études en vigueur. </p>
+        </div>
+        <div class="col-md-6"><h2>Pour vous professeur</h2>
+            <p>Vous oubliez souvent la date finale à laquelle il faut rendre les copies ? Vous aimeriez que quelqu'un vous le <strong>rappel automatiquement</strong> ? Corrigeathon vous rend ce service et vous permettra même d'avertir les étudiants lorsque vous avez terminé votre correction !</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6"><h2>Caractéristiques du service</h2>
+        <ul>
+            <li>Répertorie automatiquement les examens depuis ADE</li>
+            <li>Notifie le professeur lorsque la date de fin de correction arrive à échéance (3 semaines)</li>
+            <li>Permet au professeur ponctuel de se désabonner du service</li>
+            <li>Averti les étudiants lorsque les copies sont finis de corriger</li>
+        </ul>
+
+        </div>
+        <div class="col-md-6"><h2>Disponible pour les classes</h2>
+            <ul>
+                {% for classe in classes %}
+                    <li>{{ classe }} </li>
+                {% endfor %}
+            </ul>
+
+        </div>
+
+    </div>
+</div>
+{% endblock %}
+
+<div class="footer">
+    <div class="container">
+        <p class="text-muted">Corrigeathon 2014 - <a href="{{ path("mentions") }}">Mentions légales</a> - <a href="mailto:{{ email_send }}">Contact</a></p>
+    </div>
+</div>
+
+
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="{{ asset("bundles/corrigeatonschedule/js/jquery-1.11.0.js") }}"></script>
+<script src="{{ asset("bundles/corrigeatonschedule/js/bootstrap.min.js") }}"></script>
+
+</body>
+</html>

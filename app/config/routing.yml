@@ -6,7 +6,7 @@ corrigeaton_report:
 corrigeaton_schedule:
     resource: "@CorrigeatonScheduleBundle/Controller/"
     type:     annotation
-    prefix:   /admin/
+    prefix:   /
 
 corrigeaton_mailer:
     resource: "@CorrigeatonMailerBundle/Controller/"

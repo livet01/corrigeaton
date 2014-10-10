@@ -164,6 +164,18 @@ class Test
     }
 
     /**
+     * Add numReminder
+     *
+     * @return Test
+     */
+    public function addNumReminder()
+    {
+        $this->numReminder ++;
+
+        return $this;
+    }
+
+    /**
      * Get numReminder
      *
      * @return integer 
@@ -261,26 +273,17 @@ class Test
      */
     public function doISend()
     {
-        $dateExam = $this->date;
-        $intTemps = array(
-            new \DateTime($dateExam).add('P59D'),
-            new \DateTime($dateExam).add('P55D'),
-            new \DateTime($dateExam).add('P51D'),
-            new \DateTime($dateExam).add('P47D'),
-            new \DateTime($dateExam).add('P43D'),
-            new \DateTime($dateExam).add('P39D'),
-            new \DateTime($dateExam).add('P35D'),
-            new \DateTime($dateExam).add('P31D'),
-            new \DateTime($dateExam).add('P20D'),
-            new \DateTime($dateExam)
-        );
+        $intTemps = array('P59D','P55D','P51D','P47D','P43D','P39D','P35D','P31D','P20D','P0D');
         $dateToday = new \DateTime();
         $numReminder = $this->numReminder;
-        for ($i=0; $i <count($intTemps); $i++)
+        for ($i=0; $i < count($intTemps); $i++)
         {
-            if ($dateToday >= $intTemps[$i] && $numReminder < count($intTemps)-$i)
+            $date = clone $this->date;
+            $date->add(new \DateInterval($intTemps[$i]));
+
+            if ($dateToday >= $date && $numReminder < count($intTemps)-$i)
             {
-                $numReminder =count($intTemps)-$i;
+                $numReminder = count($intTemps)-$i;
                 return $numReminder;
             }
         }
@@ -312,5 +315,9 @@ class Test
     public function getDateCorrected()
     {
         return $this->dateCorrected;
+    }
+
+    public function __toString(){
+        return "Test : ".$this->name;
     }
 }
