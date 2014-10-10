@@ -49,3 +49,126 @@ body > .container {
 code {
   font-size: 80%;
 }
+
+
+/* ==========================================================================
+   PARALLAX STYLES
+   ========================================================================== */
+section {
+    position: relative;
+    width: 100% !important;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+section:nth-of-type(1) {
+    background: #FAFAFA;
+    height: 300px;
+}
+
+section:nth-of-type(2) {
+    background: #FAFAFA;
+    height: 300px;
+}
+
+#story-freext > div:nth-of-type(1) {
+    background: url(../img/1.jpg) 50% 0 no-repeat fixed;
+    height: 300px;
+    position: absolute;
+    width: 100%;
+}
+
+#story-two > div:nth-of-type(2) {
+    background: url(../img/2.jpg) 50% 0 no-repeat fixed;
+    height: 300px;
+    position: absolute;
+    width: 100%;
+}
+
+section article {
+    position: absolute;
+    left: 80px;
+    width: 100%;
+    z-index: 4;
+    color: #fff;
+    font-size: 20px!important;
+    padding: 20px;
+}
+
+section article span {
+    line-height: 40px!important;
+    font-weight: 600!important;
+}
+
+
+/* ===========================================================
+   GENERAL STYLESHEET BY BYINARY THEME
+   ============================================================*/
+
+h1 {
+    padding-top: 30px;
+    font-weight: 800;
+}
+
+h5 {
+    padding-bottom: 30px;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.main-top-margin {
+    margin-top: 80px;
+}
+
+.main-low-margin {
+    margin-top: 25px;
+}
+
+a, a:hover {
+    text-decoration: none;
+}
+
+p {
+    line-height: 30px;
+    margin-bottom: 23px;
+}
+
+.img-margin-product {
+    margin-top: 30px;
+}
+
+.bottam-pad {
+    padding-bottom: 40px;
+}
+
+.space-bottom {
+    height: 120px;
+}
+
+.space-top {
+    height: 70px;
+}
+
+.main-icon {
+    font-size: 10em;
+    color: #1d467f;
+}
+
+.head-line {
+    font-size: 70px;
+    padding-bottom: 50px;
+    line-height: 65px;
+    font-weight: 900;
+}
+/* ==========================================================================
+   COLOR CODES
+   ========================================================================== */
+
+.section {
+    background-color: #1d467f;
+    color: #fff;
+    padding: 50px 0;
+}
