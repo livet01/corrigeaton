@@ -24,7 +24,10 @@ body {
 .navbar-default .navbar-brand {
     color: #1d467f;
     font-weight: bold;
-    font-size: 20px;
+    font-size: 24px;
+}
+.navbar-default .navbar-brand img {
+    margin-top: -5px;
 }
 
 /* Custom page CSS
