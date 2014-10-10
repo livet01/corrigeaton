@@ -4,12 +4,13 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{% trans %}Corrigeaton{% endtrans %}</title>
+    <title>{% trans %}Corrigeathon{% endtrans %}</title>
 
     <!-- Bootstrap -->
     <link href="{{ asset("bundles/corrigeatonschedule/css/bootstrap.min.css") }}" rel="stylesheet">
-    <link href="{{ asset("bundles/corrigeatonschedule/css/sticky-footer-navbar.css") }}" rel="stylesheet">
+    <link href="{{ asset("bundles/corrigeatonschedule/font-awesome-4.2.0/css/font-awesome.min.css")}}" rel="stylesheet" type="text/css">
     <link rel="stylesheet" type="text/css" href="{{ asset("bundles/corrigeatonschedule/css/sweet-alert.css") }}">
+    <link href="{{ asset("bundles/corrigeatonschedule/css/sticky-footer-navbar.css") }}" rel="stylesheet">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -51,41 +52,121 @@
     </div>
 </div>
 {% block body %}
-<!-- Begin page content -->
-<div class="container">
-    <div class="page-header">
-        <h1>Pour ne plus avoir de piles de copies</h1>
+
+    <div id="header-section" >
+        <div class="container">
+
+            <div class="row main-top-margin">
+                <div class="col-md-6 col-md-offset-3">
+
+                    <div class="text-center">
+
+                        <i class="fa fa-stack-overflow main-icon"></i>
+                        <br />
+
+                    </div>
+                </div>
+            </div>
+            <div class="row main-low-margin">
+                <div class="col-md-12">
+
+                    <div class="text-center">
+                        <h1 class="head-line" >Pour ne plus avoir de piles de copies</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
-    <p class="lead">Corrigeathon est un service de rappel sur la correction des copies d'un examen.</p>
-    <div class="row">
-        <div class="col-md-6"><h2>Pour vous étudiant</h2>
+    <div id="about-section" class="section" >
+        <div class="container" >
+
+
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1" >
+                    <h2>Corrigeathon est un service de rappel sur la correction des copies d'un examen.</h2>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+    <div class="container"  >
+    <div class="row main-low-margin text-center" >
+        <div class="col-md-6 col-sm-6" >
+            <i class="fa fa-university fa-5x color-brown"></i>
+            <h3>ETUDIANT</h3>
             <p>Arrêtez de <strong>harceler</strong> vos professeurs lorsque vous avez hâte de recevoir votre note à un brillant examen ! Corrigeathon s'occupe de le faire pour vous. Tout en accord avec le règlement des études en vigueur. </p>
         </div>
-        <div class="col-md-6"><h2>Pour vous professeur</h2>
+        <div class="col-md-6 col-sm-6" >
+            <i class="fa fa-pencil fa-5x color-blue"></i>
+            <h3>PROFESSEUR</h3>
             <p>Vous oubliez souvent la date finale à laquelle il faut rendre les copies ? Vous aimeriez que quelqu'un vous le <strong>rappel automatiquement</strong> ? Corrigeathon vous rend ce service et vous permettra même d'avertir les étudiants lorsque vous avez terminé votre correction !</p>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-6"><h2>Caractéristiques du service</h2>
-        <ul>
-            <li>Répertorie automatiquement les examens depuis ADE</li>
-            <li>Notifie le professeur lorsque la date de fin de correction arrive à échéance (3 semaines)</li>
-            <li>Permet au professeur ponctuel de se désabonner du service</li>
-            <li>Averti les étudiants lorsque les copies sont finis de corriger</li>
-        </ul>
 
         </div>
-        <div class="col-md-6"><h2>Disponible pour les classes</h2>
-            <ul>
-                {% for classe in classes %}
-                    <li>{{ classe }} </li>
-                {% endfor %}
-            </ul>
-
-        </div>
-
     </div>
 </div>
+    <div class="space-bottom"></div>
+    <!--END ABOUT SECTION -->
+    <!--PARALLAX SECTION ONE-->
+    <!-- END PARALLAX SECTION ONE -->
+
+    <!--PRICE SECTION -->
+    <div id="price-section" class="section" >
+        <div class="container" >
+
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1" >
+                    <h2>Caractéristiques du service</h2>
+                </div>
+            </div>
+            <div class="row text-center main-low-margin">
+                <div class="col-md-3 col-sm-3" >
+                    <i class="fa fa-search fa-2x color-brown"></i>
+                    <p>Répertorie automatiquement les examens depuis ADE</p>
+                </div>
+                <div class="col-md-3 col-sm-3" >
+                    <i class="fa fa-bell fa-2x color-brown"></i>
+                    <p>Notifie le professeur lorsque la date de fin de correction arrive à échéance (3 semaines)</p>
+                </div>
+                <div class="col-md-3 col-sm-3" >
+                    <i class="fa fa-bell-slash-o fa-2x color-brown"></i>
+                    <p>Permet au professeur ponctuel de se désabonner du service</p>
+                </div>
+                <div class="col-md-3 col-sm-3" >
+                    <i class="fa fa-bullhorn fa-2x color-brown"></i>
+                    <p>Averti les étudiants lorsque les copies sont finis de corriger</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+    <!--CONTACT SECTION -->
+    <div id="contact-section" >
+        <div class="container" >
+
+
+            <div class="row main-low-margin">
+                <div class="col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1" >
+                    <h2>Disponible pour les classes</h2>
+<h3>
+                        {% for classe in classes %}
+                            <span class="label label-default">{{ classe }} </span>
+                        {% endfor %}
+</h3>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+    <div class="space-top"></div>
+
+    <!--END CONTACT SECTION -->
+    <!-- Begin page content -->
 {% endblock %}
 
 <div class="footer">
