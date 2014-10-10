@@ -31,6 +31,7 @@ twig:
     strict_variables: "%kernel.debug%"
     globals:
       email_send: "%mailer_mail%"
+      base_url: "%base_url%"
 
 # Assetic Configuration
 assetic:

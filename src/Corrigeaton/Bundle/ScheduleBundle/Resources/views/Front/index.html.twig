@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{% trans %}Corrigeathon{% endtrans %}</title>
+    <title>{% trans %}Corrigeathon{% endtrans %} {{ block("title") }}</title>
 
     <!-- Bootstrap -->
     <link href="{{ asset("bundles/corrigeatonschedule/css/bootstrap.min.css") }}" rel="stylesheet">
@@ -154,7 +154,7 @@
                     <h2>Disponible pour les classes</h2>
 <h3>
                         {% for classe in classes %}
-                            <span class="label label-default">{{ classe }} </span>
+                            <span class="label label-success">{{ classe }}</span>
                         {% endfor %}
 </h3>
                 </div>

@@ -57,10 +57,7 @@ class FrontController extends Controller
                 $teacher->setIsUnregistered(true);
                 $em->flush();
             }
-            $this->get('session')->getFlashBag()->add(
-                'email',
-                'L\'adresse '.$teacher->getEmail().' a été désabonné. Vous ne receverez plus d\'email de notre part. '
-            );
+
             return array("teacher" => $teacher);
         }
         else
@@ -77,6 +74,30 @@ class FrontController extends Controller
     public function mentionsAction()
     {
         return array(
+        );
+    }
+
+    /**
+     * @Route("/corrected/{id}/{token}", name="corrected")
+     * @Template()
+     */
+    public function correctedAction($id,$token)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $test = $em->getRepository("CorrigeatonScheduleBundle:Test")->find($id);
+        if(!$test)
+        {
+            throw $this->createNotFoundException("Unable to find test entity");
+        }
+        if($test->getFinishToken() != $token){
+            throw $this->createNotFoundException("Unable to find test entity");
+        }
+
+        $test->setDateCorrected(new \DateTime());
+        $em->flush();
+
+        return array("test" => $test
         );
     }
 

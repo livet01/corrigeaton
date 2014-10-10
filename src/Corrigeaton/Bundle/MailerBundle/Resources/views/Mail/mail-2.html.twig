@@ -58,7 +58,7 @@
                                     <table class="large-button success">
                                         <tr>
                                             <td>
-                                                <a href="#">J'ai fini de corriger !</a>
+                                                <a href="{{ base_url ~ path("corrected",{id:test.id,token:test.finishToken}) }}">J'ai fini de corriger !</a>
                                             </td>
                                         </tr>
                                     </table>
