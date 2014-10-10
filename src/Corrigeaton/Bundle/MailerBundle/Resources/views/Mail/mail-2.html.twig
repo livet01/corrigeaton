@@ -2,6 +2,7 @@
 
 {% block body %}
 
+
             <table class="row">
                 <tr>
                     <td class="wrapper last">
@@ -10,16 +11,15 @@
                             <tr>
                                 <td>
                                     <h1>Hi {{ test.teacher }},</h1>
-                                    <p class="lead">Après ce brillant (on espère) examen {{ test.name }}, nous avons le regret de vous annoncer qu'il va falloir le corriger.</p>
-                                    <p><img src="{{ asset('bundles/corrigeatonmailer/img/copie1.jpg') }}"></p>
+                                    <p class="lead">Nous sommes le {{ "now"|date("d M Y") }}, exactement 3 semaines après l'examen {{ test.name }} des {% for class in test.classrooms %}{{ class }}{% if not loop.last %}, {% endif %}{% endfor %}.</p>
+                                    <p><img src="{{ asset('bundles/corrigeatonmailer/img/les-profs-corrections.jpg') }}"></p>
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <p>Votre mission, si vous l'acceptez, est de nous rendre dans 3 semaines (le {{ "3 weeks"|date("d M Y") }}) nos copies.</p>
-                                    <p>Ayant conscience de votre emploi du temps très chargé, voici corrigeathon, un service pour ne plus jamais oublier notre pile de copie sur son étagère.</p>
-                                    <p>Lorsque avez fini, vous avez plus qu'à appuyer sur le bouton J'ai fini de corriger et nous alerterons pour vous les {% for class in test.classrooms %}{{ class }}{% if not loop.last %}, {% endif %}{% endfor %}.</p>
-                                    <p>Cordialement,</p>
+                                    <p>Sauf erreur de notre part, je crois que vous n'avez pas rendu les copies. </p>
+                                    <p>Pas de panique, ceci est juste un premier rappel. Merci de nous tenir au courant de l'avancé de votre correction !</p>
+                                    <p>Bon courage dans votre tâche, cordialement,</p>
                                     <p>Le service Corrigeathon pour les {% for class in test.classrooms %}{{ class }}{% if not loop.last %}, {% endif %}{% endfor %}</p>
                                 </td>
                                 <td class="expander"></td>
@@ -62,19 +62,6 @@
                                             </td>
                                         </tr>
                                     </table>
-
-                                <td class="expander"></td>
-                            </tr>
-                            <tr>
-                                <td class="left-text-pad">
-
-                                    <table class="large-button alert ">
-                                        <tr>
-                                            <td>
-                                                <a href="#">Corriger mes copies automatiquement (beta)</a>
-                                            </td>
-                                        </tr>
-                                    </table>
                                 </td>
                                 <td class="expander"></td>
                             </tr>
@@ -83,4 +70,5 @@
                     </td>
                 </tr>
             </table>
+
 {% endblock %}

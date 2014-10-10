@@ -14,7 +14,7 @@ use Corrigeaton\Bundle\ScheduleBundle\Form\TeacherType;
 /**
  * Teacher controller.
  *
- * @Route("/teacher")
+ * @Route("/admin/teacher")
  */
 class TeacherController extends Controller
 {

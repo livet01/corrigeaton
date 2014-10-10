@@ -9,7 +9,7 @@
     <meta name="description" content="{{ block("meta_description")}}">
     <meta name="author" content="{{ block("meta_author") }}">
 
-    <title>{% trans %}Corrigeaton{% endtrans %} - {{ block("title") }}</title>
+    <title>{% trans %}Corrigeaton ADMIN{% endtrans %} - {{ block("title") }}</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="{{ asset("bundles/corrigeatonschedule/css/bootstrap.min.css") }}" rel="stylesheet">
@@ -31,9 +31,24 @@
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-    <link rel="apple-touch-icon" type="image/png" href="{{ asset("apple-touch-icon.png") }}">
-    <link rel="apple-touch-icon-precomposed" type="image/png" href="{{ asset("apple-touch-icon.png") }}">
-    <link rel="icon" href="{{ asset("favicon.ico") }}" />
+    <link rel="apple-touch-icon" sizes="57x57" href="{{ asset("apple-touch-icon-57x57.png") }}">
+    <link rel="apple-touch-icon" sizes="114x114" href="{{ asset("apple-touch-icon-114x114.png") }}">
+    <link rel="apple-touch-icon" sizes="72x72" href="{{ asset("apple-touch-icon-72x72.png") }}">
+    <link rel="apple-touch-icon" sizes="144x144" href="{{ asset("apple-touch-icon-144x144.png") }}">
+    <link rel="apple-touch-icon" sizes="60x60" href="{{ asset("apple-touch-icon-60x60.png") }}">
+    <link rel="apple-touch-icon" sizes="120x120" href="{{ asset("apple-touch-icon-120x120.png") }}">
+    <link rel="apple-touch-icon" sizes="76x76" href="{{ asset("apple-touch-icon-76x76.png") }}">
+    <link rel="apple-touch-icon" sizes="152x152" href="{{ asset("apple-touch-icon-152x152.png") }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset("apple-touch-icon-180x180.png") }}">
+    <meta name="apple-mobile-web-app-title" content="Corrigeathon">
+    <link rel="icon" type="image/png" href="{{ asset("favicon-192x192.png") }}" sizes="192x192">
+    <link rel="icon" type="image/png" href="{{ asset("favicon-160x160.png") }}" sizes="160x160">
+    <link rel="icon" type="image/png" href="{{ asset("favicon-96x96.png") }}" sizes="96x96">
+    <link rel="icon" type="image/png" href="{{ asset("favicon-16x16.png") }}" sizes="16x16">
+    <link rel="icon" type="image/png" href="{{ asset("favicon-32x32.png") }}" sizes="32x32">
+    <meta name="msapplication-TileColor" content="#2d89ef">
+    <meta name="msapplication-TileImage" content="{{ asset("mstile-144x144.png") }}">
+    <meta name="application-name" content="Corrigeathon">
 </head>
 
 <body>
@@ -49,7 +64,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="{{ path("dashboard") }}"><img src="{{ asset("bundles/corrigeatonschedule/img/logo.png") }}"/>{% trans %}Corrigeaton{% endtrans %}</a>
+            <a class="navbar-brand" href="{{ path("dashboard") }}"><img src="{{ asset("bundles/corrigeatonschedule/img/logo.png") }}"/>{% trans %}Corrigeathon{% endtrans %}</a>
         </div>
 
         <!-- /.navbar-top-links -->

@@ -13,7 +13,7 @@ use Corrigeaton\Bundle\ScheduleBundle\Form\ClassroomType;
 /**
  * Classroom controller.
  *
- * @Route("/classroom")
+ * @Route("/admin/classroom")
  */
 class ClassroomController extends Controller
 {
