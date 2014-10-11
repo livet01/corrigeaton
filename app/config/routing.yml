@@ -11,5 +11,5 @@ corrigeaton_schedule:
 corrigeaton_mailer:
     resource: "@CorrigeatonMailerBundle/Controller/"
     type:     annotation
-    prefix:   /
+    prefix:   /admin/
 
