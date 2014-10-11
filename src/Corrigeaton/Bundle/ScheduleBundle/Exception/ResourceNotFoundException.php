@@ -7,12 +7,12 @@ class ResourceNotFoundException extends \Exception {
     /**
      * @var object
      */
-    protected $class;
+    private $class;
 
     function __construct($class, $message = "")
     {
         parent::__construct($message);
-        $this->$class = $class;
+        $this->class = $class;
     }
 
     /**

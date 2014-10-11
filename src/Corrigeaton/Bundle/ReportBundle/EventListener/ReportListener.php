@@ -39,7 +39,6 @@ class ReportListener {
             {
                 $toto = true;
             }
-            echo $toto;
         }
         if($toto == false)
         {

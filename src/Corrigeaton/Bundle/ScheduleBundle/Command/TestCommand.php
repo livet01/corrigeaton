@@ -24,7 +24,6 @@ class TestCommand extends ContainerAwareCommand {
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $em = $this->getContainer()->get("doctrine.orm.entity_manager");
-        $dispatcher = $this->getContainer()->get('event_dispatcher');
         $entities = $em->getRepository('CorrigeatonScheduleBundle:Classroom')->findAll();
 
         $output->writeln("<info>Traitement de ".count($entities)." classes</info>");
@@ -59,6 +58,8 @@ class TestCommand extends ContainerAwareCommand {
                 }
                 catch(ResourceNotFoundException $e){
                     $reportEvent = new ReportEvent($e->getClass(), $e->getMessage());
+                    $dispatcher = $this->getContainer()->get('event_dispatcher');
+                    $dispatcher->dispatch('corrigeaton_report.events.report', $reportEvent);
                     $output->writeln('<error>'.$e->getMessage()."</error>");}
             }
 
