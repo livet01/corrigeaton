@@ -11,15 +11,14 @@
                             <tr>
                                 <td>
                                     <h1>Hi {{ test.teacher }},</h1>
-                                    <p class="lead">Nous sommes le {{ "now"|date("d M Y") }}, exactement 3 semaines après l'examen {{ test.name }} des {% for class in test.classrooms %}{{ class }}{% if not loop.last %}, {% endif %}{% endfor %}.</p>
-                                    <p><img src="{{ asset('bundles/corrigeatonmailer/img/2.jpg') }}"></p>
+                                    <p class="lead">A propos de l'examen {{ test.name }} du {{ test.date|date("d M Y") }}, vous nous auriez pas oublié ?</p>
+                                    <p><img src="{{ asset('bundles/corrigeatonmailer/img/5.jpg') }}"></p>
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <p>Sauf erreur de notre part, je crois que vous n'avez pas rendu les copies. </p>
-                                    <p>Pas de panique, ceci est juste un premier rappel. Merci de nous tenir au courant de l'avancé de votre correction !</p>
-                                    <p>Bon courage dans votre tâche, cordialement,</p>
+                                    <p>Nous esperons que la correction se passe bien et que sauf erreur de notre part vous aurez bientôt fini.</p>
+                                    <p>En attendant, bon courage à vous, cordialement,</p>
                                     <p>Le service Corrigeathon pour les {% for class in test.classrooms %}{{ class }}{% if not loop.last %}, {% endif %}{% endfor %}</p>
                                 </td>
                                 <td class="expander"></td>

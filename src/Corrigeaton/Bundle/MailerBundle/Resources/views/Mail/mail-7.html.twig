@@ -11,15 +11,14 @@
                             <tr>
                                 <td>
                                     <h1>Hi {{ test.teacher }},</h1>
-                                    <p class="lead">Nous sommes le {{ "now"|date("d M Y") }}, exactement 3 semaines après l'examen {{ test.name }} des {% for class in test.classrooms %}{{ class }}{% if not loop.last %}, {% endif %}{% endfor %}.</p>
-                                    <p><img src="{{ asset('bundles/corrigeatonmailer/img/2.jpg') }}"></p>
+                                    <p class="lead">{{ "now"|date("d M") }} est un excelent jour pour nous rendre nos copies de l'examen {{ test.name }}.</p>
+                                    <p><img src="{{ asset('bundles/corrigeatonmailer/img/7.jpg') }}"></p>
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <p>Sauf erreur de notre part, je crois que vous n'avez pas rendu les copies. </p>
-                                    <p>Pas de panique, ceci est juste un premier rappel. Merci de nous tenir au courant de l'avancé de votre correction !</p>
-                                    <p>Bon courage dans votre tâche, cordialement,</p>
+                                    <p>Au pire, si vous n'avez pas le temps de le corriger, un 20 sur toutes nos copies fera l'affaire ! En attendant et sauf erreur de notre part, quelque soit votre méthode de correction, nous esperons avoir bientot nos copies. </p>
+                                    <p>Bon courage, cordialement,</p>
                                     <p>Le service Corrigeathon pour les {% for class in test.classrooms %}{{ class }}{% if not loop.last %}, {% endif %}{% endfor %}</p>
                                 </td>
                                 <td class="expander"></td>
@@ -58,7 +57,7 @@
                                     <table class="large-button success">
                                         <tr>
                                             <td>
-                                                <a href="{{ base_url ~ path("corrected",{id:test.id,token:test.finishToken}) }}">J'ai fini de corriger !</a>
+                                                <a href="{{ base_url ~ path("corrected",{id:test.id,token:test.finishToken}) }}">J'ai enfin fini de corriger !</a>
                                             </td>
                                         </tr>
                                     </table>
