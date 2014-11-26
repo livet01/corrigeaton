@@ -11,13 +11,13 @@
                             <tr>
                                 <td>
                                     <h1>Hi {{ test.teacher }},</h1>
-                                    <p class="lead">A propos de l'examen {{ test.name }} du {{ test.date|date("d M Y") }}, vous nous auriez pas oublié ?</p>
+                                    <p class="lead">A propos de l'examen {{ test.name }} du {{ test.date|date("d M Y") }}, ne nous auriez vous pas oublié ?</p>
                                     <p><img src="{{ asset('bundles/corrigeatonmailer/img/5.jpg') }}"></p>
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <p>Nous esperons que la correction se passe bien et que sauf erreur de notre part vous aurez bientôt fini.</p>
+                                    <p>Nous espérons que la correction se passe bien et que sauf erreur de notre part vous aurez bientôt fini.</p>
                                     <p>En attendant, bon courage à vous, cordialement,</p>
                                     <p>Le service Corrigeathon pour les {% for class in test.classrooms %}{{ class }}{% if not loop.last %}, {% endif %}{% endfor %}</p>
                                 </td>

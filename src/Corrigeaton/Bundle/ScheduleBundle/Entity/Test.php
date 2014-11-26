@@ -242,6 +242,20 @@ class Test
     }
 
     /**
+     * Get classrooms email
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getClassroomsEmails()
+    {
+        $email = array();
+        foreach($this->classrooms as $class){
+            $email[$class->__toString()]=$class->getEmail();
+        }
+        return $email;
+    }
+
+    /**
      * Set teacher
      *
      * @param \Corrigeaton\Bundle\ScheduleBundle\Entity\Teacher $teacher
@@ -273,7 +287,7 @@ class Test
      */
     public function doISend()
     {
-        $intTemps = array('P59D','P55D','P51D','P47D','P43D','P39D','P35D','P31D','P20D','P0D');
+        $intTemps = array('P59D','P55D','P51D','P47D','P43D','P39D','P35D');
         $dateToday = new \DateTime();
         $numReminder = $this->numReminder;
         for ($i=0; $i < count($intTemps); $i++)

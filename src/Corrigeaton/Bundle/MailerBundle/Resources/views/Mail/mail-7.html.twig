@@ -11,13 +11,13 @@
                             <tr>
                                 <td>
                                     <h1>Hi {{ test.teacher }},</h1>
-                                    <p class="lead">{{ "now"|date("d M") }} est un excelent jour pour nous rendre nos copies de l'examen {{ test.name }}.</p>
+                                    <p class="lead">{{ "now"|date("d M") }} est un excellent jour pour nous rendre nos copies de l'examen {{ test.name }}.</p>
                                     <p><img src="{{ asset('bundles/corrigeatonmailer/img/7.jpg') }}"></p>
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <p>Au pire, si vous n'avez pas le temps de le corriger, un 20 sur toutes nos copies fera l'affaire ! En attendant et sauf erreur de notre part, quelque soit votre méthode de correction, nous esperons avoir bientot nos copies. </p>
+                                    <p>Si jamais vous n'avez pas le temps de le corriger, un 20 sur toutes nos copies fera l'affaire ! En attendant et sauf erreur de notre part, quelque soit votre méthode de correction, nous espérons avoir bientôt nos copies. </p>
                                     <p>Bon courage, cordialement,</p>
                                     <p>Le service Corrigeathon pour les {% for class in test.classrooms %}{{ class }}{% if not loop.last %}, {% endif %}{% endfor %}</p>
                                 </td>

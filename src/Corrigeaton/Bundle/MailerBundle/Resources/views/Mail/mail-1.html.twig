@@ -17,8 +17,8 @@
                             <tr>
                                 <td>
                                     <p>Votre mission, si vous l'acceptez, est de nous rendre dans 3 semaines (le {{ "3 weeks"|date("d M Y") }}) nos copies.</p>
-                                    <p>Ayant conscience de votre emploi du temps très chargé, voici corrigeathon, un service pour ne plus jamais oublier notre pile de copie sur son étagère.</p>
-                                    <p>Lorsque avez fini, vous avez plus qu'à appuyer sur le bouton J'ai fini de corriger et nous alerterons pour vous les {% for class in test.classrooms %}{{ class }}{% if not loop.last %}, {% endif %}{% endfor %}.</p>
+                                    <p>Ayant conscience de votre emploi du temps très chargé, voici corrigeathon, un service pour ne plus jamais oublier notre pile de copie sur votre étagère.</p>
+                                    <p>Lorsque avez fini, vous n'avez plus qu'à appuyer sur le bouton J'ai fini de corriger et nous alerterons pour vous les {% for class in test.classrooms %}{{ class }}{% if not loop.last %}, {% endif %}{% endfor %}.</p>
                                     <p>Cordialement,</p>
                                     <p>Le service Corrigeathon pour les {% for class in test.classrooms %}{{ class }}{% if not loop.last %}, {% endif %}{% endfor %}</p>
                                 </td>
@@ -58,7 +58,7 @@
                                     <table class="large-button success">
                                         <tr>
                                             <td>
-                                                <a href="{{ base_url ~ path("corrected",{id:test.id,token:test.finishToken}) }}">J'ai fini de corriger !</a>
+                                                <a href="{{ base_url ~ path("corrected",{id:test.id,token:test.finishToken}) }}">(J'ai fini de corriger !)</a>
                                             </td>
                                         </tr>
                                     </table>

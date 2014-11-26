@@ -1,0 +1,49 @@
+{% extends 'CorrigeatonMailerBundle::email.html.twig' %}
+
+{% block body %}
+
+
+            <table class="row">
+                <tr>
+                    <td class="wrapper last">
+
+                        <table class="twelve columns">
+                            <tr>
+                                <td>
+                                    <h1>Hi,</h1>
+                                    <p class="lead">{{ test.teacher }} vient de terminer de corriger vos copies de l'examen {{ test.name }}.</p>
+                                    <p><img src="{{ asset('bundles/corrigeatonmailer/img/corrected.png') }}"></p>
+                                </td>
+                            </tr>p
+                            <tr>
+                                <td>
+                                    <p>Nous venons d'avoir la confirmation que vos copies ont été corrigé. Vous les trouverez prochainement ainsi que votre note. </p>
+                                    <p>Cordialement,</p>
+                                    <p>Le service Corrigeathon</p>
+                                </td>
+                                <td class="expander"></td>
+                            </tr>
+                        </table>
+
+                    </td>
+                </tr>
+            </table>
+
+            <table class="row callout">
+                <tr>
+                    <td class="wrapper last">
+
+                        <table class="twelve columns">
+                            <tr>
+                                <td class="panel">
+                                    <p>Ce message est un mail automatique du service Corrigeathon. Il rappel vos professeurs lorsque la date limite de correction des copies est dépassée et vous averti lorsqu'il a fini de le corriger.</p>
+                                </td>
+                                <td class="expander"></td>
+                            </tr>
+                        </table>
+
+                    </td>
+                </tr>
+            </table>
+
+{% endblock %}
