@@ -287,15 +287,19 @@ class Test
      */
     public function doISend()
     {
-        $intTemps = array('P59D','P55D','P51D','P47D','P43D','P39D','P35D');
+        if($this->numReminder == -1){
+            return -1;
+        }
+        $intTemps = array('P47D','P44D','P40D','P36D','P31D','P21D','P0D');
         $dateToday = new \DateTime();
+        $dateToday->setTime(0,0,0);
         $numReminder = $this->numReminder;
         for ($i=0; $i < count($intTemps); $i++)
         {
             $date = clone $this->date;
+            $date->setTime(0,0,0);
             $date->add(new \DateInterval($intTemps[$i]));
-
-            if ($dateToday >= $date && $numReminder < count($intTemps)-$i)
+            if ($dateToday == $date && $numReminder < count($intTemps)-$i)
             {
                 $numReminder = count($intTemps)-$i;
                 return $numReminder;
