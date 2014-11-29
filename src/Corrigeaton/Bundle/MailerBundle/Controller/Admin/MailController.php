@@ -35,15 +35,15 @@ class MailController extends Controller
 
         $teacher = new Teacher();
         $teacher->setId(-1);
-        $teacher->setName("Nom");
-        $teacher->setSurname("Prenom");
+        $teacher->setName("Prénom");
+        $teacher->setSurname("Nom");
         $t->setTeacher($teacher);
 
         $c = new Classroom();
-        $c->setName("IR_I_A");
+        $c->setName("Class_A");
         $t->addClassroom($c);
         $c = new Classroom();
-        $c->setName("IR_I_B");
+        $c->setName("Class_B");
         $t->addClassroom($c);
 
         $html = $this->renderView("CorrigeatonMailerBundle:Mail:mail-" . $id . ".html.twig",array("test"=>$t));
