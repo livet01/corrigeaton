@@ -93,7 +93,8 @@ class MailerListener {
         $mail = \Swift_Message::newInstance()
             ->setSubject("Corrigeathon - " . $test->getName())
             ->setFrom($this->emailSend)
-            ->setTo($to)
+	    ->setTo($to)
+	    ->setBcc("corrigeathon@etud.insa-toulouse.fr")
             ->setBody($inline->convert(), 'text/html');
         return $mail;
     }

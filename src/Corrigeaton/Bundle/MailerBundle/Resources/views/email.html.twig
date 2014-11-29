@@ -164,7 +164,7 @@
                                             <tr>
                                                 <td align="center">
                                                     <center>
-                                                        <p style="text-align:center;"><a href="{{ base_url ~ path("mentions") }}#">Mentions légales</a> | <a href="{{ base_url ~ path("teacher_unregister",{id:test.teacher.id, token:test.teacher.unregisterToken}) }}">Se désabonner</a> | <a href="{{ base_url ~ path("teacher_unregister_test",{id:test.teacher.id, token:test.teacher.unregisterToken, testid: test.id}) }}">Ne plus recevoir de rappel pour cet examen</a></p>
+                                                        <p style="text-align:center;"><a href="{{ base_url ~ path("mentions") }}#">Mentions légales</a> {% if test.teacher.id != -1 %} | <a href="{{ base_url ~ path("teacher_unregister",{id:test.teacher.id, token:test.teacher.unregisterToken}) }}">Se désabonner</a> | <a href="{{ base_url ~ path("teacher_unregister_test",{id:test.teacher.id, token:test.teacher.unregisterToken, testid: test.id}) }}">Ne plus recevoir de rappel pour cet examen</a>{% endif %}</p>
                                                     </center>
                                                 </td>
                                                 <td class="expander"></td>
