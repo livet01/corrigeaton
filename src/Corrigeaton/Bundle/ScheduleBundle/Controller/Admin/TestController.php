@@ -13,7 +13,7 @@ use Corrigeaton\Bundle\ScheduleBundle\Form\TestType;
 /**
  * Test controller.
  *
- * @Route("/test")
+ * @Route("/admin/test")
  */
 class TestController extends Controller
 {

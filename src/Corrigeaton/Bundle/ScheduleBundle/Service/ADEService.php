@@ -91,7 +91,7 @@ class ADEService
             foreach($evts as $event){
 
                 // Begin by EX -> is an exam
-                if(strpos($event->getSummary(),"CM") === 0){
+                if(strpos($event->getSummary(),"Examen") === 0){
                     $tests[] = $event;
                 }
             }
@@ -186,7 +186,8 @@ class ADEService
         curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true); // Follow 302 redirection return by the first page
-        $output = curl_exec($ch);
+	curl_setopt($ch, CURLOPT_PROXY, "wwwcache.insa-toulouse.fr:3128");
+	$output = curl_exec($ch);
         curl_close($ch);
 
         $crawler = new Crawler($output);

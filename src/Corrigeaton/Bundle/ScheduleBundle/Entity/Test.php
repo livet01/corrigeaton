@@ -164,6 +164,18 @@ class Test
     }
 
     /**
+     * Add numReminder
+     *
+     * @return Test
+     */
+    public function addNumReminder()
+    {
+        $this->numReminder ++;
+
+        return $this;
+    }
+
+    /**
      * Get numReminder
      *
      * @return integer 
@@ -230,6 +242,20 @@ class Test
     }
 
     /**
+     * Get classrooms email
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getClassroomsEmails()
+    {
+        $email = array();
+        foreach($this->classrooms as $class){
+            $email[$class->__toString()]=$class->getEmail();
+        }
+        return $email;
+    }
+
+    /**
      * Set teacher
      *
      * @param \Corrigeaton\Bundle\ScheduleBundle\Entity\Teacher $teacher
@@ -250,6 +276,36 @@ class Test
     public function getTeacher()
     {
         return $this->teacher;
+    }
+
+    /**
+     * Return :
+     *          -1 if nothing to send
+     *          0 if mail '0'
+     *          1 if mail '1' ....
+     * @return int
+     */
+    public function doISend()
+    {
+        if($this->numReminder == -1){
+            return -1;
+        }
+        $intTemps = array('P47D','P44D','P40D','P36D','P31D','P21D','P0D');
+        $dateToday = new \DateTime();
+        $dateToday->setTime(0,0,0);
+        $numReminder = $this->numReminder;
+        for ($i=0; $i < count($intTemps); $i++)
+        {
+            $date = clone $this->date;
+            $date->setTime(0,0,0);
+            $date->add(new \DateInterval($intTemps[$i]));
+            if ($dateToday == $date && $numReminder < count($intTemps)-$i)
+            {
+                $numReminder = count($intTemps)-$i;
+                return $numReminder;
+            }
+        }
+        return -1;
     }
 
     public function isCorrected(){
@@ -277,5 +333,9 @@ class Test
     public function getDateCorrected()
     {
         return $this->dateCorrected;
+    }
+
+    public function __toString(){
+        return "Test : ".$this->name;
     }
 }

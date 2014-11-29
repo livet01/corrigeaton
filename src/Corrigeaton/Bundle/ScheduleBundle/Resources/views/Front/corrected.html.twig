@@ -1,0 +1,20 @@
+{% extends "CorrigeatonScheduleBundle:Front:index.html.twig" %}
+
+{% block title %}- Examen {{ test.name }} corrigé{% endblock %}
+
+{% block body %}
+
+<div class="container">
+<div class="row">
+    <div class="col-md-12">
+        <div class="sweet-alert" style="display: block">
+            <div class="icon success animate"> <span class="line tip animateSuccessTip"></span> <span class="line long animateSuccessLong"></span> <div class="placeholder"></div> <div class="fix"></div> </div>
+            <h2>Examen {{ test.name }} corrigé</h2>
+            <p>Nous allons envoyer un mail aux {% for class in test.classrooms %}{{ class }}{% if not loop.last %}, {% endif %}{% endfor %} pour leurs annoncer la fin de la correction.</p>
+            <p>Merci</p>
+        </div>
+    </div>
+</div>
+</div>
+
+{% endblock %}

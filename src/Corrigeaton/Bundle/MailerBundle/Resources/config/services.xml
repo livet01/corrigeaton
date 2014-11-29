@@ -4,17 +4,25 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
-    <!--
+
     <parameters>
-        <parameter key="corrigeaton_mailer.example.class">Corrigeaton\Bundle\MailerBundle\Example</parameter>
+        <parameter key="corrigeaton_mailer.listener.reminder.class">Corrigeaton\Bundle\MailerBundle\EventListener\MailerListener</parameter>
+        <parameter key="corrigeaton_mailer.menu_configure_listener.class">Corrigeaton\Bundle\MailerBundle\EventListener\MenuConfigureListener</parameter>
     </parameters>
 
     <services>
-        <service id="corrigeaton_mailer.example" class="%corrigeaton_mailer.example.class%">
-            <argument type="service" id="service_id" />
-            <argument>plain_value</argument>
-            <argument>%parameter_name%</argument>
+        <service id="corrigeaton_mailer.listener.reminder" class="%corrigeaton_mailer.listener.reminder.class%">
+            <argument type="service" id="mailer" />
+            <argument type="service" id="templating" />
+            <argument type="service" id="templating.helper.assets" />
+            <argument type="service" id="logger" />
+            <argument>%corrigeaton_mailer.email_send%</argument>
+            <tag name="kernel.event_listener" event="corrigeaton_mailer.event.reminder" method="onReminderEvent"/>
+            <tag name="kernel.event_listener" event="corrigeaton_mailer.event.corrected" method="onCorrectedEvent"/>
+        </service>
+        <service id="corrigeaton_mailer.menu_configure_listener" class="%corrigeaton_mailer.menu_configure_listener.class%">
+            <tag name ="kernel.event_listener" event="corrigeaton_schedule.menu_configure" method="onConfigureMenu"/>
         </service>
     </services>
-    -->
+
 </container>

@@ -1,0 +1,68 @@
+{% extends 'CorrigeatonScheduleBundle::base.html.twig' %}
+
+
+{% block title %}{% trans %}Emails{% endtrans %}{% endblock %}
+{% block title_content -%}
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">{% trans %} Template emails{% endtrans %}</h1>
+        </div>
+    </div>
+{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <i class="fa fa-list fa-fw"></i> {% trans %} Liste des emails{% endtrans %}
+                </div>
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="table" id="classroom-list">
+                            <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Email</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Le jour même</td>
+                                    <td><a href="{{ path("corrigeaton_mailer_admin_mail_mail",{id:1}) }}">Mail-1</a></td>
+                                </tr>
+                                <tr>
+                                    <td>+ 21 jours</td>
+                                    <td><a href="{{ path("corrigeaton_mailer_admin_mail_mail",{id:2}) }}">Mail-2</a></td>
+                                </tr>
+                                <tr>
+                                    <td>+ 31 jours</td>
+                                    <td><a href="{{ path("corrigeaton_mailer_admin_mail_mail",{id:3}) }}">Mail-3</a></td>
+                                </tr>
+                                <tr>
+                                    <td>+ 36 jours</td>
+                                    <td><a href="{{ path("corrigeaton_mailer_admin_mail_mail",{id:4}) }}">Mail-4</a></td>
+                                </tr>
+                                <tr>
+                                    <td>+ 40 jours</td>
+                                    <td><a href="{{ path("corrigeaton_mailer_admin_mail_mail",{id:5}) }}">Mail-5</a></td>
+                                </tr>
+                                <tr>
+                                    <td>+ 44 jours</td>
+                                    <td><a href="{{ path("corrigeaton_mailer_admin_mail_mail",{id:6}) }}">Mail-6</a></td>
+                                </tr>
+                                <tr>
+                                    <td>+ 47 jours</td>
+                                    <td><a href="{{ path("corrigeaton_mailer_admin_mail_mail",{id:7}) }}">Mail-7</a></td>
+                                </tr>
+                                <tr>
+                                    <td>Envoyé à la promo après correction</td>
+                                    <td><a href="{{ path("corrigeaton_mailer_admin_mail_mail",{id:"corrected"}) }}">Mail-corrected</a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
