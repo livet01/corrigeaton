@@ -37,7 +37,7 @@
                         <table class="twelve columns">
                             <tr>
                                 <td class="panel">
-                                    <p>Ce message est un mail automatique du service Corrigeathon. Si vous ne souhaitez plus recevoir ce genre de message vous pouvez vous désabonner <a href="{{ base_url ~ path("teacher_unregister",{id:test.teacher.id, token:test.teacher.unregisterToken}) }}">ici ! »</a></p>
+                                    <p>Ce message est un mail automatique du service Corrigeathon.</p>
                                 </td>
                                 <td class="expander"></td>
                             </tr>
@@ -59,6 +59,35 @@
                                         <tr>
                                             <td>
                                                 <a href="{{ base_url ~ path("corrected",{id:test.id,token:test.finishToken}) }}">(J'ai fini de corriger !)</a>
+                                            </td>
+                                        </tr>
+                                    </table>
+
+                                <td class="expander"></td>
+                            </tr>
+                        </table>
+                        <table class="twelve columns">
+                            <tr>
+                                <td class="left-text-pad">
+                                    <table class="large-button google-plus">
+                                        <tr>
+                                            <td>
+                                                <a href="{{ base_url ~ path("teacher_unregister_test",{id:test.teacher.id, token:test.teacher.unregisterToken, testid: test.id}) }}">Vous m'embêtez, je veux plus recevoir de mail pour cette interro !</a>
+                                            </td>
+                                        </tr>
+                                    </table>
+
+                                <td class="expander"></td>
+                            </tr>
+                        </table>
+                        <table class="twelve columns">
+                            <tr>
+                                <td class="left-text-pad">
+
+                                    <table class="large-button alert">
+                                        <tr>
+                                            <td>
+                                                <a href="{{ base_url ~ path("teacher_unregister",{id:test.teacher.id, token:test.teacher.unregisterToken}) }}">Vous m'embêtez, je ne m'envoyez plus jamais ce type de message !</a>
                                             </td>
                                         </tr>
                                     </table>
