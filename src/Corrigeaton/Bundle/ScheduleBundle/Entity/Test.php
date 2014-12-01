@@ -299,7 +299,7 @@ class Test
             $date = clone $this->date;
             $date->setTime(0,0,0);
             $date->add(new \DateInterval($intTemps[$i]));
-            if ($dateToday == $date && $numReminder < count($intTemps)-$i)
+            if ($dateToday >= $date && $numReminder < count($intTemps)-$i)
             {
                 $numReminder = count($intTemps)-$i;
                 return $numReminder;
