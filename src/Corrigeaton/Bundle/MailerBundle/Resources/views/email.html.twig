@@ -164,7 +164,7 @@
                                             <tr>
                                                 <td align="center">
                                                     <center>
-                                                        <p style="text-align:center;"><a href="{{ base_url ~ path("mentions") }}#">Mentions légales</a></p>
+                                                        <p style="text-align:center;"><a href="{% if test is not null %}{{ base_url ~ path("mentions") }}{% else %}{{ path("mentions") }}{% endif %}">Mentions légales</a></p>
                                                     </center>
                                                 </td>
                                                 <td class="expander"></td>
